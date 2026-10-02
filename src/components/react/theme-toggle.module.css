@@ -1,0 +1,16 @@
+.toggle {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--text) 30%, transparent);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--background) 85%, transparent);
+  color: var(--text);
+  cursor: pointer;
+  place-items: center;
+}
+
+.toggle:hover {
+  border-color: var(--accent);
+}

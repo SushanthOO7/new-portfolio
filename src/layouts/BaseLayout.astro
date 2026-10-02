@@ -1,0 +1,58 @@
+---
+import SkipLink from '../components/astro/SkipLink.astro';
+import { ThemeToggle } from '../components/react/ThemeToggle.jsx';
+import { createMetadata } from '../lib/metadata.js';
+import { getThemeBootstrapScript } from '../lib/theme.js';
+import '../styles/tokens.css';
+import '../styles/reset.css';
+import '../styles/global.css';
+
+const { title, description, image } = Astro.props;
+const metadata = createMetadata({ title, description, pathname: Astro.url.pathname, image });
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline set:html={getThemeBootstrapScript()}></script>
+    <title>{metadata.title}</title>
+    <meta name="description" content={metadata.description} />
+    <meta name="author" content="Sushanth U V" />
+    <meta name="theme-color" content="#111111" />
+    <link rel="canonical" href={metadata.canonical} />
+    <meta property="og:title" content={metadata.title} />
+    <meta property="og:description" content={metadata.description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={metadata.canonical} />
+    <meta property="og:image" content={metadata.image} />
+    <meta property="og:image:alt" content={metadata.imageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={metadata.title} />
+    <meta name="twitter:description" content={metadata.description} />
+    <meta name="twitter:image" content={metadata.image} />
+    <link rel="preload" href="/fonts/gotham-book.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/icon-256.png" />
+    <slot name="head" />
+  </head>
+  <body>
+    <SkipLink />
+    <div class="theme-control"><ThemeToggle client:load /></div>
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style>
+  .theme-control {
+    position: fixed;
+    inset-block-start: var(--space-outer);
+    inset-inline-end: var(--space-outer);
+    z-index: 20;
+  }
+</style>
