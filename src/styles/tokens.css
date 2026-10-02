@@ -1,0 +1,11 @@
+:root {
+  --black: #000;
+  --white: #fff;
+  --background: #111;
+  --text: #fff;
+  --text-body: rgb(255 255 255 / 80%);
+  --accent: #ff5b54;
+  --font-stack: Gotham, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --space-outer: clamp(1.5rem, 4vw, 4rem);
+  --max-width: 75rem;
+}

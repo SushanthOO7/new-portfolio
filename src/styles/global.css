@@ -1,0 +1,32 @@
+@font-face {
+  font-family: Gotham;
+  src: url('/fonts/gotham-book.woff2') format('woff2');
+  font-display: swap;
+  font-weight: 400;
+}
+
+html {
+  color-scheme: dark;
+  background: var(--background);
+  font-family: var(--font-stack);
+}
+
+body {
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--text-body);
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--black);
+}
