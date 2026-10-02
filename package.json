@@ -10,6 +10,10 @@
     "build": "remix vite:build",
     "dev": "node ./scripts/dev.cjs && remix vite:dev",
     "start": "wrangler pages dev ./build/client",
+    "test": "vitest run --exclude 'tests/e2e/**' --exclude 'tests/legacy/**'",
+    "test:watch": "vitest --exclude 'tests/e2e/**' --exclude 'tests/legacy/**'",
+    "test:e2e": "playwright test",
+    "test:e2e:legacy": "playwright test tests/legacy/routes.spec.js",
     "postinstall": "node ./scripts/draco.cjs",
     "deploy": "npm run build && wrangler pages deploy ./build/client --project-name portfolio",
     "dev:storybook": "storybook dev -p 6006 --no-open",
@@ -39,6 +43,7 @@
     "@csstools/postcss-global-data": "^2.1.1",
     "@mapbox/rehype-prism": "^0.9.0",
     "@mdx-js/rollup": "^3.0.1",
+    "@playwright/test": "^1.63.0",
     "@remix-run/dev": "^2.17.0",
     "@storybook/addon-a11y": "^9.1.5",
     "@storybook/addon-docs": "^9.1.5",
@@ -62,6 +67,7 @@
     "storybook": "^9.1.5",
     "vite": "^7.1.0",
     "vite-jsconfig-paths": "^2.0.1",
+    "vitest": "^5.0.3",
     "wrangler": "^4.38.0"
   },
   "engines": {
