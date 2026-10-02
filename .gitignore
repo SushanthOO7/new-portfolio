@@ -70,3 +70,4 @@ Thumbs.db
 # Project-specific generated files
 # =========================
 public/draco/
+.worktrees/
