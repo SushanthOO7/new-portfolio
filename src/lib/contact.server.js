@@ -8,6 +8,27 @@ function json(payload, status) {
   return new Response(JSON.stringify(payload), { status, headers });
 }
 
+function readChunk(reader, signal) {
+  return new Promise((resolve, reject) => {
+    let settled = false;
+    const finish = callback => value => {
+      if (settled) return;
+      settled = true;
+      signal.removeEventListener('abort', onAbort);
+      callback(value);
+    };
+    const onAbort = () => {
+      if (settled) return;
+      settled = true;
+      void reader.cancel('client disconnected').catch(() => {});
+      reject(new DOMException('Request was cancelled.', 'AbortError'));
+    };
+    signal.addEventListener('abort', onAbort, { once: true });
+    if (signal.aborted) return onAbort();
+    reader.read().then(finish(resolve), finish(reject));
+  });
+}
+
 async function parseBody(request) {
   const contentLength = Number(request.headers.get('content-length') || 0);
   if (contentLength > CONTACT_LIMITS.body) return { oversized: true };
@@ -19,7 +40,7 @@ async function parseBody(request) {
     if (reader) {
       while (true) {
         if (request.signal.aborted) return { aborted: true };
-        const { done, value } = await reader.read();
+        const { done, value } = await readChunk(reader, request.signal);
         if (done) break;
         bytes += value.byteLength;
         if (bytes > CONTACT_LIMITS.body) {
@@ -65,6 +86,9 @@ export function createContactHandler({ sendEmail, env, logger = console }) {
       await sendEmail({ email: value.email, message: value.message }, { signal: request.signal });
       return json({ success: true }, 200);
     } catch (error) {
+      if (request.signal.aborted || error?.name === 'AbortError') {
+        return json({ success: false, errors: { form: 'Request was cancelled.' } }, 499);
+      }
       logger.error('contact_delivery_failed', { error: error?.name || 'UnknownError' });
       return json({ success: false, errors: { form: 'Message could not be sent. Please try again.' } }, 502);
     }

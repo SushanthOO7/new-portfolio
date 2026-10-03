@@ -72,6 +72,29 @@ describe('contact Worker handler', () => {
     expect(await response.json()).toEqual({success:false,errors:{form:'Request was cancelled.'}});
   });
 
+  it('cancels a body reader that is still pending when the client disconnects', async () => {
+    const controller=new AbortController();
+    let cancelled=false;
+    let reads=0;
+    const stream=new ReadableStream({
+      pull(streamController) {
+        if (reads++ === 0) streamController.enqueue(new TextEncoder().encode('{"email":'));
+      },
+      cancel() { cancelled=true; },
+    });
+    const streamed=new Request('https://portfolio.test/api/contact',{
+      method:'POST',headers:{'content-type':'application/json'},body:stream,duplex:'half',signal:controller.signal,
+    });
+    const responsePromise=createContactHandler({sendEmail:vi.fn(),env,logger:{error:vi.fn()}})(streamed);
+    setTimeout(()=>controller.abort(),10);
+    const response=await Promise.race([
+      responsePromise,
+      new Promise((_,reject)=>setTimeout(()=>reject(new Error('handler remained pending after abort')),250)),
+    ]);
+    expect(response.status).toBe(499);
+    expect(cancelled).toBe(true);
+  });
+
   it('fails safely when server secrets are missing', async () => {
     const response=await createContactHandler({sendEmail:vi.fn(),env:{},logger:{error:vi.fn()}})(request());
     expect(response.status).toBe(503);
@@ -95,5 +118,19 @@ describe('contact Worker handler', () => {
     const response=await createContactHandler({sendEmail:vi.fn(),env,logger:{error:vi.fn()}})(request(body,{signal:controller.signal}));
     expect(response.status).toBe(499);
     expect(await response.json()).toEqual({success:false,errors:{form:'Request was cancelled.'}});
+  });
+
+  it('maps an abort during SES delivery to cancellation without logging a delivery error', async () => {
+    const controller=new AbortController();
+    const logger={error:vi.fn()};
+    const sendEmail=vi.fn((_,{signal})=>new Promise((_,reject)=>{
+      signal.addEventListener('abort',()=>reject(new DOMException('cancelled','AbortError')),{once:true});
+    }));
+    const responsePromise=createContactHandler({sendEmail,env,logger})(request(body,{signal:controller.signal}));
+    setTimeout(()=>controller.abort(),10);
+    const response=await responsePromise;
+    expect(response.status).toBe(499);
+    expect(await response.json()).toEqual({success:false,errors:{form:'Request was cancelled.'}});
+    expect(logger.error).not.toHaveBeenCalled();
   });
 });

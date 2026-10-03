@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "build": "astro build",
-    "build:production": "node scripts/require-site-url.mjs && astro build",
+    "build:production": "node scripts/require-site-url.mjs && astro build && node scripts/verify-production-origin.mjs",
     "dev": "astro dev --host 127.0.0.1 --port 7778",
     "preview": "npm run build && wrangler dev",
     "deploy": "npm run build:production && wrangler deploy",

@@ -14,6 +14,7 @@ describe('Astro Workers cutover',()=>{
     expect(pkg.scripts.build).toBe('astro build');
     expect(pkg.scripts.preview).toBe('npm run build && wrangler dev');
     expect(pkg.scripts['build:production']).toContain('require-site-url');
+    expect(pkg.scripts['build:production']).toContain('verify-production-origin');
     expect(pkg.scripts.deploy).toBe('npm run build:production && wrangler deploy');
     expect(scripts).not.toMatch(/remix|wrangler pages/i);
   });
