@@ -1,0 +1,3 @@
+import { useState } from 'react';
+import './carousel.css';
+export default function Carousel({images,label='Project gallery'}){const[index,setIndex]=useState(0),image=images[index];return <div className="carousel" data-graphics-fallback role="region" aria-label={label}><img src={image.src} alt={image.alt} width="1920" height="1080" loading="lazy"/><div className="carousel-controls"><button type="button" onClick={()=>setIndex((index-1+images.length)%images.length)} aria-label="Previous image">←</button><span>{index+1} / {images.length}</span><button type="button" onClick={()=>setIndex((index+1)%images.length)} aria-label="Next image">→</button></div></div>}

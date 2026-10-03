@@ -1,0 +1,11 @@
+---
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
+import Carousel from '../../components/react/Carousel.jsx';
+import '../../styles/project.css';
+const gallery=[{src:'/images/projects/slice/app.jpg',alt:'Slice showing a shared biomedical image annotation.'},{src:'/images/projects/slice/slides.jpg',alt:'The My Slides view for annotated and favourite slides.'}];
+---
+<ProjectLayout title="Biomedical image collaboration" description="A better way for biomedical educators and learners to annotate high-resolution digital slides together." roles={['User Research','UX Design','Interface Design']} background="/images/projects/slice.jpg">
+  <section class="project-section"><div class="project-content"><div class="project-copy"><h2>Bringing it together</h2><div class="prose"><p>Teachers needed a better way to create collaborative activities around slide annotation. Previously, each layer could only be edited by one person, making group work awkward and fragmented.</p><p>Shared layers let invited learners see one another’s annotations and contribute their own observations in real time.</p></div></div><div class="graphics-stage"><Carousel client:visible images={gallery} label="Slice interface gallery" /></div></div></section>
+  <section class="project-section" data-tone="soft"><div class="project-content"><div class="project-copy"><h2>Improving the experience</h2><div class="prose"><p>Users often struggled to find images they had worked on before. A dedicated view now gathers annotated and favourite slides so useful material is easy to revisit.</p></div></div><div class="project-media"><img src="/images/projects/slice/slides.jpg" width="1920" height="1200" loading="lazy" alt="The Slice My Slides view showing annotated and favourite slides." /></div></div></section>
+  <section class="project-section"><div class="project-content"><div class="project-copy"><h2>Project outcomes</h2><div class="prose"><p>Real-time annotation made group exercises easier to run and helped learners collaborate naturally. Feedback highlighted how interactive and approachable the shared experience felt.</p></div></div><div class="project-media"><img src="/images/projects/slice/outcome.jpg" width="940" height="500" loading="lazy" alt="Students using the collaborative annotation features." /></div></div></section>
+</ProjectLayout>
