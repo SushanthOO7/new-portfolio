@@ -32,7 +32,9 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: isLegacy ? 'npm run dev -- --host 127.0.0.1' : 'npm run dev:astro',
+    command: isLegacy
+      ? 'npm run dev -- --host 127.0.0.1'
+      : 'npm run build:astro && node scripts/serve-dist.mjs',
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,

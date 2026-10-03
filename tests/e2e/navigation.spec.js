@@ -28,7 +28,7 @@ test('mobile navigation exposes state and restores focus on Escape', async ({ pa
 test('marks the active route and the skip link moves focus to main', async ({ page }) => {
   await page.goto('/');
 
-  await expect(page.getByRole('link', { name: 'Home' })).toHaveAttribute('aria-current', 'page');
+  await expect(page.locator('#site-navigation a[href="/"]')).toHaveAttribute('aria-current', 'page');
   await page.keyboard.press('Tab');
   await expect(page.getByRole('link', { name: 'Skip to main content' })).toBeFocused();
   await page.keyboard.press('Enter');
