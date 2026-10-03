@@ -1,10 +1,11 @@
+import { env } from 'cloudflare:workers';
 import { createContactHandler, createSesSender } from '../../lib/contact.server.js';
 
 export const prerender = false;
 
-export async function POST({ request, locals }) {
-  const env = locals.runtime?.env ?? {};
-  return createContactHandler({ sendEmail: createSesSender(env), env, logger: console })(request);
+export async function POST({ request }) {
+  const sendEmail = payload => createSesSender(env)(payload);
+  return createContactHandler({ sendEmail, env, logger: console })(request);
 }
 
 export function ALL() {

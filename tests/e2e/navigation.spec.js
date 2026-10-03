@@ -6,7 +6,7 @@ test('keeps primary navigation available without JavaScript', async ({ browser }
   await page.goto('/');
 
   await expect(page.getByRole('navigation', { name: 'Primary' })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Projects' })).toHaveAttribute('href', '/projects');
+  await expect(page.getByRole('link', { name: 'Projects', exact: true })).toHaveAttribute('href', '/projects');
   await context.close();
 });
 

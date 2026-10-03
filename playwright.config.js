@@ -1,12 +1,12 @@
 import { defineConfig, devices } from '@playwright/test';
 
-const isLegacy = process.env.E2E_LEGACY === '1';
-const port = Number(process.env.PORT || (isLegacy ? 7777 : 7778));
+const port = Number(process.env.PORT || 7778);
 const baseURL = process.env.PLAYWRIGHT_BASE_URL || `http://127.0.0.1:${port}`;
+const externalServer = Boolean(process.env.PLAYWRIGHT_BASE_URL);
 
 export default defineConfig({
   testDir: './tests',
-  testMatch: ['**/*.spec.js'],
+  testMatch: ['e2e/**/*.spec.js'],
   fullyParallel: false,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,
@@ -31,12 +31,12 @@ export default defineConfig({
       use: { ...devices['Pixel 7'] },
     },
   ],
-  webServer: {
-    command: isLegacy
-      ? 'npm run dev -- --host 127.0.0.1'
-      : 'npm run build:astro && node scripts/serve-dist.mjs',
-    url: baseURL,
-    reuseExistingServer: !process.env.CI,
-    timeout: 120_000,
-  },
+  webServer: externalServer
+    ? undefined
+    : {
+        command: 'npm run build && node scripts/serve-dist.mjs',
+        url: baseURL,
+        reuseExistingServer: !process.env.CI,
+        timeout: 120_000,
+      },
 });

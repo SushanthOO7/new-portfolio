@@ -1,5 +1,0 @@
-name = "portfolio"
-compatibility_date = "2026-10-02"
-
-[env.production]
-compatibility_date = "2026-10-02"

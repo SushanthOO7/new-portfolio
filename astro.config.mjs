@@ -6,13 +6,20 @@ import { defineConfig } from 'astro/config';
 
 export default defineConfig({
   output: 'static',
-  adapter: cloudflare(),
+  session: false,
+  adapter: cloudflare({ imageService: 'passthrough' }),
   integrations: [react(), mdx()],
   server: {
     host: '127.0.0.1',
     port: 7778,
   },
   vite: {
+    ssr: {
+      target: 'webworker',
+      resolve: {
+        mainFields: ['browser', 'module', 'jsnext:main', 'jsnext'],
+      },
+    },
     build: {
       rolldownOptions: {
         checks: {

@@ -19,7 +19,7 @@ describe('Astro application shell', () => {
       expect.arrayContaining(['@astrojs/react', '@astrojs/mdx'])
     );
 
-    await execFileAsync('npm', ['run', 'build:astro'], {
+    await execFileAsync('npm', ['run', 'build'], {
       cwd: process.cwd(),
       timeout: 120_000,
     });
