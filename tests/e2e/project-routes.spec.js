@@ -26,7 +26,7 @@ test('unknown project paths return status 404', async ({ page }) => {
 });
 
 for (const project of [
-  { slug: 'smart-sparrow', marker: 'earth', asset: 'three.module' },
+  { slug: 'smart-sparrow', marker: 'earth', asset: 'three-renderer' },
   { slug: 'volkihar-knight', marker: 'armor', asset: 'volkihar-knight.glb' },
 ]) {
   test(`${project.slug} defers its graphics until near the viewport`, async ({ page }) => {

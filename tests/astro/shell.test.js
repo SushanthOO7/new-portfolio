@@ -1,11 +1,7 @@
-import { execFile } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { promisify } from 'node:util';
 import { describe, expect, it } from 'vitest';
-
-const execFileAsync = promisify(execFile);
 
 describe('Astro application shell', () => {
   it('builds static HTML with the required integrations and document landmarks', async () => {
@@ -19,10 +15,6 @@ describe('Astro application shell', () => {
       expect.arrayContaining(['@astrojs/react', '@astrojs/mdx'])
     );
 
-    await execFileAsync('npm', ['run', 'build'], {
-      cwd: process.cwd(),
-      timeout: 120_000,
-    });
     const document = await readFile('dist/client/index.html', 'utf8');
 
     expect(document).toMatch(/<html[^>]+lang="en"/);

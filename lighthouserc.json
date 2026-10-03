@@ -1,0 +1,26 @@
+{
+  "baseUrl": "http://127.0.0.1:8787",
+  "categories": ["performance", "accessibility", "best-practices", "seo"],
+  "routes": [
+    {
+      "path": "/",
+      "minimumScores": { "performance": 0.9, "accessibility": 0.9, "best-practices": 0.9, "seo": 0.9 }
+    },
+    {
+      "path": "/projects",
+      "minimumScores": { "performance": 0.9, "accessibility": 0.9, "best-practices": 0.9, "seo": 0.9 }
+    },
+    {
+      "path": "/articles",
+      "minimumScores": { "performance": 0.9, "accessibility": 0.9, "best-practices": 0.9, "seo": 0.9 }
+    },
+    {
+      "path": "/projects/smart-sparrow",
+      "minimumScores": { "performance": 0.8, "accessibility": 0.9, "best-practices": 0.9, "seo": 0.9 }
+    },
+    {
+      "path": "/projects/volkihar-knight",
+      "minimumScores": { "performance": 0.8, "accessibility": 0.9, "best-practices": 0.9, "seo": 0.9 }
+    }
+  ]
+}

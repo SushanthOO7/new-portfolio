@@ -3,8 +3,11 @@ function setCounter(name, delta) {
 }
 
 export async function createThreeStage(canvas, buildScene) {
-  const THREE = await import('three');
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false, powerPreference: 'high-performance' });
+  const [THREE, { WebGLRenderer }] = await Promise.all([
+    import('./three-core.js'),
+    import('./three-renderer.js'),
+  ]);
+  const renderer = new WebGLRenderer({ canvas, alpha: true, antialias: false, powerPreference: 'high-performance' });
   setCounter('__portfolioWebGLContexts', 1);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
   const stage = buildScene(THREE, renderer);
