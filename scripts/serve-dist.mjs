@@ -40,8 +40,9 @@ createServer(async (request, response) => {
     const url = new URL(request.url || '/', `http://${request.headers.host || 'localhost'}`);
     const file = await findFile(url.pathname);
     if (!file) {
-      response.writeHead(404, { 'content-type': 'text/plain; charset=utf-8' });
-      response.end('Not found');
+      const notFound = await findFile('/404');
+      response.writeHead(404, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' });
+      response.end(notFound?.contents || 'Not found');
       return;
     }
     response.writeHead(200, {
