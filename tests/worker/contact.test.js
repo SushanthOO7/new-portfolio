@@ -12,7 +12,10 @@ describe('contact Worker handler', () => {
     expect(response.status).toBe(200);
     expect(response.headers.get('cache-control')).toBe('no-store');
     expect(await response.json()).toEqual({success:true});
-    expect(sendEmail).toHaveBeenCalledWith({email:body.email,message:body.message});
+    expect(sendEmail).toHaveBeenCalledWith(
+      {email:body.email,message:body.message},
+      {signal:expect.any(AbortSignal)},
+    );
   });
 
   it('returns success for the honeypot without sending', async () => {
@@ -33,6 +36,40 @@ describe('contact Worker handler', () => {
     const response=await createContactHandler({sendEmail:vi.fn(),env,logger:{error:vi.fn()}})(oversized);
     expect(response.status).toBe(413);
     expect(await response.json()).toEqual({success:false,errors:{form:'Request body is too large.'}});
+  });
+
+  it('stops reading an oversized stream when content-length is absent or forged', async () => {
+    for (const headers of [{}, {'content-length':'10'}]) {
+      let cancelled=false;
+      const stream=new ReadableStream({
+        pull(controller) { controller.enqueue(new Uint8Array(5000)); },
+        cancel() { cancelled=true; },
+      });
+      const oversized=new Request('https://portfolio.test/api/contact',{
+        method:'POST',headers:{'content-type':'application/json',...headers},body:stream,duplex:'half',
+      });
+      const response=await createContactHandler({sendEmail:vi.fn(),env,logger:{error:vi.fn()}})(oversized);
+      expect(response.status).toBe(413);
+      expect(cancelled).toBe(true);
+    }
+  });
+
+  it('maps a mid-stream client abort to a safe cancellation response', async () => {
+    const controller=new AbortController();
+    let reads=0;
+    const stream=new ReadableStream({
+      pull(streamController) {
+        if (reads++ === 0) return streamController.enqueue(new TextEncoder().encode('{"email":'));
+        controller.abort();
+        streamController.error(new DOMException('cancelled','AbortError'));
+      },
+    });
+    const streamed=new Request('https://portfolio.test/api/contact',{
+      method:'POST',headers:{'content-type':'application/json'},body:stream,duplex:'half',signal:controller.signal,
+    });
+    const response=await createContactHandler({sendEmail:vi.fn(),env,logger:{error:vi.fn()}})(streamed);
+    expect(response.status).toBe(499);
+    expect(await response.json()).toEqual({success:false,errors:{form:'Request was cancelled.'}});
   });
 
   it('fails safely when server secrets are missing', async () => {

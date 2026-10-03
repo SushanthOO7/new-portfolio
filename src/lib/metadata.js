@@ -1,4 +1,3 @@
-const DEFAULT_ORIGIN = process.env.PUBLIC_SITE_URL || 'http://localhost:7777';
 const DEFAULT_IMAGE = '/social-image.png';
 
 function normalizePath(pathname) {
@@ -7,15 +6,16 @@ function normalizePath(pathname) {
   return withLeadingSlash.replace(/\/+$/, '');
 }
 
-export function createMetadata({ title, description, pathname, image = DEFAULT_IMAGE }) {
-  const origin = DEFAULT_ORIGIN.replace(/\/+$/, '');
+export function createMetadata({ origin, title, description, pathname, image = DEFAULT_IMAGE }) {
+  if (!origin) throw new TypeError('A site origin is required for canonical metadata.');
+  const normalizedOrigin = new URL(origin).origin;
   const normalizedPath = normalizePath(pathname);
 
   return {
     title: `Sushanth U V | ${title}`,
     description,
-    canonical: new URL(normalizedPath, `${origin}/`).href,
-    image: new URL(image, `${origin}/`).href,
+    canonical: new URL(normalizedPath, `${normalizedOrigin}/`).href,
+    image: new URL(image, `${normalizedOrigin}/`).href,
     imageAlt: 'Sushanth U V portfolio preview',
   };
 }

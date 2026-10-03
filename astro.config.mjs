@@ -4,7 +4,10 @@ import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
 import { defineConfig } from 'astro/config';
 
+const site = process.env.PUBLIC_SITE_URL || 'http://localhost:7778';
+
 export default defineConfig({
+  site,
   output: 'static',
   session: false,
   adapter: cloudflare({ imageService: 'passthrough' }),
@@ -28,9 +31,13 @@ export default defineConfig({
       },
     },
     resolve: {
-      alias: {
-        '~': fileURLToPath(new URL('./src', import.meta.url)),
-      },
+      alias: [
+        { find: '~', replacement: fileURLToPath(new URL('./src', import.meta.url)) },
+        {
+          find: /^@aws-sdk\/xml-builder$/,
+          replacement: fileURLToPath(new URL('./src/lib/aws-xml-builder.worker.js', import.meta.url)),
+        },
+      ],
     },
   },
 });

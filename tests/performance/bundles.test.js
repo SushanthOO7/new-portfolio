@@ -6,7 +6,7 @@ import { analyzeAudit, formatAudit } from '../../scripts/check-audit.mjs';
 
 const root = resolve(import.meta.dirname, '../..');
 const assets = resolve(root, 'dist/client/_astro');
-const ordinaryRoutes = ['projects', 'career', 'uses', 'articles', 'articles/hello-world', 'articles/modern-styling-in-react'];
+const ordinaryRoutes = ['projects', 'projects/slice', 'career', 'uses', 'contact', 'articles', 'articles/hello-world', 'articles/modern-styling-in-react'];
 const graphicsRoutes = ['', 'projects/smart-sparrow', 'projects/volkihar-knight'];
 const staticImportPattern = /(?:from\s*|import\s*)["'](\.\.?\/[^"']+\.js)["']/g;
 

@@ -2,14 +2,16 @@ import { describe, expect, it } from 'vitest';
 import { createMetadata } from '../../src/lib/metadata.js';
 
 describe('createMetadata', () => {
+  const origin = 'https://portfolio.example';
+
   it('normalizes canonical paths without removing the root slash', () => {
     expect(
-      createMetadata({ title: 'Projects', description: 'Selected work', pathname: '/projects/' })
+      createMetadata({ origin, title: 'Projects', description: 'Selected work', pathname: '/projects/' })
         .canonical
-    ).toBe('http://localhost:7777/projects');
+    ).toBe('https://portfolio.example/projects');
     expect(
-      createMetadata({ title: 'Portfolio', description: 'Home', pathname: '/' }).canonical
-    ).toBe('http://localhost:7777/');
+      createMetadata({ origin, title: 'Portfolio', description: 'Home', pathname: '/' }).canonical
+    ).toBe('https://portfolio.example/');
   });
 
   it('provides complete default social metadata', () => {
@@ -17,13 +19,14 @@ describe('createMetadata', () => {
       title: 'Projects',
       description: 'Selected work',
       pathname: '/projects',
+      origin,
     });
 
     expect(metadata).toMatchObject({
       title: 'Sushanth U V | Projects',
       description: 'Selected work',
-      canonical: 'http://localhost:7777/projects',
-      image: 'http://localhost:7777/social-image.png',
+      canonical: 'https://portfolio.example/projects',
+      image: 'https://portfolio.example/social-image.png',
       imageAlt: 'Sushanth U V portfolio preview',
     });
   });
@@ -34,8 +37,14 @@ describe('createMetadata', () => {
       description: 'An article',
       pathname: '/articles/example',
       image: '/static/example-og.jpg',
+      origin,
     });
 
-    expect(metadata.image).toBe('http://localhost:7777/static/example-og.jpg');
+    expect(metadata.image).toBe('https://portfolio.example/static/example-og.jpg');
+  });
+
+  it('requires an explicit origin so production metadata cannot silently use localhost', () => {
+    expect(() => createMetadata({ title: 'Home', description: 'Home', pathname: '/' }))
+      .toThrow(/origin/i);
   });
 });

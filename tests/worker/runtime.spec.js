@@ -13,7 +13,8 @@ describe('Astro Workers cutover',()=>{
     expect(pkg.scripts.dev).toBe('astro dev --host 127.0.0.1 --port 7778');
     expect(pkg.scripts.build).toBe('astro build');
     expect(pkg.scripts.preview).toBe('npm run build && wrangler dev');
-    expect(pkg.scripts.deploy).toBe('npm run build && wrangler deploy');
+    expect(pkg.scripts['build:production']).toContain('require-site-url');
+    expect(pkg.scripts.deploy).toBe('npm run build:production && wrangler deploy');
     expect(scripts).not.toMatch(/remix|wrangler pages/i);
   });
 
@@ -35,7 +36,7 @@ describe('Astro Workers cutover',()=>{
   });
 
   it('removes legacy source and configuration',async()=>{
-    for(const path of ['app','functions','vite.config.js','wrangler.toml','tests/legacy']) expect(await exists(path)).toBe(false);
+    for(const path of ['app','functions','vite.config.js','wrangler.toml','tests/legacy','Dockerfile','compose.yaml','README.Docker.md','.dockerignore']) expect(await exists(path)).toBe(false);
     expect(await exists('public/.assetsignore')).toBe(true);
   });
 
@@ -49,5 +50,16 @@ describe('Astro Workers cutover',()=>{
     const astroConfig=await read('astro.config.mjs');
     expect(astroConfig).toContain("target: 'webworker'");
     expect(astroConfig).toContain("mainFields: ['browser', 'module', 'jsnext:main', 'jsnext']");
+  });
+
+  it('uses a Workers preview hostname rule and never emits the old Pages rule',async()=>{
+    const headers=await read('public/_headers');
+    expect(headers).toContain('workers.dev');
+    expect(headers).not.toContain('pages.dev');
+  });
+
+  it('generates the sitemap instead of shipping stale hard-coded URLs',async()=>{
+    expect(await exists('public/sitemap.xml')).toBe(false);
+    expect(await exists('src/pages/sitemap.xml.js')).toBe(true);
   });
 });

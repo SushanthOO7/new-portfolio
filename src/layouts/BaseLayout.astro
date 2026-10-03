@@ -9,7 +9,13 @@ import '../styles/reset.css';
 import '../styles/global.css';
 
 const { title, description, image } = Astro.props;
-const metadata = createMetadata({ title, description, pathname: Astro.url.pathname, image });
+const metadata = createMetadata({
+  origin: Astro.site?.origin ?? Astro.url.origin,
+  title,
+  description,
+  pathname: Astro.url.pathname,
+  image,
+});
 ---
 
 <!doctype html>

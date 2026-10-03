@@ -4,7 +4,7 @@ import { createContactHandler, createSesSender } from '../../lib/contact.server.
 export const prerender = false;
 
 export async function POST({ request }) {
-  const sendEmail = payload => createSesSender(env)(payload);
+  const sendEmail = (payload, options) => createSesSender(env)(payload, options);
   return createContactHandler({ sendEmail, env, logger: console })(request);
 }
 

@@ -3,6 +3,6 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   test: {
     environment: 'node',
-    exclude: ['tests/e2e/**', 'tests/legacy/**', 'node_modules/**', 'dist/**'],
+    exclude: ['tests/e2e/**', 'tests/legacy/**', 'tests/worker/**/*.integration.test.js', 'node_modules/**', 'dist/**'],
   },
 });

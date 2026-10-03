@@ -3,16 +3,16 @@
 </p>
 <h1 align="center">Personal portfolio</h1>
 
-[![Site preview](/public/site-preview.png)](https://hamishw.com)
+[![Site preview](/public/site-preview.png)](/public/site-preview.png)
 
-My design portfolio to showcase a few projects. Built with [Remix](https://remix.run/), [Three.js](https://threejs.org/), and [Framer Motion](https://www.framer.com/motion/). View the [live site](https://hamishw.com) or check out a live version of the [components storybook](https://storybook.hamishw.com).
+Sushanth U V's portfolio, built with Astro, focused React islands, Three.js, and native CSS. Static routes ship minimal JavaScript; Cloudflare Workers handles the contact endpoint.
 
 ## Install & run
 
-Make sure you have nodejs `19.9.0` or higher and npm `9.6.3` or higher installed. Install dependencies with:
+Use Node.js `22.12.0` or newer and npm 11 or newer. Install the locked dependencies with:
 
 ```bash
-npm install
+npm ci
 ```
 
 Once it's done start up a local server with:
@@ -29,7 +29,7 @@ npm run dev:storybook
 
 ## Deployment
 
-I've set up the site using Cloudflare for hosting. Deploy the site to Cloudflare Pages:
+Production runs as a Cloudflare Worker. Set `PUBLIC_SITE_URL` to the final HTTPS origin, configure the Worker secrets described in [the cutover runbook](docs/migration/astro-cutover.md), then deploy with:
 
 ```bash
 npm run deploy
@@ -41,16 +41,10 @@ I'm cool with anyone using the code or parts of the code for their own site, it 
 
 I do not give permission to present any of my projects as your own (this is being actively used as my portfolio site and these are my real projects I've worked on).
 
-## FAQs
-
-<details>
-  <summary>How do I change the color on the <code>DisplacementSphere</code> (blobby rotating thing in the background).</summary>
-  
-  You'll need to edit the fragment shader. [Check out this issue for more details](https://github.com/HamishMW/portfolio/issues/19#issuecomment-870996615).
-</details>
+## FAQ
 
 <details>
   <summary>How do I get the contact form to work?</summary>
   
-  To get the contact form working create an AWS account and set up SES (Simple Email service). Then plug in your details into `.dev.vars.example` and rename it to `.dev.vars`. You'll also need to add these as enviroment variables in the Cloudflare dashboard for it to work in production. Or if you don't mind sending through gmail use [nodemailer](https://nodemailer.com/) instead.
+  Create an AWS account and configure SES. Copy `.dev.vars.example` to `.dev.vars` for local development, and add the same encrypted secrets to the deployed Worker. Run `npm run test:worker` to verify the built endpoint against a local SES mock without sending email.
 </details>
