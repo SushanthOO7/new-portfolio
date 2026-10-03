@@ -1,0 +1,1 @@
+canvas[data-fluid-cursor]{position:fixed;inset:0;z-index:20;width:100vw;height:100vh;pointer-events:none;mix-blend-mode:screen}@media(prefers-reduced-motion:reduce),(pointer:coarse){canvas[data-fluid-cursor]{display:none}}
