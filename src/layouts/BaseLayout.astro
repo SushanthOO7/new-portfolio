@@ -1,6 +1,7 @@
 ---
 import SkipLink from '../components/astro/SkipLink.astro';
-import { ThemeToggle } from '../components/react/ThemeToggle.jsx';
+import Navbar from '../components/astro/Navbar.astro';
+import Footer from '../components/astro/Footer.astro';
 import { createMetadata } from '../lib/metadata.js';
 import { getThemeBootstrapScript } from '../lib/theme.js';
 import '../styles/tokens.css';
@@ -41,18 +42,17 @@ const metadata = createMetadata({ title, description, pathname: Astro.url.pathna
   </head>
   <body>
     <SkipLink />
-    <div class="theme-control"><ThemeToggle client:load /></div>
+    <Navbar />
     <main id="main-content" tabindex="-1">
       <slot />
     </main>
+    <Footer />
   </body>
 </html>
 
 <style>
-  .theme-control {
-    position: fixed;
-    inset-block-start: var(--space-outer);
-    inset-inline-end: var(--space-outer);
-    z-index: 20;
+  main {
+    min-height: 80vh;
+    padding-block-start: 7rem;
   }
 </style>

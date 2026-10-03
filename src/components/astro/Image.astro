@@ -1,0 +1,4 @@
+---
+const { alt, width, height, loading = 'lazy', decoding = 'async', ...rest } = Astro.props;
+---
+<img {alt} {width} {height} {loading} {decoding} {...rest} />

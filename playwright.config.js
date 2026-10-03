@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
-const port = Number(process.env.PORT || 7777);
+const isLegacy = process.env.E2E_LEGACY === '1';
+const port = Number(process.env.PORT || (isLegacy ? 7777 : 7778));
 const baseURL = process.env.PLAYWRIGHT_BASE_URL || `http://127.0.0.1:${port}`;
 
 export default defineConfig({
@@ -31,7 +32,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'npm run dev -- --host 127.0.0.1',
+    command: isLegacy ? 'npm run dev -- --host 127.0.0.1' : 'npm run dev:astro',
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,

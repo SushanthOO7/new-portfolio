@@ -10,10 +10,10 @@
     "build": "remix vite:build",
     "dev": "node ./scripts/dev.cjs && remix vite:dev",
     "start": "wrangler pages dev ./build/client",
-    "test": "vitest run --exclude 'tests/e2e/**' --exclude 'tests/legacy/**'",
-    "test:watch": "vitest --exclude 'tests/e2e/**' --exclude 'tests/legacy/**'",
-    "test:e2e": "playwright test",
-    "test:e2e:legacy": "playwright test tests/legacy/routes.spec.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "E2E_APP=astro playwright test",
+    "test:e2e:legacy": "E2E_LEGACY=1 playwright test tests/legacy/routes.spec.js",
     "dev:astro": "astro dev --host 127.0.0.1 --port 7778",
     "build:astro": "astro build",
     "preview:astro": "astro preview --host 127.0.0.1 --port 7778",
@@ -78,5 +78,8 @@
   },
   "engines": {
     "node": ">=22.12.0"
+  },
+  "overrides": {
+    "vite": "^8.3.2"
   }
 }
