@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RouteHeader from '../components/astro/RouteHeader.astro';
+const experience=[
+  {role:'Internship',company:'The Sparks Foundation',year:'2021',description:'Designed and developed a banking web application with account management and transaction workflows while completing focused web development training.'},
+  {role:'Internship',company:'Elite Techno Groups',year:'2021',description:'Built a cancer-detection model from human-cell data, covering preprocessing, classification, evaluation, and model refinement in Python.'},
+  {role:'Associate Software QA Engineer',company:'Informatica',year:'2022',description:'Developed UI and API automation for cloud data-integration products, task flows, and multi-cloud deployment validation using Java, Selenium, and Python.'},
+  {role:'Software QA Engineer',company:'Informatica',year:'2024 — Present',description:'Designing end-to-end quality infrastructure, deployment workflows, and monitoring across AWS, Google Cloud, Azure, and Oracle environments.'},
+];
+---
+<BaseLayout title="Career" description="Sushanth U V’s software engineering career and experience.">
+  <RouteHeader eyebrow="Experience" title="My Career & Experience" description="A path through software quality, automation, cloud infrastructure, and product engineering." />
+  <ol class="timeline">
+    {experience.map(item=><li><p class="year">{item.year}</p><div><h2>{item.role}</h2><p class="company">{item.company}</p><p class="description">{item.description}</p></div></li>)}
+  </ol>
+</BaseLayout>
+<style>
+  .timeline{width:min(100%,var(--max-width));margin-inline:auto;padding:0 var(--space-outer) clamp(5rem,12vw,10rem);list-style:none}.timeline li{display:grid;grid-template-columns:minmax(8rem,.35fr) 1fr;gap:2rem;padding-block:clamp(2rem,5vw,4rem);border-top:1px solid color-mix(in srgb,var(--text) 16%,transparent)}.year{color:var(--accent);font-size:.9rem;letter-spacing:.12em;text-transform:uppercase}h2{color:var(--text);font-size:clamp(1.75rem,4vw,3.25rem);font-weight:400;letter-spacing:-.04em}.company{margin-block:.5rem 1.25rem;color:var(--text);font-size:1.1rem}.description{max-width:50rem;line-height:1.75}@media(max-width:38rem){.timeline li{grid-template-columns:1fr;gap:1rem}}
+</style>

@@ -1,8 +1,8 @@
 ---
 import DisplacementSphere from '../../react/DisplacementSphere.jsx';
-const projects=[{title:'Gamestack',category:'Web Application',description:'A connected game library with authentication, collection tools, and social features.',href:'/projects/gamestack'},{title:'Smart Sparrow',category:'Educational Platform',description:'Interactive learning tools designed to help educators create more engaging coursework.',href:'/projects/smart-sparrow'},{title:'Slice',category:'Medical Software',description:'A collaboration workflow for medical teams reviewing and discussing biomedical imagery.',href:'/projects/slice'}];
+import { projects } from '../../../data/projects.js';
 ---
-<section class="projects" aria-labelledby="projects-title"><div class="content"><header><p>Selected work</p><h2 id="projects-title">Projects built around real problems.</h2></header><ol>{projects.map((project,index)=><li><span class="index">0{index+1}</span><div><p class="category">{project.category}</p><h3>{project.title}</h3><p class="description">{project.description}</p></div><a href={project.href} aria-label={`View ${project.title}`}>View project <span aria-hidden="true">↗</span></a></li>)}</ol></div></section>
+<section class="projects" aria-labelledby="projects-title"><div class="content"><header><p>Selected work</p><h2 id="projects-title">Projects built around real problems.</h2></header><ol>{projects.map((project,index)=><li><span class="index">0{index+1}</span><div><p class="category">Featured project</p><h3>{project.title}</h3><p class="description">{project.description}</p></div><a href={`/projects/${project.slug}`} aria-label={`View ${project.title}`}>View project <span aria-hidden="true">↗</span></a></li>)}</ol></div></section>
 <section class="sphere-stage" aria-label="Interactive visual"><DisplacementSphere client:visible /></section>
 <section class="all-projects" aria-labelledby="all-projects-title"><div><img src="/images/home/hands-ok.svg" alt="" width="132" height="132" loading="lazy" /><h2 id="all-projects-title">Check out all projects</h2><a href="/projects">View All Projects <span aria-hidden="true">→</span></a></div></section>
 <style>
