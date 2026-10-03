@@ -6,6 +6,6 @@ addons.setConfig({
     ...themes.dark,
     brandImage: './icon.svg',
     brandTitle: 'Sushanth U V Components',
-    brandUrl: 'https://hamishw.com',
+    brandUrl: 'https://github.com/SushanthOO7/portfolio',
   },
 });

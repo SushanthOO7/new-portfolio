@@ -2,7 +2,7 @@ import { mergeConfig } from 'vite';
 
 /** @type { import('@storybook/react-vite').StorybookConfig } */
 const config = {
-  stories: ['../app/**/*.stories.@(js|jsx|ts|tsx)'],
+  stories: ['../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: ['@storybook/addon-links', '@storybook/addon-a11y', '@storybook/addon-docs'],
 
   framework: {
@@ -15,18 +15,18 @@ const config = {
   },
 
   async viteFinal(config) {
-    // Merge custom configuration into the default config
     return mergeConfig(config, {
-      assetsInclude: ['**/*.glb', '**/*.hdr', '**/*.glsl'],
+      assetsInclude: ['**/*.glb'],
       build: {
         assetsInlineLimit: 1024,
+        chunkSizeWarningLimit: 1200,
       },
     });
   },
 
   features: {
-    backgrounds: false
-  }
+    backgrounds: false,
+  },
 };
 
 export default config;

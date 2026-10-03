@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { ThemeProvider, themeStyles } from '../app/components/theme-provider';
-import '../app/reset.module.css';
-import '../app/global.module.css';
+import '../src/styles/tokens.css';
+import '../src/styles/reset.css';
+import '../src/styles/global.css';
 import './preview.css';
 
 export const decorators = [
@@ -9,17 +9,10 @@ export const decorators = [
     const theme = context.globals.theme;
 
     useEffect(() => {
-      document.body.dataset.theme = theme;
+      document.documentElement.dataset.theme = theme;
     }, [theme]);
 
-    return (
-      <ThemeProvider theme={theme}>
-        <style>{themeStyles}</style>
-        <div id="story-root" className="storyRoot">
-          <Story />
-        </div>
-      </ThemeProvider>
-    );
+    return <div id="story-root" className="storyRoot"><Story /></div>;
   },
 ];
 
@@ -37,5 +30,5 @@ export const globalTypes = {
 
 export const parameters = {
   layout: 'fullscreen',
-  controls: { hideNoControlsWarning: true },
+  controls: { expanded: true },
 };
