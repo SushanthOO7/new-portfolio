@@ -13,6 +13,13 @@ export default defineConfig({
     port: 7778,
   },
   vite: {
+    build: {
+      rolldownOptions: {
+        checks: {
+          moduleLevelDirective: false,
+        },
+      },
+    },
     resolve: {
       alias: {
         '~': fileURLToPath(new URL('./src', import.meta.url)),

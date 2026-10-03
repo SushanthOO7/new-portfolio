@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import RouteHeader from '../../components/astro/RouteHeader.astro';
+import { getArticleReadingTime, loadSortedArticles } from '../../lib/content.js';
+const articles = await loadSortedArticles();
+---
+<BaseLayout title="Articles" description="Notes on frontend engineering, CSS, testing, and building for the web.">
+  <RouteHeader eyebrow="Writing" title="Latest articles" description="Notes from building, rebuilding, and learning in public." />
+  <div class="articles">
+    {articles.map(article=><article data-featured={article.data.featured}>
+      <div class="meta"><time datetime={article.data.date.toISOString()}>{article.data.date.toLocaleDateString('en',{dateStyle:'medium'})}</time><span>{getArticleReadingTime(article.body ?? '')}</span></div>
+      {article.data.featured&&<p class="featured">Featured</p>}
+      <h2><a href={`/articles/${article.id}`}>{article.data.title}</a></h2>
+      <p>{article.data.abstract}</p>
+      <a class="read" href={`/articles/${article.id}`}>Read article <span aria-hidden="true">→</span></a>
+    </article>)}
+  </div>
+</BaseLayout>
+<style>
+  .articles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:min(100%,var(--max-width));margin-inline:auto;padding:0 var(--space-outer) clamp(5rem,12vw,10rem);border-top:1px solid color-mix(in srgb,var(--text) 16%,transparent)}article{position:relative;padding:clamp(2rem,5vw,4rem);border-right:1px solid color-mix(in srgb,var(--text) 16%,transparent);border-bottom:1px solid color-mix(in srgb,var(--text) 16%,transparent)}article[data-featured=true]{background:color-mix(in srgb,var(--accent) 8%,var(--background))}.meta{display:flex;gap:1rem;justify-content:space-between;color:var(--text-body);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase}.featured{margin-top:3rem;color:var(--accent);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase}h2{margin-block:clamp(2rem,6vw,5rem) 1.25rem;font-size:clamp(2rem,5vw,4.5rem);font-weight:400;letter-spacing:-.05em;line-height:1}h2 a{color:var(--text);text-decoration:none}article>p:not(.featured){max-width:34rem;line-height:1.7}.read{display:inline-block;margin-top:2rem;color:var(--text);text-underline-offset:.3rem}@media(max-width:48rem){.articles{grid-template-columns:1fr}article{border-right:0}}
+</style>

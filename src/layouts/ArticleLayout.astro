@@ -1,0 +1,21 @@
+---
+import BaseLayout from './BaseLayout.astro';
+const { title, abstract, date, banner, timecode } = Astro.props;
+const formattedDate = new Intl.DateTimeFormat('en', { dateStyle: 'long' }).format(date);
+---
+<BaseLayout title={title} description={abstract} image={banner}>
+  <article class="article">
+    <header>
+      <img src={banner} width="1920" height="1080" alt="" fetchpriority="high" />
+      <div class="header-copy">
+        <p><time datetime={date.toISOString()}>{formattedDate}</time><span aria-hidden="true"> / </span><span>{timecode}</span></p>
+        <h1>{title}</h1>
+        <p class="abstract">{abstract}</p>
+      </div>
+    </header>
+    <div class="body" id="article-content"><slot /></div>
+  </article>
+</BaseLayout>
+<style>
+  .article{padding-bottom:clamp(5rem,12vw,10rem)}header{width:min(100%,var(--max-width));margin-inline:auto;padding:clamp(3rem,8vw,7rem) var(--space-outer)}header>img{width:100%;aspect-ratio:16/9;object-fit:cover}.header-copy{max-width:60rem;margin-top:clamp(2rem,6vw,5rem)}.header-copy>p:first-child{margin-bottom:1.25rem;color:var(--accent);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase}h1{color:var(--text);font-size:clamp(3rem,8vw,7rem);font-weight:400;letter-spacing:-.06em;line-height:.95}.abstract{max-width:48rem;margin-top:2rem;font-size:clamp(1.1rem,2.4vw,1.45rem);line-height:1.6}.body{width:min(calc(100% - 2 * var(--space-outer)),48rem);margin-inline:auto;color:var(--text-body);font-size:clamp(1rem,2vw,1.15rem);line-height:1.8}.body :global(h2),.body :global(h3){margin-block:2.5em .8em;color:var(--text);font-weight:400;letter-spacing:-.035em;line-height:1.2}.body :global(h2){font-size:clamp(2rem,5vw,3.5rem)}.body :global(h3){font-size:clamp(1.5rem,3vw,2rem)}.body :global(p),.body :global(ul),.body :global(ol),.body :global(pre),.body :global(img){margin-block:1.4rem}.body :global(a){color:var(--text);text-underline-offset:.25rem}.body :global(img){width:100%;height:auto}.body :global(pre){overflow:auto;padding:1.25rem;background:#080808;color:#f4f4f4}.body :global(code){font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.9em}.body :global(li+li){margin-top:.6rem}.body :global(hr){margin-block:3rem;border:0;border-top:1px solid color-mix(in srgb,var(--text) 18%,transparent)}
+</style>
