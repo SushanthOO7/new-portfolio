@@ -7,6 +7,7 @@
   "type": "module",
   "scripts": {
     "build": "astro build",
+    "typecheck": "astro check",
     "build:production": "node scripts/require-site-url.mjs && astro build && node scripts/verify-production-origin.mjs",
     "dev": "astro dev --host 127.0.0.1 --port 7778",
     "preview": "npm run build && wrangler dev",
@@ -15,39 +16,18 @@
     "pretest": "npm run build",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "playwright test",
-    "test:visual": "playwright test tests/e2e/visual-parity.spec.js",
-    "test:performance": "vitest run tests/performance/bundles.test.js",
-    "pretest:worker": "npm run build",
-    "test:worker": "vitest run --config vitest.worker.config.js",
-    "bundle:report": "node scripts/report-client-bundles.mjs dist/client/_astro",
-    "lighthouse": "node scripts/run-lighthouse.mjs",
-    "dev:storybook": "storybook dev -p 6006 --no-open",
-    "build:storybook": "storybook build"
+    "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@aws-sdk/client-ses": "^3.1146.0",
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0",
-    "three": "^0.186.1"
+    "gsap": "^3.15.0"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.10",
     "@astrojs/cloudflare": "^14.3.3",
-    "@astrojs/mdx": "^8.0.2",
-    "@astrojs/react": "^7.0.0",
-    "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.63.0",
-    "@storybook/addon-a11y": "^10.6.1",
-    "@storybook/addon-docs": "^10.6.1",
-    "@storybook/addon-links": "^10.6.1",
-    "@storybook/react-vite": "^10.6.1",
     "@types/node": "^24.3.1",
     "astro": "^7.3.5",
-    "chrome-launcher": "^1.2.2",
-    "eslint": "^10.12.0",
-    "eslint-plugin-storybook": "^10.6.1",
-    "lighthouse": "^13.5.0",
-    "storybook": "^10.6.1",
+    "typescript": "^6.0.3",
     "vite": "^8.3.2",
     "vitest": "^5.0.3",
     "wrangler": "^4.147.0"

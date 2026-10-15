@@ -1,22 +1,940 @@
 ---
-import FluidCursor from '../../react/FluidCursor.jsx';
-const disciplines = ['Web Development', 'AI & ML', 'Test Automation', 'DevOps'];
+import RobotArmScene from './RobotArmScene.astro';
+import HeroNavbar from './HeroNavbar.astro';
 ---
-<section class="intro" aria-labelledby="intro-title">
-  <FluidCursor client:idle />
-  <div class="copy">
-    <p class="eyebrow">Portfolio / 2026</p>
-    <h1 id="intro-title">Sushanth U V</h1>
-    <p class="role">Software Engineer</p>
-    <p class="disciplines">{disciplines.join(' · ')}</p>
+
+<section
+  class="hero"
+  aria-labelledby="intro-title"
+  data-cinematic-hero
+  data-motion="pending"
+>
+  <HeroNavbar />
+  <div class="atmosphere" data-parallax="2" aria-hidden="true"></div>
+  <div class="display" data-hero-copy data-parallax="4">
+    <h1 id="intro-title" aria-label="I build what’s next.">
+      <span class="row row--top" aria-hidden="true">
+        <span class="word word--i">I</span>
+        <span class="word word--build">Build</span>
+      </span>
+      <span class="row row--bottom" aria-hidden="true">
+        <span class="word word--whats" data-text="What’s">What’s</span>
+        <em class="word word--next" data-text="next.">next.</em>
+      </span>
+    </h1>
   </div>
-  <a class="scroll" href="#profile"><span>Explore my work</span><svg aria-hidden="true" viewBox="0 0 44 16" width="44" height="16"><path d="m1 1 21 13L43 1" fill="none" stroke="currentColor" stroke-width="2"></path></svg></a>
+
+  <svg
+    class="routes routes--back"
+    data-hero-paths="back"
+    aria-hidden="true"
+    viewBox="0 0 1920 1080"
+    preserveAspectRatio="none"
+  >
+    <defs
+      ><filter id="route-glow-back" x="-30%" y="-30%" width="160%" height="160%"
+        ><feGaussianBlur stdDeviation="1.8" result="blur"></feGaussianBlur><feMerge
+          ><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"
+          ></feMergeNode></feMerge
+        ></filter
+      ></defs
+    >
+    <path
+      class="route route--strong"
+      data-route-base
+      d="M-90 305 C155 555 255 330 480 235 S815 190 1025 155 C1235 90 1290 225 1400 350 S1585 350 1710 292 S1880 240 2020 275"
+    ></path>
+    <path class="guide" d="M54 0V1080M1068 0V1080M1865 0V1080M54 918H1865"></path>
+    <path
+      class="route route--quiet"
+      d="M850 180 C1040 115 1240 55 1375 170 S1450 335 1630 255 S1840 155 2020 70"></path>
+    <path
+      class="route route--dash route--lower"
+      d="M-80 1035 C260 1045 495 1022 790 1008 S1250 1010 1410 927 S1690 871 2020 799"
+    ></path>
+
+    <path
+      class="route route--lower-sweep"
+      d="M-100 625 C70 520 140 590 300 675 S610 835 820 855 S1090 827 1240 850 S1390 916 1515 864 S1780 772 2020 838"
+    ></path>
+    <path
+      class="route route--dash route--signal"
+      d="M-80 310 C200 385 460 245 730 275 C1000 305 1180 212 1414 212 C1530 212 1586 362 1702 362 C1818 362 1900 310 2020 340 M1640 744 C1700 744 1740 724 1800 724 C1860 724 1940 744 2020 730"
+    ></path>
+  </svg>
+
+  <div class="floor" data-hero-floor aria-hidden="true">
+    <span data-base-glow></span>
+  </div>
+  <div class="robot" data-robot-host>
+    <RobotArmScene />
+  </div>
+
+  <svg
+    class="routes routes--front"
+    data-hero-paths="front"
+    aria-hidden="true"
+    viewBox="0 0 1920 1080"
+    preserveAspectRatio="none"
+  >
+    <defs>
+      <!-- The same curve sits behind the headline; fade only its foreground
+           copy so it passes behind a few letters and then emerges again. -->
+      <linearGradient
+        id="route-weave-fade"
+        x1="0"
+        y1="0"
+        x2="1920"
+        y2="0"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop offset="0" stop-color="white"></stop><stop offset=".17" stop-color="white"
+        ></stop>
+        <stop offset=".23" stop-color="black"></stop><stop offset=".38" stop-color="black"
+        ></stop>
+        <stop offset=".45" stop-color="white"></stop><stop offset="1" stop-color="white"
+        ></stop>
+      </linearGradient>
+      <mask
+        id="route-weave"
+        x="-200"
+        y="-200"
+        width="2400"
+        height="1500"
+        maskUnits="userSpaceOnUse"
+        style="mask-type:luminance"
+      >
+        <rect x="-200" y="-200" width="2400" height="1500" fill="url(#route-weave-fade)"
+        ></rect>
+      </mask>
+      <filter id="route-glow-front" x="-30%" y="-30%" width="160%" height="160%"
+        ><feGaussianBlur stdDeviation="1.5" result="blur"></feGaussianBlur><feMerge
+          ><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"
+          ></feMergeNode></feMerge
+        ></filter
+      ></defs
+    >
+    <path
+      class="route route--strong"
+      data-route-base
+      mask="url(#route-weave)"
+      d="M-90 305 C155 555 255 330 480 235 S815 190 1025 155 C1235 90 1290 225 1400 350 S1585 350 1710 292 S1880 240 2020 275"
+    ></path>
+    <path
+      class="pulse"
+      data-route-pulse
+      mask="url(#route-weave)"
+      d="M-90 305 C155 555 255 330 480 235 S815 190 1025 155 C1235 90 1290 225 1400 350 S1585 350 1710 292 S1880 240 2020 275"
+      filter="url(#route-glow-front)"></path>
+    <path
+      class="route route--lower-sweep"
+      data-route-base
+      mask="url(#route-weave)"
+      d="M-100 625 C70 520 140 590 300 675 S610 835 820 855 S1090 827 1240 850 S1390 916 1515 864 S1780 772 2020 838"
+    ></path>
+    <path
+      class="pulse pulse--lower"
+      mask="url(#route-weave)"
+      data-route-pulse
+      d="M-100 625 C70 520 140 590 300 675 S610 835 820 855 S1090 827 1240 850 S1390 916 1515 864 S1780 772 2020 838"
+      filter="url(#route-glow-front)"></path>
+    <path
+      class="route route--dash route--signal"
+      mask="url(#route-weave)"
+      d="M-80 310 C200 385 460 245 730 275 C1000 305 1180 212 1414 212 C1530 212 1586 362 1702 362 C1818 362 1900 310 2020 340 M1640 744 C1700 744 1740 724 1800 724 C1860 724 1940 744 2020 730"
+    ></path>
+    <g class="crosshairs"
+      ><path d="M1077 238v94M1030 285h94M1240 328v62M1209 359h62M1845 892v74M1808 929h74"
+      ></path><circle cx="1458" cy="380" r="3"></circle><circle cx="1421" cy="925" r="7"
+      ></circle></g
+    >
+  </svg>
+
+  <div class="markers" aria-hidden="true">
+    <div class="marker marker--ideas" data-hero-marker>
+      <i></i><span>IDEAS<small>// 01</small></span>
+    </div>
+    <div class="marker marker--build" data-hero-marker>
+      <i></i><span>BUILD<small>// 02</small></span>
+    </div>
+    <div class="marker marker--solve" data-hero-marker>
+      <i></i><span>SOLVE<small>// 03</small></span>
+    </div>
+  </div>
+
+  <div class="bottom" data-hero-bottom>
+    <div class="mission">
+      <p class="discipline">Software engineering<br /><span>/ AI / Automation</span></p>
+      <div class="statement">
+        <span>01 —</span><p>
+          Turning complex<br />problems into<br />meaningful solutions.
+        </p>
+      </div>
+    </div>
+    <a class="explore" href="#main-content" aria-label="Scroll to explore"
+      ><span class="explore__circle" aria-hidden="true">→</span><span
+        >Scroll<br />to explore</span
+      ></a
+    >
+  </div>
 </section>
+
+<script>
+  import { gsap } from 'gsap';
+  const hero = document.querySelector<HTMLElement>('[data-cinematic-hero]');
+  if (hero) {
+    // Fit the natural glyph widths to the reference composition, independently
+    // of the platform's available condensed font. Keep GSAP's transforms separate.
+    const display = hero.querySelector<HTMLElement>('[data-hero-copy]');
+    const rows = [...hero.querySelectorAll<HTMLElement>('.row')];
+    const fitHeadline = () => {
+      if (!display) return;
+      rows.forEach(row => {
+        const fraction = Number(getComputedStyle(row).getPropertyValue('--row-width')) || 1;
+        row.style.setProperty('--row-scale', String(display.clientWidth * fraction / Math.max(1, row.offsetWidth)));
+      });
+    };
+    const headlineObserver = new ResizeObserver(fitHeadline);
+    if (display) headlineObserver.observe(display);
+    rows.forEach(row => headlineObserver.observe(row));
+    fitHeadline();
+    // CSS-only edits do not always resize the container. Refit after Vite HMR.
+    const refreshHeadline = () => requestAnimationFrame(fitHeadline);
+    document.fonts.addEventListener('loadingdone', refreshHeadline);
+    if (import.meta.hot) import.meta.hot.on('vite:afterUpdate', refreshHeadline);
+    document.addEventListener('astro:before-swap', () => {
+      headlineObserver.disconnect();
+      document.fonts.removeEventListener('loadingdone', refreshHeadline);
+    }, {
+      once: true,
+    });
+    if (import.meta.hot) {
+      import.meta.hot.dispose(() => {
+        headlineObserver.disconnect();
+        document.fonts.removeEventListener('loadingdone', refreshHeadline);
+        import.meta.hot?.off('vite:afterUpdate', refreshHeadline);
+      });
+    }
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    hero.dataset.motion = reduceMotion ? 'reduced' : 'full';
+    if (!reduceMotion) {
+      const context = gsap.context(() => {
+        const paths = gsap.utils.toArray<SVGPathElement>('[data-route-base]');
+        paths.forEach(path => {
+          const length = path.getTotalLength();
+          gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+        });
+        gsap
+          .timeline({ defaults: { ease: 'power3.out' } })
+          .from(
+            '[data-hero-copy] h1 > span',
+            { yPercent: 105, opacity: 0, duration: 1.05, stagger: 0.14 },
+            0.2
+          )
+          .from(
+            '[data-robot-host]',
+            { y: 50, opacity: 0, scale: 0.96, duration: 1.25 },
+            0.55
+          )
+          .to(paths, { strokeDashoffset: 0, duration: 1.4, stagger: 0.08 }, 0.75)
+          .from(
+            '[data-hero-marker]',
+            { opacity: 0, duration: 0.45, stagger: 0.15 },
+            1.15
+          )
+          .from('[data-hero-bottom]', { y: 20, opacity: 0, duration: 0.65 }, 1.55);
+        gsap.utils
+          .toArray<SVGPathElement>('[data-route-pulse]')
+          .forEach((pulse, index) => {
+            gsap.fromTo(
+              pulse,
+              { strokeDashoffset: 0 },
+              {
+                strokeDashoffset: -1850,
+                duration: 5.8 + index * 1.7,
+                delay: 1.8 + index * 0.65,
+                repeat: -1,
+                ease: 'none',
+              }
+            );
+          });
+        if (matchMedia('(pointer: fine)').matches) {
+          const movers = gsap.utils
+            .toArray<HTMLElement>('[data-parallax]')
+            .map(layer => ({
+              layer,
+              x: gsap.quickTo(layer, 'x', { duration: 0.8, ease: 'power3.out' }),
+              y: gsap.quickTo(layer, 'y', { duration: 0.8, ease: 'power3.out' }),
+            }));
+          const onPointerMove = (event: PointerEvent) => {
+            const nx = event.clientX / innerWidth - 0.5;
+            const ny = event.clientY / innerHeight - 0.5;
+            movers.forEach(({ layer, x, y }) => {
+              const depth = Number(layer.dataset.parallax ?? 0);
+              x(nx * depth * 2);
+              y(ny * depth * 2);
+            });
+          };
+          hero.addEventListener('pointermove', onPointerMove, { passive: true });
+          document.addEventListener(
+            'astro:before-swap',
+            () => hero.removeEventListener('pointermove', onPointerMove),
+            { once: true }
+          );
+        }
+      }, hero);
+      document.addEventListener('astro:before-swap', () => context.revert(), {
+        once: true,
+      });
+    }
+  }
+</script>
+
 <style>
-  .intro{position:relative;display:grid;min-height:calc(100svh - 7rem);padding:clamp(4rem,10vw,8rem) var(--space-outer) 3rem;overflow:clip;isolation:isolate}
-  .intro::before{position:absolute;inset:10% -15% auto auto;z-index:-1;width:min(55vw,44rem);aspect-ratio:1;border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);border-radius:50%;content:''}
-  .copy{align-self:center;width:min(100%,var(--max-width));margin-inline:auto}.eyebrow,.disciplines{color:var(--text-body);font-size:clamp(.72rem,1.2vw,.88rem);letter-spacing:.16em;text-transform:uppercase}
-  h1{max-width:12ch;margin-block:1.25rem 0;color:var(--text);font-size:clamp(4rem,12vw,10rem);font-weight:400;letter-spacing:-.065em;line-height:.86}.role{margin-block:1.75rem .75rem;color:var(--accent);font-size:clamp(1.5rem,3.5vw,3.25rem)}
-  .scroll{display:flex;align-self:end;align-items:center;justify-content:space-between;width:min(100%,var(--max-width));margin-inline:auto;padding-block:1.25rem;border-top:1px solid color-mix(in srgb,var(--text) 20%,transparent);color:var(--text-body);text-decoration:none}.scroll svg{transition:translate 180ms ease}.scroll:hover svg{translate:0 .35rem}
-  @media(max-width:42rem){.intro{min-height:calc(100svh - 5.5rem);padding-top:2rem}.disciplines{max-width:30ch;line-height:1.8}}
+  @font-face {
+    font-family: 'Hero Anton';
+    src: url('/fonts/anton-regular.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+  }
+  .hero {
+    --hero-orange: #ff4d00;
+    --hero-paper: #f3f3ef;
+    --robot-base-x: 48%;
+    position: relative;
+    isolation: isolate;
+    min-height: max(42rem, 100svh);
+    overflow: hidden;
+    background: #080909;
+    color: var(--hero-paper);
+  }
+  .hero::before,
+  .hero::after {
+    position: absolute;
+    z-index: 40;
+    inset: 1.55rem auto 4rem 2.8%;
+    width: 1px;
+    background: linear-gradient(
+      180deg,
+      transparent,
+      rgb(242 242 238 / 32%) 6%,
+      rgb(242 242 238 / 16%) 88%,
+      transparent
+    );
+    content: '';
+    pointer-events: none;
+  }
+  .hero::after {
+    inset-inline: auto 2.8%;
+  }
+  .atmosphere {
+    position: absolute;
+    inset: -5%;
+    z-index: 0;
+    background:
+      radial-gradient(circle at 56% 46%, rgb(255 255 255 / 6%), transparent 34%),
+      linear-gradient(180deg, #090a0a 0%, #080909 68%, #100a07 100%);
+  }
+  .atmosphere::after {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at center,
+      transparent 36%,
+      rgb(0 0 0 / 74%) 100%
+    );
+    content: '';
+  }
+  .display {
+    position: absolute;
+    inset: 14.4% 5.8% auto 5.8%;
+    z-index: 10;
+    container-type: inline-size;
+    overflow: visible;
+  }
+  h1 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    font-family: 'Hero Anton', Impact, sans-serif;
+    font-size: min(20vw, 38svh);
+    font-weight: 400;
+    font-synthesis: none;
+    font-stretch: normal;
+    letter-spacing: -0.018em;
+    line-height: 0.86;
+    text-transform: uppercase;
+  }
+  .row {
+    /* Width as a fraction: 0.8 = 80%, 1 = full width. Keep between 0.1 and 1. */
+    --row-width: 0.98;
+    display: flex;
+    width: max-content;
+    align-items: flex-start;
+    white-space: nowrap;
+    align-self: center;
+    transform-origin: center top;
+    scale: var(--row-scale, 0.65) 1;
+  }
+  .word {
+    display: block;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    flex: none;
+    background: linear-gradient(
+      180deg,
+      #fff 0%,
+      #f5f5f2 48%,
+      #e4e4df 72%,
+      #bfc0ba 100%
+    );
+    background-clip: text;
+    color: transparent;
+    -webkit-background-clip: text;
+  }
+  .word::selection {
+    background: #ff4d00;
+    color: #080909;
+  }
+  .row--top {
+    --row-width: 0.48;
+    align-self: flex-start;
+    transform-origin: left top;
+    gap: 0.13em;
+  }
+  .word--i {
+    min-width: 0.2em;
+  }
+  .row--bottom {
+    gap: 0.035em;
+    margin-top: 0;
+    margin-left: 0;
+  }
+  .word--next {
+    background: linear-gradient(
+      180deg,
+      #ff6310 0%,
+      #ec3d05 42%,
+      #ad2506 72%,
+      #431006 100%
+    );
+    background-clip: text;
+    color: #c83205;
+    font-style: normal;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  /* A separate clipped layer lets the mask fade only the organic distress. */
+  .word--whats,
+  .word--next {
+    position: relative;
+    --letter-shading: linear-gradient(
+      180deg,
+      #fff 0%,
+      #f2f2ed 46%,
+      #c6c7bf 64%,
+      #777a72 78%,
+      #252823 92%,
+      #141613 100%
+    );
+    background: var(--letter-shading);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .word--next {
+    --letter-shading: linear-gradient(
+      180deg,
+      #ff4d00 0%,
+      #ff4d00 46%,
+      #e44205 64%,
+      #90280c 80%,
+      #30120a 94%,
+      #1b0c06 100%
+    );
+  }
+  .word--whats::after,
+  .word--next::after {
+    content: attr(data-text);
+    padding: 0;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      url('/images/home/headline-grunge.png') center / cover no-repeat,
+      var(--letter-shading);
+    background-blend-mode: multiply;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-mask-image: linear-gradient(
+      180deg,
+      transparent 0%,
+      transparent 42%,
+      rgb(0 0 0 / 20%) 58%,
+      rgb(0 0 0 / 80%) 76%,
+      #000 90%
+    );
+    mask-image: linear-gradient(
+      180deg,
+      transparent 0%,
+      transparent 42%,
+      rgb(0 0 0 / 20%) 58%,
+      rgb(0 0 0 / 80%) 76%,
+      #000 90%
+    );
+  }
+  .routes {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .routes--back {
+    z-index: 7;
+  }
+  .routes--front {
+    z-index: 20;
+  }
+  .route,
+  .guide,
+  .crosshairs path,
+  .crosshairs circle {
+    fill: none;
+    vector-effect: non-scaling-stroke;
+  }
+  .route {
+    stroke: var(--hero-orange);
+    stroke-width: 1;
+    opacity: 0.48;
+  }
+  .route--strong {
+    stroke-width: 1.5;
+    opacity: 0.88;
+  }
+  .route--thin {
+    stroke-width: 0.65;
+    opacity: 0.24;
+  }
+  .route--quiet {
+    opacity: 0.13;
+  }
+  .route--dash {
+    stroke-dasharray: 10 8;
+    stroke-linecap: round;
+    opacity: 0.44;
+  }
+  .route--signal {
+    stroke-width: 1.1;
+    opacity: 0.72;
+  }
+  .route--lower {
+    opacity: 0.38;
+  }
+  .route--lower-sweep {
+    stroke-width: 1.35;
+    opacity: 0.9;
+  }
+  .pulse--lower {
+    opacity: 0.48;
+  }
+  .guide {
+    stroke: #f2f2ee;
+    stroke-width: 0.6;
+    opacity: 0.08;
+  }
+  .pulse {
+    fill: none;
+    stroke: #ff8250;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-dasharray: 120 1730;
+    vector-effect: non-scaling-stroke;
+  }
+  .crosshairs {
+    stroke: var(--hero-orange);
+    stroke-width: 0.9;
+    opacity: 0.56;
+  }
+  .nodes circle {
+    fill: var(--hero-orange);
+    filter: drop-shadow(0 0 4px var(--hero-orange));
+    r: 4;
+  }
+  .floor {
+    position: absolute;
+    z-index: 18;
+    inset: auto 0 0;
+    height: 31%;
+    overflow: hidden;
+    background:
+      linear-gradient(
+        90deg,
+        #080909 0%,
+        rgb(8 9 9 / 98%) 10%,
+        rgb(8 9 9 / 78%) 23%,
+        rgb(8 9 9 / 20%) 35%,
+        transparent 43%,
+        transparent 55%,
+        rgb(8 9 9 / 28%) 66%,
+        rgb(8 9 9 / 84%) 79%,
+        rgb(8 9 9 / 98%) 91%,
+        #080909 100%
+      ),
+      linear-gradient(180deg, transparent 0%, rgb(4 5 5 / 6%) 40%, rgb(4 5 5 / 30%) 100%),
+      url('/images/home/industrial-floor-v5.png') center bottom / 100% 100% no-repeat;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 25%, #000 100%);
+    mask-image: linear-gradient(180deg, transparent 0%, #000 25%, #000 100%);
+  }
+  /* Narrow orange floor reflections echo the reference's illuminated panel seams. */
+  .floor::before {
+    position: absolute;
+    inset: 0;
+    content: '';
+    background: radial-gradient(
+      ellipse at var(--robot-base-x) 79%,
+      rgb(255 77 0 / 12%),
+      transparent 35%
+    );
+    mix-blend-mode: screen;
+  }
+  .floor::after {
+    position: absolute;
+    left: var(--robot-base-x);
+    bottom: 14%;
+    width: 21%;
+    height: 10%;
+    content: '';
+    background: radial-gradient(
+      ellipse,
+      rgb(0 0 0 / 84%) 0%,
+      rgb(0 0 0 / 40%) 40%,
+      transparent 73%
+    );
+    transform: translateX(-50%);
+    filter: blur(3px);
+  }
+  .floor span {
+    position: absolute;
+    z-index: 1;
+    left: var(--robot-base-x);
+    bottom: 16%;
+    width: 19%;
+    height: 1.2%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgb(255 77 0 / 35%) 22%,
+      rgb(255 135 54 / 68%) 50%,
+      rgb(255 77 0 / 28%) 76%,
+      transparent
+    );
+    transform: translateX(-50%) skewX(-35deg) rotate(-6deg);
+    filter: blur(1px);
+  }
+  .robot {
+    position: absolute;
+    top: 28%;
+    right: 15%;
+    bottom: 5.5%;
+    left: 21%;
+    z-index: 30;
+    filter: drop-shadow(0 26px 24px rgb(0 0 0 / 82%))
+      drop-shadow(0 16px 25px rgb(255 77 0 / 24%));
+  }
+  .markers {
+    position: absolute;
+    inset: 0;
+    z-index: 32;
+    pointer-events: none;
+  }
+  .marker {
+    position: absolute;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    color: #f2f2ee;
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    transform-origin: left center;
+  }
+  .marker i {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0.85rem;
+    height: 0.85rem;
+    border-radius: 50%;
+    background: var(--hero-orange);
+    transform: translate(-50%, -50%);
+  }
+  .marker > span {
+    margin-left: 1.4rem;
+    transform: translateY(-0.8rem);
+  }
+  .marker small {
+    display: block;
+    margin-top: 0.46rem;
+    color: rgb(242 242 238 / 48%);
+    font-size: 0.58rem;
+    font-weight: 400;
+  }
+  /* Shared 1920 × 1080 coordinates with the signal route: dots stay on it. */
+  .marker--ideas {
+    left: 73.645833%;
+    top: 19.62963%;
+  }
+  .marker--build {
+    left: 88.645833%;
+    top: 33.518519%;
+  }
+  .marker--solve {
+    left: 93.75%;
+    top: 67.037037%;
+  }
+  .marker--solve i {
+    width: 0.55rem;
+    height: 0.55rem;
+  }
+  .bottom {
+    position: absolute;
+    inset: auto 5.4% 5.2%;
+    z-index: 36;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+  .mission {
+    display: grid;
+    gap: clamp(2.5rem, 7vh, 5rem);
+  }
+  .discipline {
+    padding-left: 1.4rem;
+    border-left: 3px solid var(--hero-orange);
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.26em;
+    line-height: 1.65;
+    text-transform: uppercase;
+  }
+  .discipline span {
+    color: rgb(242 242 238 / 82%);
+  }
+  .statement {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    font-size: 0.61rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .statement > span {
+    color: rgb(242 242 238 / 62%);
+  }
+  .statement p {
+    font-weight: 700;
+    line-height: 1.55;
+  }
+  .explore {
+    display: flex;
+    align-items: center;
+    gap: 1.55rem;
+    color: #f2f2ee;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    line-height: 1.5;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .explore__circle {
+    display: grid;
+    width: 4.4rem;
+    aspect-ratio: 1;
+    place-items: center;
+    border: 2px solid var(--hero-orange);
+    border-radius: 50%;
+    font-size: 1.55rem;
+    transition:
+      background-color 0.25s,
+      box-shadow 0.25s,
+      transform 0.25s;
+  }
+  .explore:hover .explore__circle {
+    background: rgb(255 77 0 / 14%);
+    box-shadow: 0 0 1.5rem rgb(255 77 0 / 34%);
+    transform: translate(3px, 3px);
+  }
+  /* Light mode changes only the palette; all scene geometry stays shared. */
+  :global([data-theme='light']) .hero {
+    --hero-paper: #171717;
+    background: #f3f1ed;
+  }
+  :global([data-theme='light']) .hero::before,
+  :global([data-theme='light']) .hero::after {
+    background: linear-gradient(180deg, transparent, rgb(25 25 25 / 24%) 6%, rgb(25 25 25 / 12%) 88%, transparent);
+  }
+  :global([data-theme='light']) .atmosphere {
+    background:
+      radial-gradient(circle at 56% 46%, #fff9f3 0%, transparent 40%),
+      linear-gradient(180deg, #f3f1ee 0%, #f5f3ef 68%, #eee9e2 100%);
+  }
+  :global([data-theme='light']) .atmosphere::after {
+    background: radial-gradient(ellipse at center, transparent 36%, rgb(220 215 207 / 18%) 100%);
+  }
+  :global([data-theme='light']) .word {
+    background-image: linear-gradient(180deg, #111 0%, #171717 60%, #30302e 100%);
+  }
+  :global([data-theme='light']) .word--whats,
+  :global([data-theme='light']) .word--next {
+    --letter-shading: linear-gradient(180deg, #111 0%, #171717 58%, #292927 82%, #41413c 100%);
+    background-image: var(--letter-shading);
+  }
+  :global([data-theme='light']) .word--whats::after,
+  :global([data-theme='light']) .word--next::after {
+    background-blend-mode: screen;
+  }
+  :global([data-theme='light']) .floor {
+    filter: invert(1) hue-rotate(180deg) saturate(0.8);
+  }
+  :global([data-theme='light']) .robot {
+    filter: drop-shadow(0 26px 24px rgb(40 30 20 / 20%))
+      drop-shadow(0 16px 25px rgb(255 77 0 / 12%));
+  }
+  :global([data-theme='light']) .marker,
+  :global([data-theme='light']) .explore {
+    color: #232321;
+  }
+  :global([data-theme='light']) .marker small,
+  :global([data-theme='light']) .discipline span,
+  :global([data-theme='light']) .statement > span {
+    color: #60605a;
+  }
+  :global([data-theme='light']) .guide {
+    stroke: #353530;
+    opacity: 0.18;
+  }
+  :global([data-theme='light']) .route--quiet {
+    opacity: 0.3;
+  }
+  :global([data-theme='light']) .route--dash {
+    opacity: 0.58;
+  }
+  :global([data-theme='light']) .word::selection {
+    background: #ff4d00;
+    color: #fff;
+  }
+  @media (max-width: 64rem) {
+    .display {
+      inset: 17% 4% auto;
+    }
+    h1 {
+      font-size: min(20vw, 38svh);
+    }
+    .row--top {
+      gap: 0.24em;
+    }
+    .row--bottom {
+      margin-left: 0;
+    }
+    .robot {
+      inset: 30% 8% 7% 16%;
+    }
+    .marker--solve {
+      display: none;
+    }
+    .bottom {
+      inset-inline: 4%;
+    }
+    .floor {
+      inset-inline: 5%;
+    }
+  }
+  @media (max-width: 48rem) {
+    .hero {
+      min-height: max(48rem, 100svh);
+    }
+    .hero::before,
+    .hero::after {
+      display: none;
+    }
+    .display {
+      inset: 18% 1rem auto;
+    }
+    h1 {
+      font-size: 25cqw;
+      line-height: 0.9;
+    }
+    .row--top {
+      --row-width: 0.7;
+      gap: 0.13em;
+    }
+    .row--bottom {
+      margin-top: 0;
+      margin-left: 0;
+    }
+    .robot {
+      inset: 36% -12% 18% -4%;
+    }
+    .floor {
+      inset: auto -20% 8% -20%;
+      height: 24%;
+    }
+    .routes,
+    .markers {
+      width: 152%;
+      left: -26%;
+    }
+    .routes--back .guide,
+    .routes--back .route--quiet,
+    .routes--front .route--thin,
+    .crosshairs,
+    .nodes {
+      display: none;
+    }
+    .bottom {
+      inset: auto 1.25rem 1.4rem;
+      align-items: flex-end;
+    }
+    .mission {
+      gap: 1.5rem;
+    }
+    .discipline {
+      display: none;
+    }
+    .statement {
+      gap: 1rem;
+      font-size: 0.56rem;
+    }
+    .explore {
+      gap: 0.7rem;
+      font-size: 0.54rem;
+    }
+    .explore__circle {
+      width: 3.4rem;
+    }
+  }
+  @media (max-width: 28rem) {
+    .marker {
+      display: none;
+    }
+    .explore > span:last-child {
+      display: none;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .explore__circle {
+      transition: none;
+    }
+  }
 </style>

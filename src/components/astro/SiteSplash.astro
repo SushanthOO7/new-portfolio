@@ -1,0 +1,40 @@
+<div class="site-splash" data-site-splash aria-hidden="true">
+  <div class="site-splash__mark"><span>S</span><i></i></div>
+  <p>Engineering what’s next</p>
+</div>
+
+<script is:inline>
+  (() => {
+    const splash = document.querySelector('[data-site-splash]');
+    if (!(splash instanceof HTMLElement)) return;
+    const key = 'portfolio:splash-seen';
+    let seen = false;
+    try {
+      seen = sessionStorage.getItem(key) === '1';
+      sessionStorage.setItem(key, '1');
+    } catch {}
+    if (seen) {
+      splash.remove();
+      return;
+    }
+    splash.dataset.visible = 'true';
+    const dismiss = () => {
+      splash.dataset.visible = 'false';
+      splash.addEventListener('transitionend', () => splash.remove(), { once: true });
+      setTimeout(() => splash.remove(), 500);
+    };
+    setTimeout(dismiss, 850);
+    setTimeout(() => splash.remove(), 1400);
+  })();
+</script>
+
+<style>
+  .site-splash{position:fixed;inset:0;z-index:1000;display:grid;place-content:center;justify-items:center;gap:1.15rem;background:#0a0a0a;color:#f2f2ee;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s ease,visibility .35s ease;animation:splash-failsafe 0s 1.4s forwards}
+  .site-splash[data-visible='true']{opacity:1;visibility:visible;pointer-events:auto}
+  .site-splash__mark{position:relative;display:grid;width:4.5rem;aspect-ratio:1;place-items:center;border:1px solid rgb(242 242 238 / 22%);border-radius:50%;font-family:Gotham,sans-serif;font-size:1.55rem;font-weight:700;letter-spacing:-.06em}
+  .site-splash__mark i{position:absolute;inset:-1px;border:2px solid transparent;border-top-color:#ff4d00;border-right-color:#ff4d00;border-radius:inherit;animation:splash-orbit .85s cubic-bezier(.65,0,.35,1) both}
+  .site-splash p{margin:0;color:rgb(242 242 238 / 56%);font-size:.62rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase}
+  @keyframes splash-orbit{from{transform:rotate(-120deg)}to{transform:rotate(240deg)}}
+  @keyframes splash-failsafe{to{opacity:0;visibility:hidden;pointer-events:none}}
+  @media(prefers-reduced-motion:reduce){.site-splash{transition:none}.site-splash__mark i{animation:none}}
+</style>

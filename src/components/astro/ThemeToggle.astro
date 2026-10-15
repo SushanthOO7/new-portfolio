@@ -1,0 +1,30 @@
+<button class="theme-toggle" type="button" aria-label="Switch to light theme" data-theme-toggle>
+  <span aria-hidden="true" data-theme-icon>☾</span>
+</button>
+
+<script is:inline>
+  (() => {
+    const toggle = document.querySelector('[data-theme-toggle]');
+    if (!(toggle instanceof HTMLButtonElement)) return;
+    const icon = toggle.querySelector('[data-theme-icon]');
+    const storageKey = 'portfolio-theme';
+    const sync = () => {
+      const light = document.documentElement.dataset.theme === 'light';
+      toggle.setAttribute('aria-label', `Switch to ${light ? 'dark' : 'light'} theme`);
+      if (icon) icon.textContent = light ? '☀' : '☾';
+    };
+    sync();
+    toggle.addEventListener('click', () => {
+      const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+      document.documentElement.dataset.theme = next;
+      document.documentElement.style.colorScheme = next;
+      try { localStorage.setItem(storageKey, next); } catch {}
+      sync();
+    });
+  })();
+</script>
+
+<style>
+  .theme-toggle{display:grid;width:2.9rem;height:2.9rem;place-items:center;border:1px solid rgb(242 242 238 / 56%);border-radius:999px;background:rgb(10 10 10 / 35%);color:#f2f2ee;font:1.15rem/1 system-ui,sans-serif;backdrop-filter:blur(8px);cursor:pointer}
+  [data-theme='light'] .theme-toggle{border-color:#171717;background:#171717;color:#f5f3ef}
+</style>

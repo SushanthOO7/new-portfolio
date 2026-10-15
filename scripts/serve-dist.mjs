@@ -5,6 +5,7 @@ import { extname, resolve, sep } from 'node:path';
 const root = resolve(process.env.STATIC_ROOT || 'dist/client');
 const port = Number(process.env.PORT || 7778);
 const types = {
+  '.avif': 'image/avif',
   '.css': 'text/css; charset=utf-8',
   '.html': 'text/html; charset=utf-8',
   '.ico': 'image/x-icon',
@@ -13,6 +14,7 @@ const types = {
   '.json': 'application/json; charset=utf-8',
   '.png': 'image/png',
   '.svg': 'image/svg+xml',
+  '.webp': 'image/webp',
   '.woff2': 'font/woff2',
 };
 
@@ -40,9 +42,8 @@ createServer(async (request, response) => {
     const url = new URL(request.url || '/', `http://${request.headers.host || 'localhost'}`);
     const file = await findFile(url.pathname);
     if (!file) {
-      const notFound = await findFile('/404');
       response.writeHead(404, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' });
-      response.end(notFound?.contents || 'Not found');
+      response.end('Not found');
       return;
     }
     response.writeHead(200, {

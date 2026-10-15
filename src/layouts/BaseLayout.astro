@@ -1,7 +1,6 @@
 ---
 import SkipLink from '../components/astro/SkipLink.astro';
-import Navbar from '../components/astro/Navbar.astro';
-import Footer from '../components/astro/Footer.astro';
+import SiteSplash from '../components/astro/SiteSplash.astro';
 import { createMetadata } from '../lib/metadata.js';
 import { getThemeBootstrapScript } from '../lib/theme.js';
 import '../styles/tokens.css';
@@ -27,7 +26,7 @@ const metadata = createMetadata({
     <title>{metadata.title}</title>
     <meta name="description" content={metadata.description} />
     <meta name="author" content="Sushanth U V" />
-    <meta name="theme-color" content="#111111" />
+    <meta name="theme-color" content="#0A0A0A" />
     <link rel="canonical" href={metadata.canonical} />
     <meta property="og:title" content={metadata.title} />
     <meta property="og:description" content={metadata.description} />
@@ -47,18 +46,16 @@ const metadata = createMetadata({
     <slot name="head" />
   </head>
   <body>
+    <SiteSplash />
     <SkipLink />
-    <Navbar />
     <main id="main-content" tabindex="-1">
       <slot />
     </main>
-    <Footer />
   </body>
 </html>
 
 <style>
   main {
-    min-height: 80vh;
-    padding-block-start: 7rem;
+    min-height: 100vh;
   }
 </style>

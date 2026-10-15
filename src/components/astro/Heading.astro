@@ -1,7 +1,0 @@
----
-const { as: Tag = 'h2', class: className, ...rest } = Astro.props;
----
-<Tag class:list={['heading', className]} {...rest}><slot /></Tag>
-<style>
-  .heading { color: var(--text); font-weight: 500; line-height: 1.08; text-wrap: balance; }
-</style>

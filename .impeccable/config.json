@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-font",
+        "value": "hero anton",
+        "createdAt": "2026-10-15T04:41:05.093Z",
+        "reason": "Project DESIGN.md documents bundled Anton as the hero display type; this cleanup preserves that existing design."
+      }
+    ]
+  }
+}

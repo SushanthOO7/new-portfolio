@@ -1,0 +1,41 @@
+---
+import ThemeToggle from '../ThemeToggle.astro';
+---
+
+<header class="hero-nav" data-hero-nav>
+  <a class="brand" href="/" aria-label="Sushanth home">
+    <svg class="brand__mark" aria-hidden="true" viewBox="0 0 35 35">
+      <path d="M23.94 22.17s10.55-7.78 6.28-12.81c-4.96-5.84-18.84 6.54-20.36 4.02-1.52-2.52 12.33-8.55 13.83-9.55.16-.11.21-.32.16-.56l1.6-.19-1-.5.26-1-1.16.91C23.11 1.71 22.37.87 21.95.57c-1.51-1-4.27-.76-8.29 1.25S.32 10.11 5.09 17.15c4.27 6.28 16.55-4.51 18.6-2.77 1.76 1.51-11.81 10.81-11.81 10.81h5.78C16.67 27.71 11.88 35 11.88 35l17.4-12.57c-1.83-.27-5.34-.26-5.34-.26ZM19.21 1.32a1.13 1.13 0 0 1 1.2 1.04 1.13 1.13 0 0 1-1.05 1.2 1.13 1.13 0 0 1-1.2-1.04 1.12 1.12 0 0 1 1.05-1.2Z" />
+    </svg>
+    <strong>SUSHANTH</strong>
+  </a>
+
+  <p class="roles" aria-label="Software engineer, AI enthusiast, problem solver">
+    <span>SOFTWARE ENGINEER</span>
+    <span>AI ENTHUSIAST</span>
+    <span>PROBLEM SOLVER</span>
+  </p>
+
+  <nav aria-label="Primary">
+    <a href="#main-content">WORK</a>
+    <a href="#main-content">ABOUT</a>
+    <a href="#main-content">CONTACT</a>
+  </nav>
+
+  <div class="theme"><ThemeToggle /></div>
+</header>
+
+<style>
+  .hero-nav{position:absolute;inset:1.65rem clamp(1.5rem,4.8vw,5rem) auto;z-index:60;display:grid;grid-template-columns:minmax(12rem,18%) minmax(14rem,1fr) auto auto;align-items:start;gap:clamp(1.5rem,4vw,4.5rem);color:#f2f2ee;font-family:Gotham,system-ui,sans-serif}
+  .brand{display:flex;align-items:center;gap:.95rem;width:max-content;color:inherit;text-decoration:none}
+  .brand__mark{display:block;width:2.35rem;height:2.35rem;flex:none;fill:#ff4d00;filter:drop-shadow(0 0 .5rem rgb(255 77 0 / 20%));transition:filter .25s ease,transform .25s ease}.brand:hover .brand__mark,.brand:focus-visible .brand__mark{filter:drop-shadow(0 0 .7rem rgb(255 77 0 / 55%));transform:translateY(-1px)}
+  .brand strong{font-size:clamp(.85rem,1.35vw,1.3rem);font-weight:700;letter-spacing:.06em;line-height:2rem}
+  .roles{display:grid;margin:0;padding-inline-start:1.5rem;border-inline-start:1px solid rgb(242 242 238 / 38%);color:rgb(242 242 238 / 76%);font-size:.6rem;font-weight:700;letter-spacing:.26em;line-height:1.45}
+  nav{display:flex;align-items:center;gap:clamp(1.8rem,4vw,4.7rem);padding-block:.55rem}nav a{position:relative;color:rgb(242 242 238 / 82%);font-size:.6rem;font-weight:700;letter-spacing:.3em;text-decoration:none}nav a::after{position:absolute;inset:auto 0 -.45rem;height:1px;background:#ff4d00;content:'';transform:scaleX(0);transform-origin:right;transition:transform .25s ease}nav a:hover::after,nav a:focus-visible::after{transform:scaleX(1);transform-origin:left}
+  .theme{margin-top:-.1rem}
+  :global([data-theme='light']) .hero-nav{color:#171717}
+  :global([data-theme='light']) .roles{color:#555550;border-inline-start-color:rgb(25 25 25 / 20%)}
+  :global([data-theme='light']) nav a{color:#41413d}
+  @media(max-width:64rem){.hero-nav{grid-template-columns:1fr auto auto}.roles{display:none}nav{gap:1.5rem}}
+  @media(max-width:48rem){.hero-nav{inset:1rem 1.1rem auto;grid-template-columns:1fr auto;align-items:center;row-gap:.65rem}.brand strong{font-size:.86rem}.roles{display:none}nav{grid-column:1/-1;grid-row:2;justify-content:flex-start;gap:1.6rem;padding:.25rem 0 0}nav a{font-size:.54rem;letter-spacing:.22em}.theme{grid-column:2;grid-row:1}.theme :global(.theme-toggle){width:2.65rem;height:2.65rem}}
+</style>
