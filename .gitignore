@@ -6,6 +6,7 @@ node_modules/
 # =========================
 # Environment / Secrets
 # =========================
+# Never commit live environment files. Only sanitized example templates are allowed.
 .env
 .env.*
 !.env.example
