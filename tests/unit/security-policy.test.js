@@ -4,6 +4,7 @@ import {
   CONTENT_SECURITY_POLICY,
   REQUIRED_SECURITY_HEADERS,
   sha256CspHash,
+  securityHeadersForHtml,
 } from '../../src/lib/security-policy.js';
 import { getThemeBootstrapScript } from '../../src/lib/theme.js';
 
@@ -32,6 +33,27 @@ describe('browser security policy', () => {
     expect(CONTENT_SECURITY_POLICY).toContain("frame-ancestors 'none'");
     expect(CONTENT_SECURITY_POLICY).toContain(sha256CspHash(getThemeBootstrapScript()));
     expect(CONTENT_SECURITY_POLICY).not.toContain("script-src 'self' 'unsafe-inline'");
+  });
+
+  it('authorizes exact inline style blocks from every generated page', () => {
+    const css = '\n.card { color: red; }\n';
+    const policy = securityHeadersForHtml([
+      `<style>${css}</style>`,
+      '<STYLE media="screen">.other { color: blue; }</STYLE>',
+    ])['Content-Security-Policy'];
+    const styles = policy.split('; ').find(value => value.startsWith('style-src '));
+    expect(styles).toContain(sha256CspHash(css));
+    expect(styles).toContain(sha256CspHash('.other { color: blue; }'));
+    expect(styles).not.toContain("'unsafe-inline'");
+    expect(styles).not.toContain(sha256CspHash(css.trim()));
+  });
+
+  it('permits Cloudflare analytics script and reporting endpoints', () => {
+    const directives = CONTENT_SECURITY_POLICY.split('; ');
+    expect(directives.find(value => value.startsWith('script-src ')))
+      .toContain('https://static.cloudflareinsights.com');
+    expect(directives.find(value => value.startsWith('connect-src ')))
+      .toContain('https://cloudflareinsights.com');
   });
 
   it('defines the required browser headers', () => {

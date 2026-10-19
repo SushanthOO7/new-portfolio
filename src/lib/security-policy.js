@@ -8,8 +8,9 @@ export function sha256CspHash(value) {
 
 const THEME_BOOTSTRAP_HASH = sha256CspHash(getThemeBootstrapScript());
 
-export function contentSecurityPolicy(additionalScriptHashes = []) {
+export function contentSecurityPolicy(additionalScriptHashes = [], additionalStyleHashes = []) {
   const scriptHashes = [...new Set([THEME_BOOTSTRAP_HASH, ...additionalScriptHashes])].sort();
+  const styleHashes = [...new Set(additionalStyleHashes)].sort();
   return [
     "default-src 'self'",
     "base-uri 'self'",
@@ -18,10 +19,10 @@ export function contentSecurityPolicy(additionalScriptHashes = []) {
     "form-action 'self'",
     "img-src 'self' data:",
     "font-src 'self'",
-    "style-src 'self'",
+    `style-src 'self'${styleHashes.length ? ` ${styleHashes.join(' ')}` : ''}`,
     "style-src-attr 'unsafe-inline'",
-    `script-src 'self' ${scriptHashes.join(' ')}`,
-    "connect-src 'self'",
+    `script-src 'self' https://static.cloudflareinsights.com ${scriptHashes.join(' ')}`,
+    "connect-src 'self' https://cloudflareinsights.com",
     "media-src 'self'",
     "manifest-src 'self'",
     "worker-src 'self'",
@@ -36,6 +37,17 @@ export function inlineScriptHashes(htmlDocuments) {
       const [, attributes, script] = match;
       if (/\bsrc\s*=/i.test(attributes) || script.length === 0) continue;
       hashes.push(sha256CspHash(script));
+    }
+  }
+  return [...new Set(hashes)].sort();
+}
+
+// Hash the exact emitted text: whitespace is significant to CSP verification.
+export function inlineStyleHashes(htmlDocuments) {
+  const hashes = [];
+  for (const html of htmlDocuments) {
+    for (const [, css] of html.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style>/gi)) {
+      if (css.length > 0) hashes.push(sha256CspHash(css));
     }
   }
   return [...new Set(hashes)].sort();
@@ -58,6 +70,6 @@ export const REQUIRED_SECURITY_HEADERS = Object.freeze({
 export function securityHeadersForHtml(htmlDocuments) {
   return Object.freeze({
     ...REQUIRED_SECURITY_HEADERS,
-    'Content-Security-Policy': contentSecurityPolicy(inlineScriptHashes(htmlDocuments)),
+    'Content-Security-Policy': contentSecurityPolicy(inlineScriptHashes(htmlDocuments), inlineStyleHashes(htmlDocuments)),
   });
 }
