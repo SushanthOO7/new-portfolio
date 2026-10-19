@@ -35,11 +35,17 @@ Without a token, builds use `src/data/github-contributions.json`. In Cloudflare,
 
 ## Deployment
 
-Set `PUBLIC_SITE_URL` to the final HTTPS origin and configure `GITHUB_TOKEN` as an optional encrypted build secret, then deploy with:
+Before deployment, run the security checks and production dependency audit:
 
 ```bash
-npm run deploy
+npm run security:check
+npm run security:audit
+PUBLIC_SITE_URL=https://sushanth.tech npm run build:production
 ```
+
+Cloudflare should install with `npm ci` and build with `npm run build:production`. Configure `GITHUB_TOKEN` only as an optional encrypted, read-only build secret. The deployed site has no contact API or form handler: its contact links open the visitor's email or phone application.
+
+See the [security model and control register](docs/security.md) and the [Cloudflare deployment security checklist](docs/deployment-security-checklist.md) before changing hosting, adding credentials, or introducing server-side features.
 
 ## Permissions
 
