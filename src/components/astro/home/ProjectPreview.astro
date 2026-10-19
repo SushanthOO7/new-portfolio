@@ -1,0 +1,59 @@
+---
+interface Props {
+  image: {
+    dark: string;
+    light?: string;
+    alt: string;
+  };
+}
+const { image } = Astro.props;
+const lightImage = image.light || image.dark;
+const hasLightVariant = lightImage !== image.dark;
+---
+<div class="preview">
+  <img
+    class:list={['preview__image', { 'preview__image--dark': hasLightVariant }]}
+    src={image.dark}
+    alt={image.alt}
+    width="1200"
+    height="480"
+    loading="lazy"
+    decoding="async"
+  />
+  {hasLightVariant && <img
+    class="preview__image preview__image--light"
+    src={lightImage}
+    alt={image.alt}
+    width="1200"
+    height="480"
+    loading="lazy"
+    decoding="async"
+  />}
+</div>
+<style>
+  .preview {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 8px;
+    background: var(--surface-secondary);
+    clip-path: polygon(7% 0, 100% 0, 100% 100%, 0 100%);
+  }
+  .preview::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgb(145 132 116 / 17%);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+  .preview__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .preview__image--light { display: none; }
+  :global([data-theme='light']) .preview__image--dark { display: none; }
+  :global([data-theme='light']) .preview__image--light { display: block; }
+</style>

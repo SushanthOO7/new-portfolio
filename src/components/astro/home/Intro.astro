@@ -1,6 +1,7 @@
 ---
-import RobotArmScene from './RobotArmScene.astro';
+import RobotArmPoster from './RobotArmPoster.astro';
 import HeroNavbar from './HeroNavbar.astro';
+import SocialLinks from '../SocialLinks.astro';
 ---
 
 <section
@@ -10,8 +11,9 @@ import HeroNavbar from './HeroNavbar.astro';
   data-motion="pending"
 >
   <HeroNavbar />
-  <div class="atmosphere" data-parallax="2" aria-hidden="true"></div>
-  <div class="display" data-hero-copy data-parallax="4">
+  <SocialLinks />
+  <div class="atmosphere" aria-hidden="true"></div>
+  <div class="display" data-hero-copy>
     <h1 id="intro-title" aria-label="I build what’s next.">
       <span class="row row--top" aria-hidden="true">
         <span class="word word--i">I</span>
@@ -31,18 +33,10 @@ import HeroNavbar from './HeroNavbar.astro';
     viewBox="0 0 1920 1080"
     preserveAspectRatio="none"
   >
-    <defs
-      ><filter id="route-glow-back" x="-30%" y="-30%" width="160%" height="160%"
-        ><feGaussianBlur stdDeviation="1.8" result="blur"></feGaussianBlur><feMerge
-          ><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"
-          ></feMergeNode></feMerge
-        ></filter
-      ></defs
-    >
     <path
       class="route route--strong"
       data-route-base
-      d="M-90 305 C155 555 255 330 480 235 S815 190 1025 155 C1235 90 1290 225 1400 350 S1585 350 1710 292 S1880 240 2020 275"
+      d="M -90 305 C 155 555 255 330 480 235 S 845 122 988 138 C 1268 178 1284 235 1400 350 S 1658 374 1709 301 S 1919 199 2020 275"
     ></path>
     <path class="guide" d="M54 0V1080M1068 0V1080M1865 0V1080M54 918H1865"></path>
     <path
@@ -63,92 +57,91 @@ import HeroNavbar from './HeroNavbar.astro';
     ></path>
   </svg>
 
-  <div class="floor" data-hero-floor aria-hidden="true">
-    <span data-base-glow></span>
-  </div>
-  <div class="robot" data-robot-host>
-    <RobotArmScene />
-  </div>
+  <div class="hero-world" data-hero-world>
+    <div class="floor" data-hero-floor aria-hidden="true">
+      <span data-base-glow></span>
+    </div>
+    <div class="robot" data-robot-host>
+      <RobotArmPoster />
+    </div>
 
-  <svg
-    class="routes routes--front"
-    data-hero-paths="front"
-    aria-hidden="true"
-    viewBox="0 0 1920 1080"
-    preserveAspectRatio="none"
-  >
-    <defs>
-      <!-- The same curve sits behind the headline; fade only its foreground
+    <svg
+      class="routes routes--front"
+      data-hero-paths="front"
+      aria-hidden="true"
+      viewBox="0 0 1920 1080"
+      preserveAspectRatio="none"
+    >
+      <defs>
+        <!-- The same curve sits behind the headline; fade only its foreground
            copy so it passes behind a few letters and then emerges again. -->
-      <linearGradient
-        id="route-weave-fade"
-        x1="0"
-        y1="0"
-        x2="1920"
-        y2="0"
-        gradientUnits="userSpaceOnUse"
+        <linearGradient
+          id="route-weave-fade"
+          x1="0"
+          y1="0"
+          x2="1920"
+          y2="0"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset="0" stop-color="white"></stop><stop offset=".17" stop-color="white"
+          ></stop>
+          <stop offset=".23" stop-color="black"></stop><stop
+            offset=".38"
+            stop-color="black"></stop>
+          <stop offset=".45" stop-color="white"></stop><stop offset="1" stop-color="white"
+          ></stop>
+        </linearGradient>
+        <mask
+          id="route-weave"
+          x="-200"
+          y="-200"
+          width="2400"
+          height="1500"
+          maskUnits="userSpaceOnUse"
+          style="mask-type:luminance"
+        >
+          <rect x="-200" y="-200" width="2400" height="1500" fill="url(#route-weave-fade)"
+          ></rect>
+        </mask>
+      </defs>
+      <path
+        class="route route--strong"
+        data-route-base
+        mask="url(#route-weave)"
+        d="M -90 305 C 155 555 255 330 480 235 S 845 122 988 138 C 1268 178 1284 235 1400 350 S 1658 374 1709 301 S 1919 199 2020 275"
+      ></path>
+      <path
+        class="pulse"
+        data-route-pulse
+        mask="url(#route-weave)"
+        d="M -90 305 C 155 555 255 330 480 235 S 845 122 988 138 C 1268 178 1284 235 1400 350 S 1658 374 1709 301 S 1919 199 2020 275"
+      ></path>
+      <path
+        class="route route--lower-sweep"
+        data-route-base
+        mask="url(#route-weave)"
+        d="M-100 625 C70 520 140 590 300 675 S610 835 820 855 S1090 827 1240 850 S1390 916 1515 864 S1780 772 2020 838"
+      ></path>
+      <path
+        class="pulse pulse--lower"
+        mask="url(#route-weave)"
+        data-route-pulse
+        d="M-100 625 C70 520 140 590 300 675 S610 835 820 855 S1090 827 1240 850 S1390 916 1515 864 S1780 772 2020 838"
+      ></path>
+      <path
+        class="route route--dash route--signal"
+        mask="url(#route-weave)"
+        d="M-80 310 C200 385 460 245 730 275 C1000 305 1180 212 1414 212 C1530 212 1586 362 1702 362 C1818 362 1900 310 2020 340 M1640 744 C1700 744 1740 724 1800 724 C1860 724 1940 744 2020 730"
+      ></path>
+      <g class="crosshairs"
+        ><path
+          d="M1077 238v94M1030 285h94M1240 328v62M1209 359h62M1845 892v74M1808 929h74"
+        ></path><circle cx="1458" cy="380" r="3"></circle><circle cx="1421" cy="925" r="7"
+        ></circle></g
       >
-        <stop offset="0" stop-color="white"></stop><stop offset=".17" stop-color="white"
-        ></stop>
-        <stop offset=".23" stop-color="black"></stop><stop offset=".38" stop-color="black"
-        ></stop>
-        <stop offset=".45" stop-color="white"></stop><stop offset="1" stop-color="white"
-        ></stop>
-      </linearGradient>
-      <mask
-        id="route-weave"
-        x="-200"
-        y="-200"
-        width="2400"
-        height="1500"
-        maskUnits="userSpaceOnUse"
-        style="mask-type:luminance"
-      >
-        <rect x="-200" y="-200" width="2400" height="1500" fill="url(#route-weave-fade)"
-        ></rect>
-      </mask>
-      <filter id="route-glow-front" x="-30%" y="-30%" width="160%" height="160%"
-        ><feGaussianBlur stdDeviation="1.5" result="blur"></feGaussianBlur><feMerge
-          ><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"
-          ></feMergeNode></feMerge
-        ></filter
-      ></defs
-    >
-    <path
-      class="route route--strong"
-      data-route-base
-      mask="url(#route-weave)"
-      d="M-90 305 C155 555 255 330 480 235 S815 190 1025 155 C1235 90 1290 225 1400 350 S1585 350 1710 292 S1880 240 2020 275"
-    ></path>
-    <path
-      class="pulse"
-      data-route-pulse
-      mask="url(#route-weave)"
-      d="M-90 305 C155 555 255 330 480 235 S815 190 1025 155 C1235 90 1290 225 1400 350 S1585 350 1710 292 S1880 240 2020 275"
-      filter="url(#route-glow-front)"></path>
-    <path
-      class="route route--lower-sweep"
-      data-route-base
-      mask="url(#route-weave)"
-      d="M-100 625 C70 520 140 590 300 675 S610 835 820 855 S1090 827 1240 850 S1390 916 1515 864 S1780 772 2020 838"
-    ></path>
-    <path
-      class="pulse pulse--lower"
-      mask="url(#route-weave)"
-      data-route-pulse
-      d="M-100 625 C70 520 140 590 300 675 S610 835 820 855 S1090 827 1240 850 S1390 916 1515 864 S1780 772 2020 838"
-      filter="url(#route-glow-front)"></path>
-    <path
-      class="route route--dash route--signal"
-      mask="url(#route-weave)"
-      d="M-80 310 C200 385 460 245 730 275 C1000 305 1180 212 1414 212 C1530 212 1586 362 1702 362 C1818 362 1900 310 2020 340 M1640 744 C1700 744 1740 724 1800 724 C1860 724 1940 744 2020 730"
-    ></path>
-    <g class="crosshairs"
-      ><path d="M1077 238v94M1030 285h94M1240 328v62M1209 359h62M1845 892v74M1808 929h74"
-      ></path><circle cx="1458" cy="380" r="3"></circle><circle cx="1421" cy="925" r="7"
-      ></circle></g
-    >
-  </svg>
+    </svg>
+    <canvas class="route-motion" data-route-motion aria-hidden="true"></canvas>
+  </div>
 
   <div class="markers" aria-hidden="true">
     <div class="marker marker--ideas" data-hero-marker>
@@ -163,16 +156,23 @@ import HeroNavbar from './HeroNavbar.astro';
   </div>
 
   <div class="bottom" data-hero-bottom>
-    <div class="mission">
-      <p class="discipline">Software engineering<br /><span>/ AI / Automation</span></p>
-      <div class="statement">
-        <span>01 —</span><p>
-          Turning complex<br />problems into<br />meaningful solutions.
-        </p>
-      </div>
-    </div>
-    <a class="explore" href="#main-content" aria-label="Scroll to explore"
-      ><span class="explore__circle" aria-hidden="true">→</span><span
+    <p
+      class="mission"
+      data-role-transition
+      aria-label="Software Engineer plus Web Development, AI & ML, Test Automation, and DevOps"
+    >
+      <span class="mission__title" aria-hidden="true">Software Engineer</span>
+      <span class="mission__roles" aria-hidden="true">
+        <span data-role="Web Development" class="mission__role is-active"
+          >Web Development</span
+        >
+        <span data-role="AI & ML" class="mission__role">AI & ML</span>
+        <span data-role="Test Automation" class="mission__role">Test Automation</span>
+        <span data-role="DevOps" class="mission__role">DevOps</span>
+      </span>
+    </p>
+    <a class="explore" href="#experience" aria-label="Scroll to explore"
+      ><span class="explore__indicator" aria-hidden="true"></span><span
         >Scroll<br />to explore</span
       ></a
     >
@@ -181,6 +181,7 @@ import HeroNavbar from './HeroNavbar.astro';
 
 <script>
   import { gsap } from 'gsap';
+  import { setupHeroRoutes } from '../../../scripts/hero-routes';
   const hero = document.querySelector<HTMLElement>('[data-cinematic-hero]');
   if (hero) {
     // Fit the natural glyph widths to the reference composition, independently
@@ -190,8 +191,12 @@ import HeroNavbar from './HeroNavbar.astro';
     const fitHeadline = () => {
       if (!display) return;
       rows.forEach(row => {
-        const fraction = Number(getComputedStyle(row).getPropertyValue('--row-width')) || 1;
-        row.style.setProperty('--row-scale', String(display.clientWidth * fraction / Math.max(1, row.offsetWidth)));
+        const fraction =
+          Number(getComputedStyle(row).getPropertyValue('--row-width')) || 1;
+        row.style.setProperty(
+          '--row-scale',
+          String((display.clientWidth * fraction) / Math.max(1, row.offsetWidth))
+        );
       });
     };
     const headlineObserver = new ResizeObserver(fitHeadline);
@@ -202,12 +207,16 @@ import HeroNavbar from './HeroNavbar.astro';
     const refreshHeadline = () => requestAnimationFrame(fitHeadline);
     document.fonts.addEventListener('loadingdone', refreshHeadline);
     if (import.meta.hot) import.meta.hot.on('vite:afterUpdate', refreshHeadline);
-    document.addEventListener('astro:before-swap', () => {
-      headlineObserver.disconnect();
-      document.fonts.removeEventListener('loadingdone', refreshHeadline);
-    }, {
-      once: true,
-    });
+    document.addEventListener(
+      'astro:before-swap',
+      () => {
+        headlineObserver.disconnect();
+        document.fonts.removeEventListener('loadingdone', refreshHeadline);
+      },
+      {
+        once: true,
+      }
+    );
     if (import.meta.hot) {
       import.meta.hot.dispose(() => {
         headlineObserver.disconnect();
@@ -215,8 +224,31 @@ import HeroNavbar from './HeroNavbar.astro';
         import.meta.hot?.off('vite:afterUpdate', refreshHeadline);
       });
     }
+    const cleanupRoutes = setupHeroRoutes(hero);
+    document.addEventListener('astro:before-swap', cleanupRoutes, { once: true });
+    if (import.meta.hot) import.meta.hot.dispose(cleanupRoutes);
     const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
     hero.dataset.motion = reduceMotion ? 'reduced' : 'full';
+    const roleTransition = hero.querySelector<HTMLElement>('[data-role-transition]');
+    const roles = roleTransition
+      ? [...roleTransition.querySelectorAll<HTMLElement>('[data-role]')]
+      : [];
+    if (!reduceMotion && roles.length > 1) {
+      let roleIndex = 0;
+      const rotateRole = () => {
+        const previousRole = roles[roleIndex];
+        roleIndex = (roleIndex + 1) % roles.length;
+        const nextRole = roles[roleIndex];
+        previousRole.classList.remove('is-active');
+        previousRole.classList.add('is-leaving');
+        nextRole.classList.add('is-active');
+        setTimeout(() => previousRole.classList.remove('is-leaving'), 700);
+      };
+      const roleTimer = window.setInterval(rotateRole, 3000);
+      const cleanupRoles = () => window.clearInterval(roleTimer);
+      document.addEventListener('astro:before-swap', cleanupRoles, { once: true });
+      if (import.meta.hot) import.meta.hot.dispose(cleanupRoles);
+    }
     if (!reduceMotion) {
       const context = gsap.context(() => {
         const paths = gsap.utils.toArray<SVGPathElement>('[data-route-base]');
@@ -237,55 +269,15 @@ import HeroNavbar from './HeroNavbar.astro';
             0.55
           )
           .to(paths, { strokeDashoffset: 0, duration: 1.4, stagger: 0.08 }, 0.75)
-          .from(
-            '[data-hero-marker]',
-            { opacity: 0, duration: 0.45, stagger: 0.15 },
-            1.15
-          )
+          .from('[data-hero-marker]', { opacity: 0, duration: 0.45, stagger: 0.15 }, 1.15)
           .from('[data-hero-bottom]', { y: 20, opacity: 0, duration: 0.65 }, 1.55);
-        gsap.utils
-          .toArray<SVGPathElement>('[data-route-pulse]')
-          .forEach((pulse, index) => {
-            gsap.fromTo(
-              pulse,
-              { strokeDashoffset: 0 },
-              {
-                strokeDashoffset: -1850,
-                duration: 5.8 + index * 1.7,
-                delay: 1.8 + index * 0.65,
-                repeat: -1,
-                ease: 'none',
-              }
-            );
-          });
-        if (matchMedia('(pointer: fine)').matches) {
-          const movers = gsap.utils
-            .toArray<HTMLElement>('[data-parallax]')
-            .map(layer => ({
-              layer,
-              x: gsap.quickTo(layer, 'x', { duration: 0.8, ease: 'power3.out' }),
-              y: gsap.quickTo(layer, 'y', { duration: 0.8, ease: 'power3.out' }),
-            }));
-          const onPointerMove = (event: PointerEvent) => {
-            const nx = event.clientX / innerWidth - 0.5;
-            const ny = event.clientY / innerHeight - 0.5;
-            movers.forEach(({ layer, x, y }) => {
-              const depth = Number(layer.dataset.parallax ?? 0);
-              x(nx * depth * 2);
-              y(ny * depth * 2);
-            });
-          };
-          hero.addEventListener('pointermove', onPointerMove, { passive: true });
-          document.addEventListener(
-            'astro:before-swap',
-            () => hero.removeEventListener('pointermove', onPointerMove),
-            { once: true }
-          );
-        }
+        // The SVG remains static after its entrance; the canvas owns moving stripes.
       }, hero);
-      document.addEventListener('astro:before-swap', () => context.revert(), {
+      const cleanupMotion = () => context.revert();
+      document.addEventListener('astro:before-swap', cleanupMotion, {
         once: true,
       });
+      if (import.meta.hot) import.meta.hot.dispose(cleanupMotion);
     }
   }
 </script>
@@ -306,8 +298,14 @@ import HeroNavbar from './HeroNavbar.astro';
     isolation: isolate;
     min-height: max(42rem, 100svh);
     overflow: hidden;
-    background: #080909;
+    background: var(--background);
     color: var(--hero-paper);
+  }
+  .hero-world {
+    position: absolute;
+    inset: 0;
+    z-index: 18;
+    transform-origin: 50% 100%;
   }
   .hero::before,
   .hero::after {
@@ -329,8 +327,10 @@ import HeroNavbar from './HeroNavbar.astro';
     inset-inline: auto 2.8%;
   }
   .atmosphere {
+    /* Dissolve into the same surface used by Experience, in both themes. */
+    mask-image: linear-gradient(180deg, #000 70%, transparent 100%);
     position: absolute;
-    inset: -5%;
+    inset: 0;
     z-index: 0;
     background:
       radial-gradient(circle at 56% 46%, rgb(255 255 255 / 6%), transparent 34%),
@@ -384,13 +384,7 @@ import HeroNavbar from './HeroNavbar.astro';
     margin: 0;
     overflow: visible;
     flex: none;
-    background: linear-gradient(
-      180deg,
-      #fff 0%,
-      #f5f5f2 48%,
-      #e4e4df 72%,
-      #bfc0ba 100%
-    );
+    background: linear-gradient(180deg, #fff 0%, #f5f5f2 48%, #e4e4df 72%, #bfc0ba 100%);
     background-clip: text;
     color: transparent;
     -webkit-background-clip: text;
@@ -464,7 +458,7 @@ import HeroNavbar from './HeroNavbar.astro';
     inset: 0;
     pointer-events: none;
     background:
-      url('/images/home/headline-grunge.png') center / cover no-repeat,
+      url('/images/home/headline-grunge.webp') center / cover no-repeat,
       var(--letter-shading);
     background-blend-mode: multiply;
     background-clip: text;
@@ -494,6 +488,31 @@ import HeroNavbar from './HeroNavbar.astro';
     height: 100%;
     overflow: visible;
     pointer-events: none;
+  }
+  .route-motion {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 21;
+    pointer-events: none;
+    contain: strict;
+    mask-image: linear-gradient(
+      90deg,
+      #000 17%,
+      transparent 23%,
+      transparent 38%,
+      #000 45%
+    );
+  }
+  .route-motion[hidden] {
+    display: none;
+  }
+  .hero[data-route-motion='canvas'] .pulse {
+    visibility: hidden;
+  }
+  .routes {
+    mask-image: linear-gradient(180deg, #000 85%, transparent 100%);
   }
   .routes--back {
     z-index: 7;
@@ -541,7 +560,7 @@ import HeroNavbar from './HeroNavbar.astro';
     opacity: 0.9;
   }
   .pulse--lower {
-    opacity: 0.48;
+    opacity: 0.9;
   }
   .guide {
     stroke: #f2f2ee;
@@ -550,7 +569,7 @@ import HeroNavbar from './HeroNavbar.astro';
   }
   .pulse {
     fill: none;
-    stroke: #ff8250;
+    stroke: #ff4d00;
     stroke-width: 2;
     stroke-linecap: round;
     stroke-dasharray: 120 1730;
@@ -587,10 +606,24 @@ import HeroNavbar from './HeroNavbar.astro';
         #080909 100%
       ),
       linear-gradient(180deg, transparent 0%, rgb(4 5 5 / 6%) 40%, rgb(4 5 5 / 30%) 100%),
-      url('/images/home/industrial-floor-v5.png') center bottom / 100% 100% no-repeat;
+      url('/images/home/industrial-floor-v5.webp') center bottom / 100% 100% no-repeat;
     pointer-events: none;
-    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 25%, #000 100%);
-    mask-image: linear-gradient(180deg, transparent 0%, #000 25%, #000 100%);
+    -webkit-mask-image: linear-gradient(
+      180deg,
+      transparent 0%,
+      #000 25%,
+      #000 58%,
+      rgb(0 0 0 / 55%) 78%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      180deg,
+      transparent 0%,
+      #000 25%,
+      #000 58%,
+      rgb(0 0 0 / 55%) 78%,
+      transparent 100%
+    );
   }
   /* Narrow orange floor reflections echo the reference's illuminated panel seams. */
   .floor::before {
@@ -707,7 +740,7 @@ import HeroNavbar from './HeroNavbar.astro';
   }
   .bottom {
     position: absolute;
-    inset: auto 5.4% 5.2%;
+    inset: auto 8.4% 20.2% 10%;
     z-index: 36;
     display: flex;
     align-items: flex-end;
@@ -716,36 +749,55 @@ import HeroNavbar from './HeroNavbar.astro';
   }
   .mission {
     display: grid;
-    gap: clamp(2.5rem, 7vh, 5rem);
-  }
-  .discipline {
+    min-width: clamp(12rem, 17vw, 18rem);
+    gap: 0.45rem;
+    margin: 0;
     padding-left: 1.4rem;
     border-left: 3px solid var(--hero-orange);
-    font-size: 0.66rem;
+    font-size: 0.9rem;
     font-weight: 700;
     letter-spacing: 0.26em;
-    line-height: 1.65;
+    line-height: 1.4;
     text-transform: uppercase;
   }
-  .discipline span {
+  .mission__title {
+    color: var(--hero-paper);
+  }
+  .mission__roles {
+    position: relative;
+    display: grid;
+    height: 1.4em;
+    overflow: hidden;
     color: rgb(242 242 238 / 82%);
   }
-  .statement {
-    display: flex;
-    gap: 2rem;
-    align-items: flex-start;
-    font-size: 0.61rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
+  .mission__role {
+    position: absolute;
+    inset: 0 auto auto 0;
+    display: block;
+    opacity: 0;
+    transform: translate3d(0, 115%, 0);
+    transition:
+      opacity 0.55s ease,
+      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+    will-change: transform, opacity;
   }
-  .statement > span {
-    color: rgb(242 242 238 / 62%);
+  .mission__role::before {
+    margin-right: 0.65rem;
+    color: var(--hero-orange);
+    content: '+';
   }
-  .statement p {
-    font-weight: 700;
-    line-height: 1.55;
+  .mission__role.is-active {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  .mission__role.is-leaving {
+    opacity: 0;
+    transform: translate3d(0, -115%, 0);
   }
   .explore {
+    position: relative;
+    top: 80px;
     display: flex;
     align-items: center;
     gap: 1.55rem;
@@ -757,32 +809,62 @@ import HeroNavbar from './HeroNavbar.astro';
     text-decoration: none;
     text-transform: uppercase;
   }
-  .explore__circle {
-    display: grid;
-    width: 4.4rem;
-    aspect-ratio: 1;
-    place-items: center;
-    border: 2px solid var(--hero-orange);
-    border-radius: 50%;
-    font-size: 1.55rem;
-    transition:
-      background-color 0.25s,
-      box-shadow 0.25s,
-      transform 0.25s;
+  @keyframes exploreScrollIndicator {
+    0% {
+      opacity: 0;
+      transform: translate3d(-1px, 0, 0);
+    }
+    20% {
+      opacity: 1;
+      transform: translate3d(-1px, 0, 0);
+    }
+    100% {
+      opacity: 0;
+      transform: translate3d(-1px, 8px, 0);
+    }
   }
-  .explore:hover .explore__circle {
-    background: rgb(255 77 0 / 14%);
-    box-shadow: 0 0 1.5rem rgb(255 77 0 / 34%);
-    transform: translate(3px, 3px);
+  .explore__indicator {
+    position: relative;
+    width: 1.625rem;
+    height: 2.375rem;
+    flex: none;
+    border: 2px solid color-mix(in srgb, currentColor 45%, transparent);
+    border-radius: 1.25rem;
+    transition:
+      border-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+  .explore__indicator::before {
+    position: absolute;
+    top: 0.4rem;
+    left: 50%;
+    width: 2px;
+    height: 0.45rem;
+    border-radius: 1rem;
+    background: currentColor;
+    content: '';
+    transform: translateX(-1px);
+    animation: exploreScrollIndicator 2s ease infinite;
+  }
+  .explore:hover .explore__indicator,
+  .explore:focus-visible .explore__indicator {
+    border-color: var(--hero-orange);
+    box-shadow: 0 0 1.25rem rgb(255 77 0 / 30%);
   }
   /* Light mode changes only the palette; all scene geometry stays shared. */
   :global([data-theme='light']) .hero {
     --hero-paper: #171717;
-    background: #f3f1ed;
+    background: var(--background);
   }
   :global([data-theme='light']) .hero::before,
   :global([data-theme='light']) .hero::after {
-    background: linear-gradient(180deg, transparent, rgb(25 25 25 / 24%) 6%, rgb(25 25 25 / 12%) 88%, transparent);
+    background: linear-gradient(
+      180deg,
+      transparent,
+      rgb(25 25 25 / 24%) 6%,
+      rgb(25 25 25 / 12%) 88%,
+      transparent
+    );
   }
   :global([data-theme='light']) .atmosphere {
     background:
@@ -790,14 +872,24 @@ import HeroNavbar from './HeroNavbar.astro';
       linear-gradient(180deg, #f3f1ee 0%, #f5f3ef 68%, #eee9e2 100%);
   }
   :global([data-theme='light']) .atmosphere::after {
-    background: radial-gradient(ellipse at center, transparent 36%, rgb(220 215 207 / 18%) 100%);
+    background: radial-gradient(
+      ellipse at center,
+      transparent 36%,
+      rgb(220 215 207 / 18%) 100%
+    );
   }
   :global([data-theme='light']) .word {
     background-image: linear-gradient(180deg, #111 0%, #171717 60%, #30302e 100%);
   }
   :global([data-theme='light']) .word--whats,
   :global([data-theme='light']) .word--next {
-    --letter-shading: linear-gradient(180deg, #111 0%, #171717 58%, #292927 82%, #41413c 100%);
+    --letter-shading: linear-gradient(
+      180deg,
+      #111 0%,
+      #171717 58%,
+      #292927 82%,
+      #41413c 100%
+    );
     background-image: var(--letter-shading);
   }
   :global([data-theme='light']) .word--whats::after,
@@ -816,8 +908,7 @@ import HeroNavbar from './HeroNavbar.astro';
     color: #232321;
   }
   :global([data-theme='light']) .marker small,
-  :global([data-theme='light']) .discipline span,
-  :global([data-theme='light']) .statement > span {
+  :global([data-theme='light']) .mission__roles {
     color: #60605a;
   }
   :global([data-theme='light']) .guide {
@@ -854,7 +945,7 @@ import HeroNavbar from './HeroNavbar.astro';
       display: none;
     }
     .bottom {
-      inset-inline: 4%;
+      inset-inline: 12% 4%;
     }
     .floor {
       inset-inline: 5%;
@@ -907,21 +998,20 @@ import HeroNavbar from './HeroNavbar.astro';
       align-items: flex-end;
     }
     .mission {
-      gap: 1.5rem;
-    }
-    .discipline {
-      display: none;
-    }
-    .statement {
-      gap: 1rem;
+      min-width: 10rem;
+      gap: 0.35rem;
+      padding-left: 0.8rem;
+      border-left-width: 2px;
       font-size: 0.56rem;
+      letter-spacing: 0.18em;
     }
     .explore {
       gap: 0.7rem;
       font-size: 0.54rem;
     }
-    .explore__circle {
-      width: 3.4rem;
+    .explore__indicator {
+      width: 1.5rem;
+      height: 2.2rem;
     }
   }
   @media (max-width: 28rem) {
@@ -933,7 +1023,14 @@ import HeroNavbar from './HeroNavbar.astro';
     }
   }
   @media (prefers-reduced-motion: reduce) {
-    .explore__circle {
+    .explore__indicator {
+      transition: none;
+    }
+    .explore__indicator::before {
+      animation: none;
+      opacity: 1;
+    }
+    .mission__role {
       transition: none;
     }
   }

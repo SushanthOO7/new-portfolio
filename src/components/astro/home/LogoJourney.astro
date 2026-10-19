@@ -1,0 +1,24 @@
+---
+import { BRAND_PATH } from '../../../lib/brand.js';
+---
+<div class="logo-journey" data-logo-traveler aria-hidden="true" hidden>
+  <svg viewBox="0 0 35 35"><path d={BRAND_PATH} /></svg>
+</div>
+<style is:global>
+  [data-journey-active] > [data-journey-viewport]{position:sticky;top:0;height:var(--journey-viewport-height,100svh);overflow:clip}
+  [data-journey-active] .mobile-nav{height:var(--journey-viewport-height,100svh)}
+  [data-journey-active] [data-journey-content]{position:relative;display:flow-root;will-change:transform}
+
+  .logo-journey{position:fixed;left:0;top:0;width:36px;height:36px;z-index:85;pointer-events:none;will-change:transform}
+  .logo-journey[hidden]{display:none}
+  .logo-journey svg,[data-logo-static] svg{display:block;width:100%;height:100%;fill:var(--accent)}
+  [data-logo-static]{display:block;width:36px;height:36px;pointer-events:none}
+  [data-logo-journey='active'] [data-logo-static]{visibility:hidden}
+  [data-logo-journey='active'] [data-logo-anchor='hero'],
+  [data-logo-footer-owned] [data-logo-anchor='footer'],
+  [data-logo-orbit-owned] .tech-orbit__brand{visibility:hidden}
+  html.nav-open .logo-journey{visibility:hidden}
+  html.nav-open [data-logo-anchor='hero']{visibility:visible}
+  @media(max-width:767px){[data-logo-static]{width:28px;height:28px}}
+  @media(prefers-reduced-motion:reduce){.logo-journey{display:none!important}}
+</style>

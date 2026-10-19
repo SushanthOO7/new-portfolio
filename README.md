@@ -21,6 +21,18 @@ Once it's done start up a local server with:
 npm run dev
 ```
 
+### GitHub contribution skyline
+
+The Projects section reads `SushanthOO7` contribution data from GitHub's GraphQL API during the Astro build. Copy `.env.example` to `.env` and set a read-only `GITHUB_TOKEN` to use fresh data locally. The token stays server-side and must not use Astro's `PUBLIC_` prefix.
+
+Refresh the checked-in fallback snapshot explicitly with:
+
+```bash
+npm run github:refresh
+```
+
+Without a token, builds use `src/data/github-contributions.json`. In Cloudflare, configure `GITHUB_TOKEN` as an encrypted build environment variable (not a browser/runtime variable) so production builds can refresh the chart; keep the snapshot committed so API or rate-limit failures do not block deployment.
+
 To view the components storybook:
 
 ```bash

@@ -1,0 +1,58 @@
+---
+import AnimatedTitle from '../AnimatedTitle.astro';
+import SocialLinks from '../SocialLinks.astro';
+import { BRAND_PATH } from '../../../lib/brand.js';
+import wordmarkSource from '../../../assets/brand/sushanth-wordmark.svg?raw';
+import namePoster from '../../../../public/animations/sushanth-poster.svg?raw';
+const wordmarkPath = wordmarkSource.match(/<path\b[^>]*\/>/)?.[0] ?? '';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer" aria-label="Sushanth footer" data-site-footer>
+  <div class="site-footer__grid">
+    <div class="site-footer__name" role="img" aria-label="Sushanth">
+      <AnimatedTitle name="Sushanth" animationSrc="/animations/sushanth-splash.json" poster={namePoster} firstStrikeDelay={2} loopInterval={3} />
+    </div>
+  </div>
+  <div class="site-footer__details">
+    <div class="site-footer__row">
+      <a class="site-footer__brand" href="#main-content" aria-label="Sushanth — back to top">
+        <svg class="site-footer__mark" data-logo-anchor="footer" aria-hidden="true" viewBox="0 0 35 35"><path d={BRAND_PATH} /></svg>
+        <svg class="site-footer__wordmark" aria-hidden="true" viewBox="0 0 2172 724"><Fragment set:html={wordmarkPath} /></svg>
+      </a>
+      <div class="site-footer__actions">
+        <SocialLinks variant="footer" />
+        <a class="site-footer__back" href="#main-content">Back to top <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+    <p class="site-footer__copyright">© {year} Sushanth U V. All rights reserved.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer { padding: 0 clamp(1rem, 1.45vw, 2rem); background: var(--background); color: var(--text); }
+  .site-footer__grid { position: relative; display: grid; place-items: center; height: clamp(12rem, 32vw, 26rem); }
+  .site-footer__grid::after { content: ''; position: absolute; inset: auto 0 0; height: 1px; background: linear-gradient(to right, transparent, var(--border) 20%, var(--border) 80%, transparent); pointer-events: none; }
+  .site-footer__name { position: relative; width: 85%; height: 100%; min-height: 0; }
+  .site-footer__details { max-width:var(--max-width);margin:auto;padding:clamp(2.5rem,4vw,4rem) 0 clamp(2rem,3vw,3rem);font-family:'DM Sans',system-ui,sans-serif; }
+  .site-footer__row { display:flex;align-items:center;justify-content:space-between;gap:2rem; }
+  .site-footer__actions { display:flex;flex-direction:column;align-items:flex-end;gap:.5rem;margin-left:auto; }
+  .site-footer__brand { display:inline-flex;align-items:center;gap:.95rem;min-height:44px;color:var(--text);text-decoration:none; }
+  .site-footer__brand:hover { color:var(--accent); }
+  .site-footer__brand:focus-visible { outline:2px solid var(--accent);outline-offset:4px; }
+  .site-footer__mark { display:block;flex:none;width:2.35rem;height:2.35rem;fill:#ff4d00; }
+  .site-footer__wordmark { display:block;width:clamp(7rem,9vw,9rem);height:auto;fill:currentColor; }
+  .site-footer__back { display:inline-flex;align-items:center;min-height:44px;color:var(--text-body);font-size:.65rem;text-transform:uppercase;letter-spacing:.15em;text-decoration:none; }
+  .site-footer__back span { margin-left:1rem;color:var(--accent); }
+  .site-footer__back:hover { color:var(--text); }
+  .site-footer__back:focus-visible { outline:2px solid var(--accent);outline-offset:4px; }
+  .site-footer__copyright { margin:clamp(2.5rem,5vw,4.5rem) 0 0;color:var(--text-body);font-size:.875rem;line-height:1.6; }
+  @media (max-width: 48rem) {
+    .site-footer__details { padding-inline:.5rem; }
+    .site-footer__row { flex-wrap:wrap;gap:1.5rem; }
+    .site-footer__brand { gap:.65rem; }
+    .site-footer__mark { width:2rem;height:2rem; }
+    .site-footer__wordmark { width:5.5rem; }
+    .site-footer__copyright { margin-top:2.5rem; }
+  }
+</style>

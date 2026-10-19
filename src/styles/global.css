@@ -1,3 +1,15 @@
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('/fonts/dm-sans-latin-variable.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 100 1000;
+  font-display: swap;
+}
+
 @font-face {
   font-family: Gotham;
   src: url('/fonts/gotham-book.woff2') format('woff2');
@@ -32,3 +44,69 @@ a {
 }
 
 button:not(:disabled), [role="button"]:not(:disabled) { cursor: pointer; }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Continue the hero's paired architectural guides through the core sections. */
+[data-section-guides]::before,
+[data-section-guides]::after {
+  position: absolute;
+  z-index: 0;
+  inset-block: 0;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    color-mix(in srgb, var(--text) 32%, transparent) 6%,
+    color-mix(in srgb, var(--text) 16%, transparent) 88%,
+    transparent
+  );
+  content: '';
+  pointer-events: none;
+}
+
+[data-section-guides]::before {
+  inset-inline-start: 2.8%;
+}
+
+[data-section-guides]::after {
+  inset-inline-end: 2.8%;
+}
+
+/* Shared with the hero's painted-metal bottom row. Keep the grunge static:
+   only wrappers animate, so the texture is not recalculated each frame. */
+.engineered-type {
+  --letter-shading: linear-gradient(180deg, #fff 0%, #f2f2ed 46%, #c6c7bf 64%, #777a72 78%, #252823 92%, #141613 100%);
+  position: relative;
+  display: inline-block;
+  background: var(--letter-shading);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.engineered-type::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: url('/images/home/headline-grunge.webp') center / cover no-repeat, var(--letter-shading);
+  background-blend-mode: multiply;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  mask-image: linear-gradient(180deg, transparent 42%, rgb(0 0 0 / 20%) 58%, rgb(0 0 0 / 80%) 76%, #000 90%);
+}
+[data-theme='light'] .engineered-type {
+  --letter-shading: linear-gradient(180deg, #111 0%, #171717 58%, #292927 82%, #41413c 100%);
+}
+[data-theme='light'] .engineered-type::after { background-blend-mode: screen; }

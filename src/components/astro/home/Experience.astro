@@ -1,0 +1,486 @@
+---
+import BrandMark from './BrandMark.astro';
+import data from '../../../data/experience.json';
+import { getMoltenShape } from '../../../lib/lava.js';
+const entries = data;
+---
+
+{
+  entries.length > 0 && (
+    <section
+      id="experience"
+      class="experience"
+      aria-labelledby="experience-title"
+      data-experience
+      data-section-guides
+    >
+      <div class="experience__heading">
+        <span class="experience__index">// 02</span>
+        <h2 id="experience-title">Experience</h2>
+      </div>
+
+      <div class="experience__content">
+        <div class="experience__timeline" data-timeline>
+          <div class="experience__rail" aria-hidden="true" />
+          <div class="experience__trail" data-timeline-trail aria-hidden="true" />
+          <span class="experience__static-mark" aria-hidden="true">
+            <BrandMark />
+          </span>
+          <ol class="experience__entries">
+            {entries.map((entry, index) => (
+              <li
+                class="experience__entry"
+                id={entry.id}
+                style={`--entry-row:${index + 1}`}
+                data-experience-entry
+              >
+                <p class="experience__dates">
+                  <time datetime={entry.startDate}>{entry.startDate.slice(0, 4)}</time>
+                  <span aria-hidden="true">—</span>
+                  <span class="sr-only"> to </span>
+                  {entry.endDate ? (
+                    <time datetime={entry.endDate}>{entry.endDate.slice(0, 4)}</time>
+                  ) : (
+                    'Present'
+                  )}
+                </p>
+                <div
+                  class="experience__card"
+                  data-experience-card
+                  data-timeline-anchor
+                  data-lava-side={index % 2 === 0 ? 'left' : 'right'}
+                >
+                  <svg
+                    class="experience__lava"
+                    data-lava-border
+                    aria-hidden="true"
+                    preserveAspectRatio="none"
+                  >
+                    <path class="experience__lava-track" data-lava-path />
+                    <g class="experience__lava-beam" data-lava-beam>
+                      <path
+                        class="experience__lava-tail"
+                        data-lava-horizontal
+                        pathLength="1000"
+                      />
+                      <path
+                        class="experience__lava-tail"
+                        data-lava-vertical
+                        pathLength="1000"
+                      />
+                    </g>
+                  </svg>
+                  <svg
+                    class="experience__molten"
+                    viewBox="0 0 120 100"
+                    aria-hidden="true"
+                    data-lava-corner
+                  >
+                    <defs>
+                      <linearGradient
+                        id={`melt-${entry.id}`}
+                        x1="0"
+                        y1="0"
+                        x2="1"
+                        y2=".6"
+                      >
+                        <stop offset="0" stop-color="#c02c00" />
+                        <stop offset=".55" stop-color="#ff4d00" />
+                        <stop offset="1" stop-color="#ff9400" />
+                      </linearGradient>
+                      <linearGradient
+                        id={`melt-core-${entry.id}`}
+                        x1="0"
+                        y1="0"
+                        x2=".6"
+                        y2="1"
+                      >
+                        <stop offset="0" stop-color="#ff7d00" />
+                        <stop offset=".5" stop-color="#ffb711" />
+                        <stop offset=".8" stop-color="#ffe46b" />
+                        <stop offset="1" stop-color="#fff2a7" />
+                      </linearGradient>
+                    </defs>
+                    <g class="experience__molten-mirror">
+                      <path
+                        class="experience__molten-body"
+                        fill={`url(#melt-${entry.id})`}
+                        d={getMoltenShape(0.55, 5)}
+                        data-lava-body
+                        data-lava-neck
+                      />
+                      <path
+                        class="experience__molten-inner"
+                        fill={`url(#melt-core-${entry.id})`}
+                        d={getMoltenShape(0.55, 5, 1)}
+                        data-lava-inner
+                      />
+                      <g class="experience__lava-embers" fill="#ff7b13" data-lava-embers>
+                        <circle cx="92" cy="42" r=".55" />
+                        <circle cx="91" cy="62" r=".45" />
+                        <circle cx="64" cy="74" r=".4" />
+                        <circle cx="99" cy="55" r=".6" />
+                        <circle cx="77" cy="79" r=".5" />
+                        <circle cx="87" cy="71" r=".4" />
+                      </g>
+                    </g>
+                  </svg>
+                  <h3 class="experience__company">
+                    <span class="sr-only">{entry.company}</span>
+                    <img
+                      class="experience__logo"
+                      src={entry.logo.src}
+                      data-light-src={
+                        'lightSrc' in entry.logo ? entry.logo.lightSrc : entry.logo.src
+                      }
+                      data-dark-src={
+                        'darkSrc' in entry.logo ? entry.logo.darkSrc : entry.logo.src
+                      }
+                      alt=""
+                      width={entry.logo.width}
+                      height={entry.logo.height}
+                      loading="lazy"
+                      decoding="async"
+                      data-company-logo
+                    />
+                  </h3>
+                  <p class="experience__role">{entry.role}</p>
+                  <div class="experience__details">
+                    <p class="experience__description">{entry.description}</p>
+                    <ul class="experience__tags" aria-label="Skills">
+                      {entry.tags.map((tag: string) => (
+                        <li>{tag}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .experience {
+    overflow-x: clip;
+    font-family: 'DM Sans', system-ui, sans-serif;
+  }
+  .experience {
+    --card-bg: var(--surface-secondary);
+    --card-border: var(--border);
+    position: relative;
+    background: var(--background);
+    color: var(--text);
+    scroll-margin-top: 2rem;
+    padding: clamp(2rem, 4vw, 3.5rem) 0 clamp(3rem, 6vw, 5rem);
+  }
+  .experience__heading {
+    position: relative;
+    text-align: center;
+    padding: 0 1.5rem;
+  }
+  .experience__index {
+    color: var(--accent);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+  }
+  h2 {
+    display: table;
+    position: relative;
+    margin: 0.8rem auto 1rem;
+    font-family: inherit;
+    font-size: clamp(2.5rem, 4.3vw, 4.8rem);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+  }
+  h2::before {
+    content: '';
+    position: absolute;
+    left: -1.2rem;
+    top: 8%;
+    bottom: 5%;
+    width: 2px;
+    background: var(--accent);
+    box-shadow: 0 0 14px var(--accent);
+  }
+  .experience__subtitle {
+    font-size: 0.57rem;
+    line-height: 2.2;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-body);
+  }
+  .experience__content {
+    position: relative;
+    min-width: 0;
+    width: min(100% - 3rem, 58rem);
+    margin: 2.5rem auto 0;
+  }
+  .experience__timeline {
+    position: relative;
+  }
+  .experience__rail {
+    position: absolute;
+    left: 50%;
+    top: 1rem;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(
+      transparent,
+      var(--text-muted) 8%,
+      color-mix(in srgb, var(--accent) 42%, transparent) 70%,
+      transparent
+    );
+    opacity: 0.65;
+  }
+  .experience__trail {
+    position: absolute;
+    z-index: 1;
+    left: calc(50% - 1px);
+    top: 1rem;
+    width: 3px;
+    height: 0;
+    border-radius: 999px;
+    pointer-events: none;
+    opacity: 0;
+    background: linear-gradient(to bottom, rgb(255 77 0 / 8%), #ff4d00 70%, #ffd028);
+    box-shadow:
+      0 0 5px #ff4d00,
+      0 0 13px rgb(255 77 0 / 65%);
+    transform-origin: top;
+    will-change: height, opacity;
+  }
+  .experience__entries {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 6.5rem;
+    row-gap: 0;
+  }
+  .experience__entry {
+    position: relative;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    grid-column: 1;
+    grid-row: var(--entry-row);
+    margin-bottom: 1.5rem;
+  }
+  .experience__entry:nth-child(even) {
+    grid-column: 2;
+    margin-top: -1.5rem;
+  }
+  .experience__entry:nth-child(odd):not(:first-child) {
+    margin-top: -1.5rem;
+  }
+  .experience__entry:first-child {
+    margin-bottom: 0;
+  }
+  .experience__entry:nth-child(2) {
+    margin-top: -3.5rem;
+  }
+  .experience__dates {
+    display: flex;
+    gap: 0.6rem;
+    margin: 0 0 0.65rem;
+    padding-left: 1.5rem;
+    font-size: 0.66rem;
+    letter-spacing: 0.2em;
+    color: var(--text-body);
+  }
+  .experience__dates::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.15rem;
+    width: 2px;
+    height: 0.65rem;
+    background: var(--accent);
+  }
+  .experience__card {
+    position: relative;
+    padding: 1.5rem 1.5rem 1.25rem;
+    /* The lava SVG draws the outline; reserve space without a second border. */
+    border: 1px solid transparent;
+    border-radius: 14px;
+    background:
+      radial-gradient(ellipse at bottom right, rgb(255 77 0 / 4%), transparent 48%),
+      color-mix(in srgb, var(--card-bg) 22%, var(--background));
+    isolation: isolate;
+    overflow: visible;
+  }
+  .experience__card[data-lava-side='left'] {
+    background:
+      radial-gradient(ellipse at bottom left, rgb(255 77 0 / 4%), transparent 48%),
+      color-mix(in srgb, var(--card-bg) 22%, var(--background));
+  }
+  .experience__lava {
+    position: absolute;
+    z-index: 2;
+    inset: -1px;
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    overflow: visible;
+    pointer-events: none;
+    fill: none;
+  }
+  .experience__lava-track {
+    stroke: #e85213;
+    stroke-width: 1;
+    opacity: 0.52;
+    vector-effect: non-scaling-stroke;
+  }
+  .experience__lava-beam {
+    opacity: 0;
+  }
+  .experience__lava-tail {
+    vector-effect: non-scaling-stroke;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke: #ff730f;
+    stroke-width: 1.7;
+    stroke-dasharray: 110 1110;
+    filter: drop-shadow(0 0 3px rgb(255 92 0 / 75%));
+  }
+  .experience__molten {
+    position: absolute;
+    z-index: 3;
+    pointer-events: none;
+    width: 120px;
+    height: 100px;
+    right: -37px;
+    bottom: -50px;
+    overflow: visible;
+    filter: drop-shadow(0 0 3px rgb(255 77 0 / 65%));
+  }
+  .experience__molten-body {
+    stroke: #ed4d00;
+    stroke-width: 0.9;
+    stroke-linejoin: round;
+  }
+  .experience__molten-inner {
+    stroke: #ffb52a;
+    stroke-width: 0.4;
+    stroke-linejoin: round;
+    opacity: 0.9;
+  }
+  .experience__lava-embers {
+    opacity: 0.42;
+  }
+  [data-lava-side='left'] .experience__molten {
+    right: auto;
+    left: -37px;
+  }
+  [data-lava-side='left'] .experience__molten-mirror {
+    transform: translateX(120px) scaleX(-1);
+  }
+  .experience__company {
+    display: grid;
+    align-items: center;
+    min-height: 2.4rem;
+    margin: 0 3rem 1rem 0;
+    font-size: 1.2rem;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+  .experience__company > span {
+    grid-area: 1/1;
+  }
+  .experience__logo {
+    grid-area: 1/1;
+    max-width: 100%;
+    width: auto;
+    height: 2.2rem;
+    object-fit: contain;
+    object-position: left center;
+    background: #f7f7f5;
+    border-radius: 3px;
+    padding: 0.25rem 0.4rem;
+    box-sizing: content-box;
+  }
+  .experience__logo[hidden] {
+    display: none;
+  }
+  .experience__role {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+  .experience__description {
+    margin: 0.6rem 0 0;
+    font-size: 0.84rem;
+    line-height: 1.55;
+    color: var(--text-body);
+  }
+  .experience__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+    padding: 0;
+    margin: 0.9rem 0 0;
+  }
+  .experience__tags li {
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    padding: 0.4rem 0.65rem;
+    font-size: 0.5rem;
+    font-weight: 500;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    background: rgb(127 127 127 / 5%);
+  }
+  .experience__static-mark {
+    position: absolute;
+    left: 50%;
+    top: 4rem;
+    transform: translate(-50%, -50%);
+  }
+  @media (max-width: 767px) {
+    .experience__entries {
+      display: block;
+      padding-left: 2.25rem;
+    }
+    .experience__entry:nth-child(n) {
+      margin: 0 0 5.5rem;
+    }
+    .experience__rail {
+      left: 0;
+    }
+    .experience__trail {
+      left: -1px;
+    }
+    .experience__static-mark {
+      left: 0;
+    }
+    .experience__card {
+      padding: 1.25rem;
+    }
+    .experience__subtitle {
+      letter-spacing: 0.2em;
+    }
+    [data-lava-side='left'] .experience__molten {
+      left: auto;
+      right: -37px;
+    }
+    [data-lava-side='left'] .experience__molten-mirror {
+      transform: none;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .experience__lava-embers {
+      display: none;
+    }
+    .experience__trail {
+      height: 100%;
+      opacity: 0.7;
+    }
+  }
+</style>

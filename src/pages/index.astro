@@ -1,8 +1,30 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Intro from '../components/astro/home/Intro.astro';
+import Experience from '../components/astro/home/Experience.astro';
+import LogoJourney from '../components/astro/home/LogoJourney.astro';
+import Projects from '../components/astro/home/Projects.astro';
+import TechStack from '../components/astro/home/TechStack.astro';
+import Contact from '../components/astro/home/Contact.astro';
+import Footer from '../components/astro/home/Footer.astro';
 ---
 
 <BaseLayout title="Portfolio" description="Software engineer portfolio for Sushanth U V.">
+  <Fragment slot="head">
+    <link rel="preload" href="/fonts/dm-sans-latin-variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/anton-regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/images/home/headline-grunge.webp" as="image" data-loading-image />
+    <link rel="preload" href="/images/home/industrial-floor-v5.webp" as="image" data-loading-image />
+  </Fragment>
   <Intro />
+  <Experience />
+  <Projects />
+  <TechStack />
+  <Contact />
+  <LogoJourney />
+  <Footer slot="footer" />
 </BaseLayout>
+
+<script>
+  import '../scripts/scroll';
+</script>

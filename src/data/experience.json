@@ -1,0 +1,71 @@
+[
+  {
+    "id": "sparks-foundation",
+    "company": "The Sparks Foundation",
+    "role": "Internship",
+    "startDate": "2021",
+    "endDate": "2021",
+    "description": "Completed comprehensive web development training at The Sparks Foundation, designing and developing a banking system web application with user account management and transaction functionality using HTML, CSS, and web design principles.",
+    "tags": [],
+    "logo": {
+      "src": "/images/companies/sparks.png",
+      "alt": "The Sparks Foundation",
+      "width": 400,
+      "height": 72
+    }
+  },
+  {
+    "id": "elite-techno-groups",
+    "company": "Elite Techno Groups",
+    "role": "Internship",
+    "startDate": "2021",
+    "endDate": "2021",
+    "description": "Developed AI cancer detection model using human cell data and Python classification algorithms, implementing end-to-end machine learning workflow including data preprocessing, feature extraction, and model optimization for healthcare applications.",
+    "tags": [],
+    "logo": {
+      "src": "/images/companies/elite.png",
+      "alt": "Elite Techno Groups",
+      "width": 480,
+      "height": 122
+    }
+  },
+  {
+    "id": "informatica-software-qa-engineer",
+    "company": "Informatica",
+    "role": "Software QA Engineer",
+    "startDate": "2022-01",
+    "endDate": "2024-01",
+    "description": "Designed and implemented end-to-end QA automation infrastructure including Java/Selenium frameworks, multi-cloud deployment workflows, and monitoring solutions with Jenkins, Prometheus, Grafana, and MySQL across AWS, GCP, Azure, and Oracle environments.",
+    "tags": [
+      "Java",
+      "Selenium",
+      "Python",
+      "Jenkins",
+      "Prometheus",
+      "Grafana",
+      "MySQL",
+      "Multi-cloud"
+    ],
+    "logo": {
+      "src": "/images/companies/informatica-salesforce.svg",
+      "alt": "Informatica from Salesforce",
+      "width": 201,
+      "height": 52
+    }
+  },
+  {
+    "id": "asu-student-it",
+    "company": "Arizona State University",
+    "role": "IT Assistant",
+    "startDate": "2025",
+    "endDate": "",
+    "description": "Provided IT support and technical solutions for university systems.",
+    "tags": [],
+    "logo": {
+      "src": "/images/companies/asu.png",
+      "alt": "Arizona State University",
+      "width": 400,
+      "height": 72
+    }
+  }
+]

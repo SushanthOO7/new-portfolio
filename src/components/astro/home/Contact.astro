@@ -1,0 +1,190 @@
+---
+import DataRain from '../../ui/data-rain';
+
+const email = 'sushanth.2942000@gmail.com';
+---
+
+<section id="contact" class="contact" aria-labelledby="contact-title" tabindex="-1">
+  <DataRain
+    client:visible={{ rootMargin: '200px' }}
+    fullscreen={false}
+    autopilot={false}
+  />
+  <div class="contact__content">
+    <h2 id="contact-title" class="contact__title">Cont<span>act</span></h2>
+    <div class="contact__email-row">
+      <svg
+        class="contact__arrow"
+        width="86"
+        height="24"
+        viewBox="0 0 86 24"
+        fill="none"
+        aria-hidden="true"
+      >
+        <path
+          d="M1 12h44m15 0h24m-8-8 8 8-8 8"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="square"
+          stroke-linejoin="miter"></path>
+      </svg>
+      <a class="contact__email" href={`mailto:${email}`}>{email}</a>
+    </div>
+    <div class="contact__local-time" aria-label="Local time in Phoenix, United States">
+      <span>PHOENIX, UNITED STATES</span>{' '}
+      <time data-phoenix-time>--:--</time>
+    </div>
+  </div>
+</section>
+
+<script>
+  const formatter = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'America/Phoenix',
+    hour: 'numeric',
+    minute: '2-digit',
+    hourCycle: 'h23',
+  });
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const updateClock = () => {
+    clearTimeout(timer);
+    const clock = document.querySelector<HTMLTimeElement>('[data-phoenix-time]');
+    if (!clock) return;
+    const now = new Date();
+    clock.textContent = formatter.format(now);
+    clock.dateTime = now.toISOString();
+    timer = setTimeout(updateClock, 60_000 - (Date.now() % 60_000));
+  };
+  updateClock();
+  document.addEventListener('astro:page-load', updateClock);
+  document.addEventListener('astro:before-swap', () => clearTimeout(timer));
+</script>
+
+<style>
+  @font-face {
+    font-family: 'Contact Kamber';
+    src: url('/fonts/kamber-heavy.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+  }
+  .contact {
+    position: relative;
+    display: grid;
+    min-height: 100svh;
+    padding: clamp(6rem, 14vh, 9rem) var(--space-outer);
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--background);
+    color: var(--text);
+    place-items: center;
+    scroll-margin-top: 1rem;
+  }
+  .contact :global(.dr-root) {
+    z-index: 0;
+  }
+  .contact__content {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    justify-items: center;
+    gap: clamp(2rem, 4vw, 4.25rem);
+    width: 100%;
+  }
+  .contact__title {
+    margin: 0;
+    font-family: 'Contact Kamber', 'DM Sans', system-ui, sans-serif;
+    font-size: clamp(4.5rem, 14vw, 14rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    white-space: nowrap;
+  }
+  .contact__title span {
+    color: var(--accent);
+    font-style: normal;
+  }
+  .contact__email-row {
+    --arrow-gap: clamp(1rem, 1.5vw, 1.5rem);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .contact__arrow {
+    position: absolute;
+    right: calc(100% + var(--arrow-gap));
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent);
+  }
+  .contact__email {
+    padding-block: 0.65rem;
+    border-bottom: 2px solid var(--accent);
+    color: var(--text);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: clamp(0.85rem, 1.2vw, 1.25rem);
+    line-height: 1.5;
+    letter-spacing: 0.12em;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+    transition: color 0.2s ease;
+  }
+  .contact__email:hover {
+    color: var(--accent);
+  }
+  .contact__local-time {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.75rem;
+    width: 100%;
+    text-align: center;
+    color: var(--text-body);
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: clamp(0.75rem, 1vw, 0.95rem);
+    line-height: 1.5;
+  }
+  .contact__local-time time {
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    font-variant-numeric: tabular-nums;
+  }
+  .contact:focus-visible,
+  .contact__email:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 6px;
+  }
+  .contact:focus-visible {
+    outline-offset: -6px;
+  }
+  @media (max-width: 48rem) {
+    .contact {
+      min-height: 80svh;
+      padding-inline: 1.25rem;
+    }
+    .contact__title {
+      font-size: clamp(3.5rem, 17vw, 8rem);
+    }
+    .contact__content {
+      gap: 2.5rem;
+    }
+    .contact__email-row {
+      --arrow-gap: 0.8rem;
+      max-width: calc(100% - 4rem);
+    }
+    .contact__arrow {
+      width: 40px;
+    }
+    .contact__email {
+      font-size: clamp(0.75rem, 3.2vw, 1rem);
+      letter-spacing: 0.055em;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .contact__email {
+      transition: none;
+    }
+  }
+</style>
