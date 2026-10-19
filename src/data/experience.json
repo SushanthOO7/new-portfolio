@@ -5,8 +5,12 @@
     "role": "Internship",
     "startDate": "2021",
     "endDate": "2021",
-    "description": "Completed comprehensive web development training at The Sparks Foundation, designing and developing a banking system web application with user account management and transaction functionality using HTML, CSS, and web design principles.",
-    "tags": [],
+    "description": "Built a responsive banking application during a web development internship, implementing user account management, transaction workflows, and a clear customer-facing interface with HTML and CSS.",
+    "tags": [
+      "HTML",
+      "CSS",
+      "Web Development"
+    ],
     "logo": {
       "src": "/images/companies/sparks.png",
       "alt": "The Sparks Foundation",
@@ -20,8 +24,12 @@
     "role": "Internship",
     "startDate": "2021",
     "endDate": "2021",
-    "description": "Developed AI cancer detection model using human cell data and Python classification algorithms, implementing end-to-end machine learning workflow including data preprocessing, feature extraction, and model optimization for healthcare applications.",
-    "tags": [],
+    "description": "Developed a Python machine-learning model for cancer detection from human-cell data, taking the project from preprocessing and feature extraction through classification and model optimization.",
+    "tags": [
+      "Python",
+      "Machine Learning",
+      "Data Preprocessing"
+    ],
     "logo": {
       "src": "/images/companies/elite.png",
       "alt": "Elite Techno Groups",
@@ -33,18 +41,25 @@
     "id": "informatica-software-qa-engineer",
     "company": "Informatica",
     "role": "Software QA Engineer",
-    "startDate": "2022-01",
-    "endDate": "2024-01",
-    "description": "Designed and implemented end-to-end QA automation infrastructure including Java/Selenium frameworks, multi-cloud deployment workflows, and monitoring solutions with Jenkins, Prometheus, Grafana, and MySQL across AWS, GCP, Azure, and Oracle environments.",
+    "startDate": "2022-08",
+    "endDate": "2025-07",
+    "description": "Built Java, Selenium, and Apache HTTP automation for UI and REST API regression suites in Jenkins, reducing manual test cycles by approximately 40%. Automated multi-cloud environment setup and deployments with Chef, cutting manual setup work by approximately 70% across AWS, GCP, Azure, and Oracle. Developed 8+ Java utilities and API health checks, monitored 15+ QA environments with Prometheus, Grafana, and MySQL, and resolved 15+ high-severity incidents through Elasticsearch and Kibana analysis.",
     "tags": [
       "Java",
       "Selenium",
+      "REST APIs",
       "Python",
       "Jenkins",
+      "Chef",
       "Prometheus",
       "Grafana",
       "MySQL",
-      "Multi-cloud"
+      "Elasticsearch",
+      "Kibana",
+      "AWS",
+      "GCP",
+      "Azure",
+      "Oracle"
     ],
     "logo": {
       "src": "/images/companies/informatica-salesforce.svg",
@@ -56,11 +71,18 @@
   {
     "id": "asu-student-it",
     "company": "Arizona State University",
-    "role": "IT Assistant",
-    "startDate": "2025",
+    "role": "IT Help Desk Assistant",
+    "startDate": "2026-04",
     "endDate": "",
-    "description": "Provided IT support and technical solutions for university systems.",
-    "tags": [],
+    "description": "Support endpoint, software, account, network, and peripheral incidents through ServiceNow while maintaining asset records and triaging malware and phishing reports. Built and deployed a Dockerized printer operations service on Ubuntu/Proxmox with a web interface, centralized inventory, Slack workflows, and automated toner and emergency IT alerts. Repurposed a Dell PowerEdge R440 as a Proxmox host, using iDRAC to monitor hardware and provision virtual machines for ASU Windows image and policy testing.",
+    "tags": [
+      "ServiceNow",
+      "Docker",
+      "Linux",
+      "Proxmox",
+      "Windows",
+      "IT Support"
+    ],
     "logo": {
       "src": "/images/companies/asu.png",
       "alt": "Arizona State University",
