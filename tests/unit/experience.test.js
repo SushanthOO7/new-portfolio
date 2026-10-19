@@ -11,6 +11,13 @@ const entry = {
 };
 
 describe('experience content', () => {
+  it('accepts the published year-only and open-ended experience data', () => {
+    expect(validateExperience(experience, () => true)).toEqual(experience);
+    expect(validateExperience([
+      { ...entry, startDate: '2024', endDate: '' },
+      { ...entry, id: 'year-range', startDate: '2021', endDate: '2022', tags: [] },
+    ], () => true)).toHaveLength(2);
+  });
   it('publishes Informatica directly after Elite Techno Groups and before ASU', () => {
     expect(experience.map(({ company }) => company)).toEqual([
       'The Sparks Foundation',
@@ -24,7 +31,7 @@ describe('experience content', () => {
     expect(validateExperience(entries, () => true)).toEqual(entries);
   });
   it('rejects invalid dates, duplicate IDs, missing fields, and absent or unsafe logos', () => {
-    for (const patch of [{ startDate: '2024-13' }, { endDate: '2020-01' }, { role: '' }, { tags: [] }, { logo: { ...entry.logo, src: '/images/../private.png' } }, { logo: { ...entry.logo, src: 'https://example.com/logo.png' } }]) {
+    for (const patch of [{ startDate: '2024-13' }, { endDate: '2020-01' }, { role: '' }, { tags: [''] }, { logo: { ...entry.logo, src: '/images/../private.png' } }, { logo: { ...entry.logo, src: 'https://example.com/logo.png' } }]) {
       expect(() => validateExperience([{ ...entry, ...patch }], () => true)).toThrow();
     }
     expect(() => validateExperience([entry, entry], () => true)).toThrow(/duplicate/i);

@@ -75,7 +75,7 @@ describe('Astro application shell', () => {
   it('positions the desktop hero details beneath the W and clear of the social rail', async () => {
     const source = await readFile('src/components/astro/home/Intro.astro', 'utf8');
 
-    expect(source).toMatch(/\.bottom \{[\s\S]*?inset: auto 5\.4% [\d.]+% [\d.]+%;/);
+    expect(source).toMatch(/\.bottom \{[\s\S]*?inset: auto 8\.4% 20\.2% 10%;/);
   });
 
   it('continues the paired hero guide lines through the main portfolio sections', async () => {

@@ -5,7 +5,8 @@ import { resolve } from 'node:path';
 export function validateExperience(entries, fileExists = existsSync) {
   if (!Array.isArray(entries)) throw new Error('Experience must be an array');
   const ids = new Set();
-  const date = value => typeof value === 'string' && /^\d{4}-(0[1-9]|1[0-2])$/.test(value);
+  const date = value => typeof value === 'string' && /^\d{4}(?:-(0[1-9]|1[0-2]))?$/.test(value);
+  const sortableDate = (value, end = false) => value.length === 4 ? `${value}-${end ? '12' : '01'}` : value;
   for (const entry of entries) {
     if (!entry || ['id', 'company', 'role', 'description'].some(key => typeof entry[key] !== 'string' || !entry[key].trim())) {
       throw new Error('Experience requires id, company, role and description');
@@ -13,10 +14,11 @@ export function validateExperience(entries, fileExists = existsSync) {
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(entry.id)) throw new Error(`Invalid experience ID: ${entry.id}`);
     if (ids.has(entry.id)) throw new Error(`Duplicate experience ID: ${entry.id}`);
     ids.add(entry.id);
-    if (!date(entry.startDate) || (entry.endDate !== null && (!date(entry.endDate) || entry.endDate < entry.startDate))) {
+    const currentRole = entry.endDate === null || entry.endDate === '';
+    if (!date(entry.startDate) || (!currentRole && (!date(entry.endDate) || sortableDate(entry.endDate, true) < sortableDate(entry.startDate)))) {
       throw new Error(`Invalid experience dates: ${entry.id}`);
     }
-    if (!Array.isArray(entry.tags) || !entry.tags.length || entry.tags.some(tag => typeof tag !== 'string' || !tag.trim())) {
+    if (!Array.isArray(entry.tags) || entry.tags.some(tag => typeof tag !== 'string' || !tag.trim())) {
       throw new Error(`Experience tags required: ${entry.id}`);
     }
     const logo = entry.logo;

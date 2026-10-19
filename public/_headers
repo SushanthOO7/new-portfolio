@@ -1,6 +1,4 @@
-/favicon.ico
-  Cache-Control: public, max-age=3600, s-maxage=3600
-/favicon.svg
+/favicon.png
   Cache-Control: public, max-age=3600, s-maxage=3600
 /icon-256.png
   Cache-Control: public, max-age=3600, s-maxage=3600
