@@ -39,7 +39,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     const headersPath = path.join(clientDirectory, "_headers");
     const headers = await finalizeProductionHeaders({ clientDirectory, headersPath });
     const hashCount = headers["Content-Security-Policy"].match(/'sha256-[^']+'/g)?.length ?? 0;
-    console.log(`Finalized production CSP with ${hashCount} inline script hash(es).`);
+    console.log(`Finalized production CSP with ${hashCount} inline script/style hash(es).`);
   } catch (error) {
     console.error(error.message);
     process.exitCode = 1;
