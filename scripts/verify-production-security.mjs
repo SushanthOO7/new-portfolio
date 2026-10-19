@@ -6,7 +6,7 @@ import path from "node:path";
 import { scanFiles, formatFinding } from "./security/secret-scanner.mjs";
 import { requireProductionSiteUrl } from "./require-site-url.mjs";
 import { verifyProductionOrigin } from "./verify-production-origin.mjs";
-import { REQUIRED_SECURITY_HEADERS } from "../src/lib/security-policy.js";
+import { securityHeadersForHtml } from "../src/lib/security-policy.js";
 
 const TEXT_ARTIFACT_EXTENSIONS = new Set([
   ".html",
@@ -53,7 +53,7 @@ async function assertNoLocalhostReferences(filePaths) {
   }
 }
 
-async function assertHeaders(headersPath) {
+async function assertHeaders(headersPath, htmlDocuments) {
   let headersText;
   try {
     headersText = await readFile(headersPath, "utf8");
@@ -61,7 +61,7 @@ async function assertHeaders(headersPath) {
     throw new Error(`Production _headers file is missing (${error.code ?? "READ_ERROR"}).`);
   }
 
-  for (const [name, value] of Object.entries(REQUIRED_SECURITY_HEADERS)) {
+  for (const [name, value] of Object.entries(securityHeadersForHtml(htmlDocuments))) {
     if (!headersText.includes(`${name}: ${value}`)) {
       throw new Error(`Production _headers is missing required header ${name}.`);
     }
@@ -80,7 +80,8 @@ export async function verifyProductionSecurity({ origin, clientDirectory, header
   }
 
   await assertNoLocalhostReferences(textFiles);
-  await assertHeaders(headersPath);
+  const htmlDocuments = await Promise.all(htmlFiles.map((filePath) => readFile(filePath, "utf8")));
+  await assertHeaders(headersPath, htmlDocuments);
   await verifyProductionOrigin({ origin, clientDirectory });
 }
 

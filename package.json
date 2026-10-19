@@ -10,7 +10,7 @@
     "generate:splash": "node scripts/generate-name-splash.mjs",
     "build": "astro build",
     "typecheck": "astro check",
-    "build:production": "node scripts/require-site-url.mjs && npm run security:scan && astro build && node scripts/verify-production-origin.mjs && node scripts/verify-production-security.mjs",
+    "build:production": "node scripts/require-site-url.mjs && npm run security:scan && astro build && node scripts/finalize-production-headers.mjs && node scripts/verify-production-origin.mjs && node scripts/verify-production-security.mjs",
     "dev": "astro dev --host 127.0.0.1 --port 7778",
     "preview": "npm run build && wrangler dev",
     "deploy": "npm run build:production && wrangler deploy",

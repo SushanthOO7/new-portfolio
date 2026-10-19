@@ -90,4 +90,11 @@ describe("production security gate", () => {
     await expect(verifyProductionSecurity({ origin: ORIGIN, ...(await fixture({ headers: headersText(headers) })) }))
       .rejects.toThrow(/Strict-Transport-Security/);
   });
+
+  it("rejects an inline script not authorized by the built CSP", async () => {
+    await expect(verifyProductionSecurity({
+      origin: ORIGIN,
+      ...(await fixture({ html: cleanHtml("<script>window.portfolioReady = true</script>") })),
+    })).rejects.toThrow(/Content-Security-Policy/);
+  });
 });
