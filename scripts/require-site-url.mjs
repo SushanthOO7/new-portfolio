@@ -5,10 +5,19 @@ export function requireProductionSiteUrl(value = process.env.PUBLIC_SITE_URL) {
   } catch {
     throw new Error('PUBLIC_SITE_URL must be set to the production https:// origin.');
   }
-  if (url.protocol !== 'https:' || url.pathname !== '/' || url.search || url.hash) {
-    throw new Error('PUBLIC_SITE_URL must be a bare production https:// origin.');
+  if (
+    url.protocol !== 'https:' ||
+    url.hostname !== 'sushanth.tech' ||
+    url.port ||
+    url.username ||
+    url.password ||
+    url.pathname !== '/' ||
+    url.search ||
+    url.hash
+  ) {
+    throw new Error('PUBLIC_SITE_URL must be exactly https://sushanth.tech.');
   }
-  return url.origin;
+  return 'https://sushanth.tech';
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
