@@ -1,0 +1,37 @@
+[
+  {
+    "id": "ai-agent-platform",
+    "title": "AI Agent Platform",
+    "description": "A modular multi-agent platform for automating complex workflows with real-world tools.",
+    "tags": ["AI Agents", "Python", "OpenAI"],
+    "url": "https://github.com/SushanthOO7/Dextra",
+    "image": {
+      "dark": "/images/projects/workflow-dark.webp",
+      "light": "/images/projects/workflow-light.webp",
+      "alt": "Angled laptop showing an AI agent workflow with orange connections"
+    }
+  },
+  {
+    "id": "my-llm",
+    "title": "My LLM",
+    "description": "A planned project to build my own large language model and explore how language models are designed and trained.",
+    "tags": ["LLM", "Deep Learning", "Research"],
+    "url": "https://github.com/SushanthOO7/My-LLM",
+    "image": {
+      "dark": "/images/projects/workflow-dark.webp",
+      "light": "/images/projects/workflow-light.webp",
+      "alt": "Illustrative laptop preview with connected AI workflow nodes"
+    }
+  },
+  {
+    "id": "computer-vision",
+    "title": "Computer Vision Project",
+    "description": "A cloud-based face-recognition application that receives image requests, stores inputs in Amazon S3, and returns classification results.",
+    "tags": ["AI", "Vision", "Research"],
+    "url": "https://github.com/SushanthOO7/CloudProject",
+    "image": {
+      "dark": "/images/projects/vision.webp",
+      "alt": "City street with orange object detection boxes around cars and pedestrians"
+    }
+  }
+]

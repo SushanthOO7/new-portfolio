@@ -1,0 +1,8 @@
+---
+import technologies from '../../../data/tech-stack.json';
+import TechStackOrbit from '../../react/TechStackOrbit';
+import '../../../styles/tech-stack.css';
+---
+<section id="tech-stack" class="tech-stack" aria-labelledby="tech-stack-title" data-section-guides>
+  <TechStackOrbit items={technologies} client:visible={{ rootMargin: '200px' }} />
+</section>

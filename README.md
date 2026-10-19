@@ -1,18 +1,18 @@
 <p align="center">
-  <img src="/public/favicon.svg" width="50" alt="Logo" />
+  <img src="/public/favicon.png" width="50" alt="Logo" />
 </p>
 <h1 align="center">Personal portfolio</h1>
 
-[![Site preview](/public/site-preview.png)](https://hamishw.com)
+[![Site preview](/public/site-preview.png)](/public/site-preview.png)
 
-My design portfolio to showcase a few projects. Built with [Remix](https://remix.run/), [Three.js](https://threejs.org/), and [Framer Motion](https://www.framer.com/motion/). View the [live site](https://hamishw.com) or check out a live version of the [components storybook](https://storybook.hamishw.com).
+Sushanth U V's portfolio, built with Astro, focused React islands, and native CSS. The site is statically rendered and deployed with Cloudflare Workers.
 
 ## Install & run
 
-Make sure you have nodejs `19.9.0` or higher and npm `9.6.3` or higher installed. Install dependencies with:
+Use Node.js `22.22.0` or newer. Install the locked dependencies with:
 
 ```bash
-npm install
+npm ci
 ```
 
 Once it's done start up a local server with:
@@ -21,15 +21,21 @@ Once it's done start up a local server with:
 npm run dev
 ```
 
-To view the components storybook:
+### GitHub contribution skyline
+
+The Projects section reads `SushanthOO7` contribution data from GitHub's GraphQL API during the Astro build. Copy `.env.example` to `.env` and set a read-only `GITHUB_TOKEN` to use fresh data locally. The token stays server-side and must not use Astro's `PUBLIC_` prefix.
+
+Refresh the checked-in fallback snapshot explicitly with:
 
 ```bash
-npm run dev:storybook
+npm run github:refresh
 ```
+
+Without a token, builds use `src/data/github-contributions.json`. In Cloudflare, configure `GITHUB_TOKEN` as an encrypted build environment variable (not a browser/runtime variable) so production builds can refresh the chart; keep the snapshot committed so API or rate-limit failures do not block deployment.
 
 ## Deployment
 
-I've set up the site using Cloudflare for hosting. Deploy the site to Cloudflare Pages:
+Set `PUBLIC_SITE_URL` to the final HTTPS origin and configure `GITHUB_TOKEN` as an optional encrypted build secret, then deploy with:
 
 ```bash
 npm run deploy
@@ -40,17 +46,3 @@ npm run deploy
 I'm cool with anyone using the code or parts of the code for their own site, it is open source so people can learn from it and adapt it. However, I would encourage you to modify the theme and components it to make it your own. If you are using the site's design largely unmodified, I'd appreciate being credited as the designer of the website.
 
 I do not give permission to present any of my projects as your own (this is being actively used as my portfolio site and these are my real projects I've worked on).
-
-## FAQs
-
-<details>
-  <summary>How do I change the color on the <code>DisplacementSphere</code> (blobby rotating thing in the background).</summary>
-  
-  You'll need to edit the fragment shader. [Check out this issue for more details](https://github.com/HamishMW/portfolio/issues/19#issuecomment-870996615).
-</details>
-
-<details>
-  <summary>How do I get the contact form to work?</summary>
-  
-  To get the contact form working create an AWS account and set up SES (Simple Email service). Then plug in your details into `.dev.vars.example` and rename it to `.dev.vars`. You'll also need to add these as enviroment variables in the Cloudflare dashboard for it to work in production. Or if you don't mind sending through gmail use [nodemailer](https://nodemailer.com/) instead.
-</details>

@@ -1,6 +1,4 @@
-/favicon.ico
-  Cache-Control: public, max-age=3600, s-maxage=3600
-/favicon.svg
+/favicon.png
   Cache-Control: public, max-age=3600, s-maxage=3600
 /icon-256.png
   Cache-Control: public, max-age=3600, s-maxage=3600
@@ -12,8 +10,6 @@
   Cache-Control: public, max-age=31536000, immutable
 /*.woff2
   Cache-Control: public, max-age=31536000, immutable
-/*.glb
-  Cache-Control: public, max-age=31536000, immutable
 /*.svg
   Cache-Control: public, max-age=31536000, immutable
 /*.jpg
@@ -24,5 +20,13 @@
   Cache-Control: public, max-age=31536000, immutable
 /*.wasm
   Cache-Control: public, max-age=31536000, immutable
-https://:project.pages.dev/*
+https://:version-portfolio.:subdomain.workers.dev/*
   X-Robots-Tag: noindex
+/*.webp
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/*.avif
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/*.ttf
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/animations/*.json
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800

@@ -1,0 +1,270 @@
+---
+import '../../styles/title-animations.css';
+import namePoster from '../../../public/animations/sushanth-poster.svg?raw';
+---
+<div class="site-splash" data-site-splash data-loading-phase="loading" role="status" aria-label="Welcome, Sushanth’s portfolio is opening">
+  <div class="site-splash__content">
+    <div class="site-splash__stage" aria-hidden="true">
+      <div class="site-splash__fallback" set:html={namePoster.replaceAll('sushanth_poster_', 'splash_poster_')} />
+      <div class="site-splash__animation" data-splash-animation></div>
+    </div>
+    <div class="loading-wrap" data-loading-pill>
+      <div class="loading-hover" aria-hidden="true"></div>
+      <div class="loading-button">
+        <div class="loading-container" data-loading-progress role="progressbar" aria-label="Loading portfolio" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="loading-content"><div class="loading-content-in">Loading <span data-loading-percent>0%</span></div></div>
+          <div class="loading-box" aria-hidden="true"></div>
+        </div>
+        <div class="loading-welcome"><span>Welcome</span></div>
+      </div>
+    </div>
+  </div>
+  <button class="site-splash__skip" type="button" data-splash-skip>Skip intro <span aria-hidden="true">↗</span></button>
+</div>
+<script is:inline>
+  (() => {
+    const splash = document.querySelector('[data-site-splash]');
+    if (!(splash instanceof HTMLElement)) return;
+    let seen = false;
+    try { seen = sessionStorage.getItem('portfolio:splash-seen:sushanth-thorben-v1') === '1'; } catch {}
+    if (seen || matchMedia('(prefers-reduced-motion: reduce)').matches) { splash.remove(); return; }
+    splash.dataset.visible = 'true';
+    splash.dataset.visibleSince = String(performance.now());
+    // Independent recovery if the module or one of its dependencies cannot run.
+    setTimeout(() => {
+      if (!splash.isConnected) return;
+      document.querySelector('#main-content')?.removeAttribute('inert');
+      document.documentElement.classList.remove('splash-open');
+      splash.remove();
+    }, 12000);
+  })();
+</script>
+<script>
+  import { inheritAnimationInk } from '../../scripts/title-animations';
+  import { trackLoadingReadiness } from '../../scripts/loading-readiness';
+  import { loadAnimationData } from '../../scripts/page-assets';
+  function initializeSplash() {
+    const splash = document.querySelector<HTMLElement>('[data-site-splash]');
+    const container = splash?.querySelector<HTMLElement>('[data-splash-animation]');
+    if (!splash || !container) return () => {};
+    const main = document.querySelector<HTMLElement>('#main-content');
+    const skip = splash.querySelector<HTMLButtonElement>('[data-splash-skip]');
+    const progress = splash.querySelector<HTMLElement>('[data-loading-progress]')!;
+    const percent = splash.querySelector<HTMLElement>('[data-loading-percent]')!;
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+    const controller = new AbortController();
+    const pill = splash.querySelector<HTMLElement>('[data-loading-pill]');
+    pill?.addEventListener('pointermove', event => {
+      if (finishing || dismissed) return;
+      const bounds = pill.getBoundingClientRect();
+      pill.style.setProperty('--mouse-x', `${event.clientX - bounds.left}px`);
+      pill.style.setProperty('--mouse-y', `${event.clientY - bounds.top}px`);
+    }, { signal: controller.signal });
+    const previousInert = main?.inert ?? false;
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    let animation: import('lottie-web').AnimationItem | undefined;
+    let homeReveal: Animation | undefined;
+    let dismissed = false, finishing = false, current = 0, target = 0, raf = 0;
+    let animationReady = false, animationFailed = false, thunderStarted = false;
+    let strikeSegment: [number, number] | undefined;
+    let delayRemaining = document.hidden ? 2000 : Math.max(0, 2000 - (performance.now() - Number(splash.dataset.visibleSince || performance.now())));
+    let delayStartedAt: number | undefined;
+    let thunderTimer: ReturnType<typeof setTimeout> | undefined;
+    const pauseThunderDelay = () => {
+      if (delayStartedAt !== undefined) delayRemaining = Math.max(0, delayRemaining - (performance.now() - delayStartedAt));
+      clearTimeout(thunderTimer);
+      thunderTimer = undefined;
+      delayStartedAt = undefined;
+    };
+    const syncThunder = () => {
+      if (dismissed || animationFailed) return;
+      if (document.hidden) {
+        pauseThunderDelay();
+        animation?.pause();
+        splash.dataset.playback = 'paused';
+        return;
+      }
+      if (!thunderStarted && delayRemaining > 0) {
+        if (thunderTimer === undefined) {
+          delayStartedAt = performance.now();
+          thunderTimer = setTimeout(() => {
+            delayRemaining = 0;
+            thunderTimer = undefined;
+            delayStartedAt = undefined;
+            syncThunder();
+          }, delayRemaining);
+        }
+        splash.dataset.playback = 'waiting';
+        return;
+      }
+      if (!animation || !animationReady || !strikeSegment) return;
+      if (!thunderStarted) {
+        thunderStarted = true;
+        animation.playSegments(strikeSegment, true);
+      } else animation.play();
+      splash.dataset.playback = 'playing';
+    };
+    if (main) main.inert = true;
+    document.documentElement.classList.add('splash-open');
+    try { sessionStorage.setItem('portfolio:splash-seen:sushanth-thorben-v1', '1'); } catch {}
+    const later = (callback: () => void, delay: number) => timers.push(setTimeout(callback, delay));
+    const dispose = () => {
+      dismissed = true;
+      pauseThunderDelay();
+      timers.forEach(clearTimeout);
+      cancelAnimationFrame(raf);
+      controller.abort();
+      animation?.destroy();
+      homeReveal?.cancel();
+      if (main) main.inert = previousInert;
+      document.documentElement.classList.remove('splash-open');
+      if (splash.contains(document.activeElement)) main?.focus({ preventScroll: true });
+      splash.remove();
+    };
+    const dismiss = () => {
+      if (dismissed) return;
+      dismissed = true;
+      pauseThunderDelay();
+      splash.dataset.visible = 'false';
+      animation?.pause();
+      if (main) main.inert = previousInert;
+      document.documentElement.classList.remove('splash-open');
+      if (splash.contains(document.activeElement)) main?.focus({ preventScroll: true });
+      later(dispose, 450);
+    };
+    const finish = () => {
+      if (finishing || dismissed) return;
+      finishing = true;
+      // Same 400ms hold, 800ms Welcome transition, and 900ms ellipse exit.
+      later(() => { splash.dataset.loadingPhase = 'welcome'; }, 400);
+      later(() => {
+        if (main && pill) {
+          // Reveal the home through the pill instead of expanding an opaque,
+          // same-colored shape over an opaque splash background.
+          const origin = pill.getBoundingClientRect();
+          const bounds = main.getBoundingClientRect();
+          const x = origin.left + origin.width / 2 - bounds.left;
+          const y = origin.top + origin.height / 2 - bounds.top;
+          const radius = Math.hypot(innerWidth, innerHeight);
+          homeReveal = main.animate([
+            { clipPath: `ellipse(${origin.width / 2}px ${origin.height / 2}px at ${x}px ${y}px)` },
+            { clipPath: `ellipse(${radius * 2}px ${radius}px at ${x}px ${y}px)` },
+          ], { duration: 800, easing: 'cubic-bezier(.33,.11,1,.72)', fill: 'both' });
+        }
+        splash.dataset.loadingPhase = 'exit';
+      }, 1200);
+      later(dispose, 2100);
+    };
+    const renderProgress = () => {
+      if (dismissed) return;
+      current += (target - current) * .1;
+      if (target - current < .1) current = target;
+      const displayed = target === 100 && current < 100 ? Math.min(99, Math.round(current)) : Math.round(current);
+      progress.setAttribute('aria-valuenow', String(displayed));
+      percent.textContent = `${displayed}%`;
+      if (current === 100) finish();
+      else if (current < target) raf = requestAnimationFrame(renderProgress);
+    };
+    const setTarget = (value: number) => {
+      target = Math.max(target, value);
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(renderProgress);
+    };
+    trackLoadingReadiness(setTarget, controller.signal);
+    later(() => setTarget(100), 8000);
+    later(dispose, 11500);
+    skip?.addEventListener('click', dismiss, { signal: controller.signal });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape') dismiss(); }, { signal: controller.signal });
+    reducedMotion.addEventListener('change', event => { if (event.matches) dispose(); }, { signal: controller.signal });
+    document.addEventListener('astro:before-swap', dispose, { once: true, signal: controller.signal });
+    document.addEventListener('visibilitychange', () => {
+      syncThunder();
+    }, { signal: controller.signal });
+    syncThunder();
+    void (async () => {
+      try {
+        const [player, animationData] = await Promise.all([
+          import('lottie-web/build/player/lottie_light'),
+          loadAnimationData('/animations/sushanth-splash.json', controller.signal),
+        ]);
+        if (dismissed || controller.signal.aborted || !splash.isConnected) return;
+        const firstStrike = Math.min(...animationData.layers
+          .filter((layer: { nm: string }) => layer.nm.startsWith('Shape Layer '))
+          .map((layer: { ip: number }) => layer.ip));
+        strikeSegment = [firstStrike, Math.min(firstStrike + 3 * animationData.fr, animationData.op)];
+        const lottie = player.default ?? (window as Window & { lottie?: typeof player.default }).lottie;
+        if (!lottie) return;
+        animation = lottie.loadAnimation({ container, renderer: 'svg', loop: true, autoplay: false, animationData,
+          rendererSettings: { preserveAspectRatio: 'xMidYMid meet', progressiveLoad: false } });
+        animation.addEventListener('DOMLoaded', () => {
+          if (dismissed) return;
+          inheritAnimationInk(container);
+          animationReady = true;
+          splash.dataset.ready = 'true';
+          syncThunder();
+        });
+        animation.addEventListener('loopComplete', () => { splash.dataset.loopCount = String(Number(splash.dataset.loopCount || 0) + 1); });
+        const fallback = () => {
+          animationFailed = true;
+          animationReady = false;
+          pauseThunderDelay();
+          splash.dataset.ready = 'false';
+          splash.dataset.playback = 'fallback';
+          animation?.destroy();
+          animation = undefined;
+        };
+        animation.addEventListener('data_failed', fallback);
+        animation.addEventListener('error', fallback);
+      } catch {
+        animationFailed = true;
+        pauseThunderDelay();
+        splash.dataset.playback = 'fallback';
+        // Keep the readable poster and independent loading progress.
+      }
+    })();
+    return dispose;
+  }
+  let cleanup = initializeSplash();
+  const initialize = () => { cleanup(); cleanup = initializeSplash(); };
+  document.addEventListener('astro:page-load', initialize);
+  if (import.meta.hot) import.meta.hot.dispose(() => { cleanup(); document.removeEventListener('astro:page-load', initialize); });
+</script>
+<style>
+  .site-splash { position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:var(--background);color:var(--text);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .4s ease,visibility .4s ease;animation:splash-failsafe 0s 12s forwards;overflow:hidden }
+  .site-splash[data-visible='true'] { opacity:1;visibility:visible;pointer-events:auto }
+  .site-splash__content { display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;max-height:100svh;transform:translateY(-3svh) }
+  .site-splash__stage { position:relative;width:min(90vw,65rem);aspect-ratio:2;flex:none;transition:opacity .5s ease }
+  .site-splash__fallback,.site-splash__animation { position:absolute;inset:0;width:100%;height:100% }
+  .site-splash__stage :global(svg) { display:block;width:100%;height:100% }
+  .site-splash__animation { opacity:0 }
+  .site-splash[data-ready='true'] .site-splash__animation { opacity:1 }
+  .site-splash[data-ready='true'] .site-splash__fallback { visibility:hidden }
+  .loading-wrap { --Lsize:145px;--mouse-x:75%;--mouse-y:0%;position:relative;display:flex;align-items:center;justify-content:center;flex:none;min-width:0;min-height:0;padding:6px;border-radius:100px;background:var(--background);overflow:hidden;box-shadow:0 15px 15px rgb(0 0 0 / 20%);transition:min-width .8s,min-height .8s,border-radius .8s;z-index:2 }
+  .loading-hover { position:absolute;top:var(--mouse-y);left:var(--mouse-x);width:190px;height:100px;border-radius:50%;background:#ff4d00;filter:blur(24px);transform:translate(-50%,-50%);pointer-events:none;transition:opacity .5s }
+  .loading-button { position:relative;z-index:1;overflow:hidden;padding:20px 50px;border-radius:100px;background:var(--background);color:var(--text);font:500 18px/1.4 'DM Sans',system-ui,sans-serif }
+  .loading-button::before { content:'';position:absolute;z-index:3;top:calc(var(--mouse-y) - 6px);left:calc(var(--mouse-x) - 6px);width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#ff7900 0% 33%,#ff4d00 33% 66%,#d93600 66% 100%);filter:blur(60px);transform:translate(-50%,-50%);opacity:0;pointer-events:none;transition:opacity .3s }
+  .loading-wrap:hover .loading-button::before { opacity:1 }
+  .loading-container { position:absolute;top:50%;left:50px;width:100%;max-width:var(--Lsize);transform:translateY(-50%);transition:max-width .8s;z-index:2 }
+  .loading-content { position:relative;overflow:hidden;width:100%;background:var(--background);text-transform:uppercase }
+  .loading-content-in { position:relative;width:var(--Lsize);opacity:.7 }
+  .loading-content-in span { position:absolute;right:0;font-weight:300 }
+  .loading-box { position:absolute;right:0;top:50%;width:15px;height:25px;background:#ff4d00;transform:translate(100%,-50%);animation:loading-blink 1s linear infinite }
+  .loading-welcome { width:var(--Lsize);max-width:var(--Lsize);overflow:hidden;text-align:center;letter-spacing:2px;text-transform:uppercase;transition:opacity .5s }
+  .loading-welcome span { display:block;transition:transform .5s }
+  .site-splash[data-loading-phase='welcome'] .loading-container,.site-splash[data-loading-phase='exit'] .loading-container { max-width:0 }
+  .site-splash[data-loading-phase='welcome'] .loading-box,.site-splash[data-loading-phase='exit'] .loading-box { opacity:0;animation:none }
+  .site-splash[data-loading-phase='exit'] { background:transparent }
+  .site-splash[data-loading-phase='exit'] .loading-wrap { background:transparent;box-shadow:none }
+  .site-splash[data-loading-phase='exit'] .loading-button { background:transparent }
+  .site-splash[data-loading-phase='exit'] .site-splash__skip { visibility:hidden }
+  .site-splash[data-loading-phase='exit'] .loading-hover,.site-splash[data-loading-phase='exit'] .loading-button::before { opacity:0 }
+  .site-splash[data-loading-phase='exit'] .loading-welcome,.site-splash[data-loading-phase='exit'] .site-splash__stage { opacity:0 }
+  .site-splash[data-loading-phase='exit'] .loading-welcome span { transform:translateY(100px) }
+  .site-splash__skip { position:absolute;bottom:clamp(1.5rem,4vw,3rem);right:clamp(1.5rem,4vw,3rem);padding:.75rem 0;border:0;background:transparent;color:var(--text-body);font:500 .75rem 'DM Sans',system-ui,sans-serif;letter-spacing:.04em;cursor:pointer;z-index:3 }
+  .site-splash__skip span { margin-left:.75rem;color:var(--accent) }
+  :global(html.splash-open) { overflow:hidden }
+  @keyframes loading-blink { 0%,25%,100% { opacity:0 } 75% { opacity:1 } }
+  @keyframes splash-failsafe { to { opacity:0;visibility:hidden;pointer-events:none } }
+  @media(max-width:48rem) { .site-splash__stage { width:100vw } .site-splash__content { gap:2rem } .loading-button { padding:16px 36px;font-size:15px } .loading-container { left:36px } }
+  @media(prefers-reduced-motion:reduce) { .site-splash { display:none } .site-splash * { transition:none;animation:none } }
+</style>

@@ -1,0 +1,17 @@
+.ctr-toggle { display:flex; flex-shrink:0; align-items:center; justify-content:space-between; width:68px; height:36px; padding:4px; border:0; border-radius:999px; background:#101012; color:#fafafa; cursor:pointer; }
+.ctr-toggle:focus-visible { outline:2px solid var(--accent); outline-offset:4px; }
+.ctr-toggle:disabled { cursor:wait; }
+.ctr-icon { display:grid; place-items:center; width:26px; height:26px; border-radius:50%; }
+.ctr-icon.active { background:#fafafa; color:#000; }
+[data-theme='light'] .ctr-toggle { background:#fff; color:#1d1d1f; }
+[data-theme='light'] .ctr-icon.active { background:#1d1d1f; color:#f5f5f7; }
+/* Match the bootstrapped theme even before the island hydrates. */
+[data-theme='light'] .ctr-toggle:disabled .ctr-icon:first-child { background:#1d1d1f; color:#f5f5f7; }
+[data-theme='light'] .ctr-toggle:disabled .ctr-icon:last-child { background:transparent; color:inherit; }
+html[data-theme-reveal]::view-transition-group(root),
+html[data-theme-reveal]::view-transition-old(root),
+html[data-theme-reveal]::view-transition-new(root) { animation:none; mix-blend-mode:normal; }
+html[data-theme-reveal='light']::view-transition-new(root),
+html[data-theme-reveal='dark']::view-transition-old(root) { z-index:2; }
+html[data-theme-reveal='light']::view-transition-old(root),
+html[data-theme-reveal='dark']::view-transition-new(root) { z-index:1; }

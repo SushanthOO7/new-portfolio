@@ -1,0 +1,130 @@
+---
+interface Props {
+  variant?: 'rail' | 'footer';
+}
+const { variant = 'rail' } = Astro.props;
+const footerPaths: Record<string, string> = {
+  GitHub:
+    'M9 21v-3.3c0-.8.3-1.5.8-1.9-3-.3-6-1.4-6-6.4 0-1.5.5-2.7 1.4-3.7-.2-.9-.2-2.1.3-3.3 0 0 1.3-.4 3.8 1.4a13 13 0 0 1 6.8 0C18.6 2 20 2.4 20 2.4c.4 1.2.4 2.4.2 3.3a5.4 5.4 0 0 1 1.4 3.7c0 5-3.1 6.1-6.1 6.4.6.5.9 1.2.9 2.3V21M9 18c-2.8.8-3.4-1.3-4.6-1.8',
+  LinkedIn:
+    'M3 9h4v12H3zM5 3a2 2 0 1 0 0 4a2 2 0 1 0 0-4ZM11 21V9h4v1.7c.8-1.3 1.8-2 3.3-2 2.3 0 3.7 1.6 3.7 4.3v8h-4v-7c0-1.2-.6-1.8-1.5-1.8S15 13 15 14v7Z',
+  Email:
+    'M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2ZM3 6l9 7 9-7',
+  Phone:
+    'M7 3H4a1 1 0 0 0-1 1c0 9.4 7.6 17 17 17a1 1 0 0 0 1-1v-3l-5-2-2 2a15 15 0 0 1-7-7l2-2-2-5Z',
+};
+const links = [
+  {
+    label: 'GitHub',
+    href: 'https://github.com/SushanthOO7',
+    external: true,
+    path: 'M12 .7a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2.23c-3.22.7-3.9-1.37-3.9-1.37-.52-1.34-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.57-.29-5.27-1.28-5.27-5.69 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.47.11-3.05 0 0 .96-.31 3.16 1.18A10.95 10.95 0 0 1 12 6.12c.98 0 1.95.13 2.87.39 2.2-1.49 3.16-1.18 3.16-1.18.62 1.58.23 2.76.11 3.05.74.81 1.18 1.83 1.18 3.09 0 4.42-2.71 5.39-5.29 5.68.42.36.78 1.07.78 2.16v3.24c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .7Z',
+  },
+  {
+    label: 'LinkedIn',
+    href: 'https://www.linkedin.com/in/sushanth-u-v-7899911a7',
+    external: true,
+    path: 'M5.1 7.8A2.35 2.35 0 1 0 5.1 3.1a2.35 2.35 0 0 0 0 4.7ZM3.1 21h4V9h-4v12ZM9.4 9h3.8v1.64h.05c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.78 2.65 4.78 6.1V21h-3.96v-5.6c0-1.34-.03-3.06-1.87-3.06-1.87 0-2.16 1.46-2.16 2.96V21H9.4V9Z',
+  },
+  {
+    label: 'Email',
+    href: 'mailto:sushanth.2942000@gmail.com',
+    external: false,
+    path: 'M2.5 5.25A2.25 2.25 0 0 1 4.75 3h14.5a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 19.25 21H4.75a2.25 2.25 0 0 1-2.25-2.25V5.25Zm2.2-.25L12 10.42 19.3 5H4.7Zm14.8 2.5-6.9 5.12a1 1 0 0 1-1.2 0L4.5 7.5v11.25c0 .14.11.25.25.25h14.5c.14 0 .25-.11.25-.25V7.5Z',
+  },
+  {
+    label: 'Phone',
+    href: 'tel:+917022883568',
+    external: false,
+    path: 'M6.62 2.4c.45-.13.94.1 1.14.52l2 4.45a1 1 0 0 1-.27 1.17l-1.7 1.4a15.2 15.2 0 0 0 6.27 6.27l1.4-1.7a1 1 0 0 1 1.17-.27l4.45 2c.43.2.65.69.52 1.14l-.75 2.63a2 2 0 0 1-1.93 1.45C9.87 21.46 2.54 14.13 2.54 5.08A2 2 0 0 1 4 3.15l2.62-.75Z',
+  },
+];
+---
+
+<nav
+  class:list={['social-links', variant === 'rail' ? 'social-rail' : 'footer-social']}
+  aria-label={variant === 'rail' ? 'Social links' : 'Footer social links'}
+  data-social-rail={variant === 'rail' ? true : undefined}
+>
+  {
+    links.map(link => (
+      <a
+        href={link.href}
+        aria-label={link.label}
+        title={link.label}
+        target={link.external ? '_blank' : undefined}
+        rel={link.external ? 'noopener noreferrer' : undefined}
+      >
+        <svg aria-hidden="true" viewBox="0 0 24 24">
+          <path d={variant === 'footer' ? footerPaths[link.label] : link.path} />
+        </svg>
+      </a>
+    ))
+  }
+</nav>
+<style>
+  .social-links {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.5rem, 1.4vw, 1.25rem);
+    color: var(--text);
+  }
+  .social-links a {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 44px;
+    height: 44px;
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .social-links a:hover {
+    color: var(--accent);
+  }
+  .social-links a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+  .social-links svg {
+    display: block;
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+  }
+  .social-rail {
+    position: absolute;
+    left: clamp(1.5rem, 3.2vw, 5rem);
+    bottom: clamp(1.5rem, 4vw, 4rem);
+    z-index: 55;
+    flex-direction: column;
+    gap: 0.8rem;
+    color: var(--text-body);
+  }
+  .social-rail svg {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+  .footer-social svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  @media (max-width: 48rem) {
+    .footer-social {
+      gap: 0;
+    }
+  }
+  @media (max-width: 48rem) {
+    .social-rail {
+      display: none;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .social-links a {
+      transition: none;
+    }
+  }
+</style>

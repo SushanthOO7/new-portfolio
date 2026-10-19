@@ -1,0 +1,4 @@
+/* Some Lottie effect paths gain their paint only when their first frame enters.
+   Attribute selectors keep those late paths theme-aware on every loop. */
+:is([data-title-player], [data-splash-animation]) [fill='rgb(255,255,255)'] { fill: currentColor; }
+:is([data-title-player], [data-splash-animation]) [stroke='rgb(255,255,255)'] { stroke: currentColor; }

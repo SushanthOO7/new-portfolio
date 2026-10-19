@@ -1,0 +1,42 @@
+:root {
+  --black: #000;
+  --white: #fff;
+  --background: #000;
+  --text: #f2f2ee;
+  --text-body: #a3a3a0;
+  --text-secondary: #a3a3a0;
+  --text-muted: #686866;
+  --accent: #ff4d00;
+  --surface-secondary: #1a1a1a;
+  --border: #2b2b2b;
+  --font-stack: Gotham, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --space-outer: clamp(1.5rem, 4vw, 4rem);
+  --max-width: 75rem;
+  --foreground: var(--text);
+  --card: var(--surface-secondary);
+  --card-foreground: var(--text);
+  --popover: var(--surface-secondary);
+  --popover-foreground: var(--text);
+  --primary: var(--accent);
+  --primary-foreground: var(--black);
+  --secondary: var(--surface-secondary);
+  --secondary-foreground: var(--text);
+  --muted: var(--surface-secondary);
+  --muted-foreground: var(--text-muted);
+  --accent-foreground: var(--black);
+  --destructive: #ff6b6b;
+  --input: var(--border);
+  --ring: var(--accent);
+  --radius: 0.5rem;
+}
+
+[data-theme='light'] {
+  --background: #f7f7f5;
+  --text: #171717;
+  --text-body: #60605c;
+  --text-secondary: #60605c;
+  --text-muted: #858580;
+  --accent: #e84400;
+  --surface-secondary: #fff;
+  --border: #dededa;
+}

@@ -18,6 +18,7 @@ node_modules/
 # =========================
 dist/
 build/
+.astro/
 .cache/
 .vite/
 
@@ -25,6 +26,7 @@ build/
 # Cloudflare Wrangler
 # =========================
 .wrangler/
+.mf/
 
 # =========================
 # Storybook generated output
@@ -45,6 +47,7 @@ pnpm-debug.log*
 # =========================
 coverage/
 .nyc_output/
+.artifacts/
 
 # =========================
 # Editor / IDE
