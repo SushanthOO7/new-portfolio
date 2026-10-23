@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(tasklist:*)",
-      "Bash(findstr:*)",
-      "Bash(npm run dev:*)"
-    ]
-  }
-}

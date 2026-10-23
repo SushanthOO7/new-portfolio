@@ -55,6 +55,11 @@ function isAllowedExampleValue(filePath, value) {
   );
 }
 
+function isGitHubActionsSecretReference(filePath, value) {
+  return /^\.github\/workflows\/[^/]+\.ya?ml$/i.test(filePath) &&
+    /^\$\{\{\s*secrets\.[a-z][a-z0-9_]*\s*\}\}$/i.test(value);
+}
+
 export function scanText({ text, filePath }) {
   const findings = [];
   const seen = new Set();
@@ -77,6 +82,7 @@ export function scanText({ text, filePath }) {
     const [, name, rawValue] = match;
     const value = normalizedAssignmentValue(rawValue);
     if (isAllowedExampleValue(filePath, value)) continue;
+    if (isGitHubActionsSecretReference(filePath, value)) continue;
 
     const rule = PUBLIC_SENSITIVE_NAME.test(name)
       ? "public-secret"

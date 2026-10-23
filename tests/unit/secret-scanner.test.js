@@ -66,6 +66,21 @@ describe("secret scanner", () => {
     expect(unsafe).toEqual([expect.objectContaining({ rule: "sensitive-assignment" })]);
   });
 
+  it("allows GitHub Actions secret references without allowing literal assignments", () => {
+    const findings = scanText({
+      text: [
+        "GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}",
+        "CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}",
+        "DATABASE_PASSWORD: literal-password",
+      ].join("\n"),
+      filePath: ".github/workflows/deploy.yml",
+    });
+
+    expect(findings).toEqual([
+      expect.objectContaining({ rule: "sensitive-assignment", line: 3 }),
+    ]);
+  });
+
   it("skips binary files and files larger than 2 MiB", async () => {
     const directory = await mkdtemp(path.join(tmpdir(), "portfolio-secret-scan-"));
     const binaryPath = path.join(directory, "binary.dat");
